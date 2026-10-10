@@ -2,7 +2,7 @@
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
-**Candidate sur `develop/v2.4`. La version en ligne reste V2.3.1 sur `main` jusqu’à l’accord de publication de la propriétaire.**
+**V2.4.0 : publication autorisée par la propriétaire le 10 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v2.4` conserve le travail de développement.**
 
 ## Nouveautés jouables
 

@@ -1,6 +1,6 @@
-# Vérifications — candidate V2.4.0
+# Vérifications — V2.4.0
 
-Tests exécutés le 10 octobre 2026 sur la branche de développement, avec Node.js 24.19.0. **La V2.4 n’est pas publiée ; `main` conserve V2.3.1 jusqu’à l’accord de la propriétaire.**
+Tests exécutés le 10 octobre 2026 sur la branche de développement, avec Node.js 24.19.0. **Publication V2.4 autorisée par la propriétaire le 10 octobre 2026. Les résultats ci-dessous concernent le code validé avant publication.**
 
 ## Résultats
 
