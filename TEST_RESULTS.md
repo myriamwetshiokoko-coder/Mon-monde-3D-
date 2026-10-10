@@ -1,12 +1,12 @@
 # Vérifications V2.2 — 10 octobre 2026
 
-Commande : `node tests/simulation.test.cjs`. **43 tests passés** ; les tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
+Commande : `node tests/simulation.test.cjs`. **48 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
 
 ## Couverture automatisée
 
 - Migration des anciennes parties, bornage des valeurs invalides, aller-retour JSON et préservation des anciennes clés de stockage.
 - Cuisine, repas, achats, provisions insuffisantes, plafond quotidien du travail et sommeil passant minuit.
-- Initialisation des tous les modules, boucle de rendu, affichage du portefeuille/besoins, menus et aperçu 3D avec DOM/WebGL simulés.
+- Initialisation de tous les modules, boucle de rendu, affichage du portefeuille/besoins, menus et aperçu 3D avec DOM/WebGL simulés.
 - Collisions des murs, meubles, porte, clôtures et limites ; déplacements subdivisés contre le passage à travers une barrière.
 - Tous les objets interactifs atteignables depuis la maison ; trajets vers café, épicerie, parc et retour ; accès aux deux maisons des voisins.
 - Trajets des trois habitants pendant cinq minutes simulées ; routines jour/nuit ; invitation avec arrivée physique à la maison et expiration.
@@ -54,3 +54,7 @@ Aucun navigateur de test pris en charge n’était disponible pour cette session
 12. Exporter/restaurer ; vérifier la persistance des enfants, relations et réglages. Tester les trois résolutions et contrôler visuellement la fluidité.
 
 La branche de développement ne remplace pas la V2.1 publiée sans accord.
+
+## Sexe et âge de départ
+
+Cinq tests supplémentaires vérifient la migration et les bornes 6–90 ans, les étapes d’âge et la taille, l’absence de vieillissement automatique, les transactions adultes bloquées sans dépense pour les mineurs, les cadeaux amicaux, la conservation des foyers adultes à l’import, les vrais gestionnaires de sélection, l’aperçu dans le rendu simulé, la sauvegarde/reprise du profil et l’absence de boutons romantiques pour un personnage enfant. Le rendu à taille réduite utilise les modèles existants ; les apparences d’enfant et d’aîné ne constituent pas des modèles dédiés.

@@ -22,6 +22,14 @@ Quitter la maison, traverser le jardin et le passage piéton : café à gauche, 
 
 Le rendu reste stylisé. Il n’atteint pas le semi-réalisme d’un jeu commercial ; l’éditeur n’a pas de curseurs détaillés du visage et les mouvements de tête restent simples.
 
+## Sexe et âge de départ
+
+L’éditeur permet de choisir un sexe féminin ou masculin et un âge entier de 6 à 90 ans. Le choix du sexe sélectionne le maillage correspondant ; la morphologie reste personnalisable séparément. Les enfants (6–12 ans) et adolescents (13–17 ans) ont une taille adaptée, y compris le point visé par la caméra. Les choix sont conservés dans la sauvegarde, l’export/import et affichés dans Ma vie.
+
+Les discussions et cadeaux restent amicaux avant 18 ans ; couple, rendez-vous romantiques, mariage et parentalité sont réservés aux adultes. Un foyer ayant déjà un partenaire, une grossesse ou des enfants ne peut pas être changé en personnage mineur ; l’import d’un foyer incohérent conserve sa progression avec un âge minimum de 18 ans.
+
+Limites : l’âge du personnage joueur reste fixe. Les silhouettes jeunes utilisent les maillages adultes redimensionnés ; il n’y a pas encore de modèles d’enfants dédiés, de rides, de vieillissement du joueur ni de parcours scolaire. Les bébés et bambins du foyer sont des personnages non jouables. La croissance des enfants du foyer continue à suivre ses propres étapes fictives.
+
 ## Calibration V2.2
 
 Zone de repos centrale de 18 % du joystick, réponse progressive, vitesse de marche 2,35 m/s et course 3,6 m/s. Relâcher le doigt arrête immédiatement l’entrée. Un second doigt ne prend plus le contrôle du joystick déjà utilisé. Le suivi de caméra conserve la direction initiale du geste ; il ne fait plus tourner involontairement la trajectoire du personnage. La caméra reste immobile pendant les menus et l’aperçu, et son point visé est lissé avec sa position. Sensibilité réduite par défaut, réglable dans Style, comme la zone de repos (10–30 %).
