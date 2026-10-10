@@ -32,3 +32,6 @@
 @media(min-width:800px)and(min-height:501px){.mini-map{width:110px;top:102px;right:24px}.utility{max-width:430px}.scene-label{bottom:30px}}
 
 #decorPlan{display:block;width:100%;max-height:36dvh;background:#ede2d1;border-radius:14px;touch-action:none}#decor .modal{max-width:430px}.decor-controls{display:flex;gap:7px;flex-wrap:wrap}.decor-controls button{min-width:44px;min-height:44px}#decorStatus{font-size:12px;min-height:36px;margin:10px 0}.field select{max-width:100%}.phone-copy{overflow-wrap:anywhere}
+
+/* Clear story controls remain usable on portrait phones. */
+.utility>#saveStatus{display:block;font-size:9px;flex-basis:100%}.utility>#storiesBtn,.utility>#saveBtn{display:block}#privateMoment{position:fixed;inset:0;background:linear-gradient(160deg,#665572e8,#b98d83e8);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;color:#fff9ec;text-align:center}#privateMoment span{font-size:24px}#privateMoment small{font-size:12px}.panel.show,.controls,.hint{z-index:3}

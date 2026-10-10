@@ -1,4 +1,21 @@
-# Vérifications — V2.4.0
+# Vérifications — candidate V2.5.0
+
+Préparée le 10 octobre 2026 sur `develop/v2.5`. La V2.4 reste publiée ; la publication V2.5 nécessite l’accord de la propriétaire.
+
+## Vérifications de cette révision
+
+- 73 tests de simulation, 7 métiers/économie, 28 quartier/foyer et **15 tests V2.5 : 123 tests**.
+- Nouveaux parcours : migration en première partie, six parties sans partage de données, changement de personnage, erreur de stockage sans remplacement, fin du rendez-vous après discussion, invitation conservée après annulation, projet de famille et test différé, porteur valide, annulation gratuite, cuisine en quatre étapes, choix au travail, géométrie des coiffures, finitions des meubles persistantes.
+- Les tests existants des menus ont été adaptés au nouveau nombre de commandes et aux décisions au travail. Le parcours de famille vérifie maintenant le projet puis la confirmation au lendemain, au lieu d’exiger une grossesse immédiate.
+- Rendus réels EGL/OpenGL ES contrôlés : femme en marche avec cheveux ondulés, carré avec lecture, tresses relevées en marche, homme en polo, intérieur aménagé. Zéro erreur de shader ou GL. Vérification hors navigateur ; aucun FPS Safari ni contrôle tactile natif mesuré.
+- La vérification automatique GitHub inclut la quatrième suite V2.5 et ne déploie rien.
+
+## À contrôler sur l’iPhone
+
+Boutons Sauver/Personnages en portrait et paysage, confort des nouvelles coiffures, annulation du moment privé, reprise de plusieurs parties après fermeture, préparation des repas et décisions au travail. Ne pas effacer les données Safari : elles contiennent les sauvegardes locales.
+
+## Résultats détaillés de la base V2.4
+
 
 Tests exécutés le 10 octobre 2026 sur la branche de développement, avec Node.js 24.19.0. **Publication V2.4 autorisée par la propriétaire le 10 octobre 2026. Les résultats ci-dessous concernent le code validé avant publication.**
 
