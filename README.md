@@ -1,6 +1,6 @@
-# Mon Monde 3D — V2.1
+# Mon Monde 3D — V2.2
 
-Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille) sont réunis dans cette version. Le quartier reste continu et la maison, le jardin, les activités et les sauvegardes antérieures sont conservés. Jeu personnel WebGL 1, sans serveur de jeu, compte, CDN ni modèles externes. Les ressources originales sont générées par le code.
+Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille) sont réunis dans cette version. Le quartier reste continu et la maison, le jardin, les activités et les sauvegardes antérieures sont conservés. Jeu personnel WebGL 1, sans serveur de jeu, compte ni CDN. Le quartier est généré par le code ; les modèles humains CC0 sont inclus localement (voir `ASSETS.md`).
 
 ## Jouer
 
@@ -18,9 +18,15 @@ Quitter la maison, traverser le jardin et le passage piéton : café à gauche, 
 - Caméra lissée, distance réglable, suivi de direction optionnel, adaptation à l’intérieur et murs masqués dans la pièce occupée.
 - Carte miniature et repères de destination ; affichage prévu pour portrait et paysage, avec zones de sécurité.
 - Réglages de taille et silhouette, trois couleurs d’yeux, lunettes et trois looks prêts à porter. Quatre teints, trois formes de visage, trois coiffures, quatre couleurs de cheveux, quatre couleurs de vêtements et trois silhouettes vestimentaires.
-- Maillages anatomiques originaux à anneaux, membres articulés, marche/course, respiration, clignements et bouche animée pendant la discussion. Poses pour dormir, cuisiner, manger, se doucher, s’asseoir, lire et câliner. Les activités principales positionnent visuellement le personnage près du meuble utilisé.
+- Deux maillages humains Quaternius avec visages, oreilles et mains détaillés, plus trois coiffures modélisées. Animation GPU sur 21 articulations ; doigts rigidement rattachés aux mains. Marche/course et hochements lors des discussions. Les teints et vêtements sont colorés par le moteur ; les textures originales ne sont pas utilisées. Poses pour dormir, cuisiner, manger, se doucher, s’asseoir, lire et câliner. Les activités principales positionnent visuellement le personnage près du meuble utilisé.
 
-Le rendu reste stylisé et procédural. Il n’atteint pas le semi-réalisme d’un jeu commercial ; l’éditeur n’a pas de curseurs détaillés du visage et les expressions restent simples.
+Le rendu reste stylisé. Il n’atteint pas le semi-réalisme d’un jeu commercial ; l’éditeur n’a pas de curseurs détaillés du visage et les mouvements de tête restent simples.
+
+## Calibration V2.2
+
+Zone de repos centrale de 18 % du joystick, réponse progressive, vitesse de marche 2,35 m/s et course 3,6 m/s. Relâcher le doigt arrête immédiatement l’entrée. Un second doigt ne prend plus le contrôle du joystick déjà utilisé. Le suivi de caméra conserve la direction initiale du geste ; il ne fait plus tourner involontairement la trajectoire du personnage. La caméra reste immobile pendant les menus et l’aperçu, et son point visé est lissé avec sa position. Sensibilité réduite par défaut, réglable dans Style, comme la zone de repos (10–30 %).
+
+Les modèles utilisent deux appels de rendu (corps et cheveux), plus les accessoires éventuels. Un repli vers les modèles procéduraux existe si le shader humain n’est pas compatible avec le GPU. Le rendu GPU/Safari de cette nouvelle représentation reste à vérifier sur appareil. Les personnages restent stylisés, leurs vêtements sont simples et les expressions faciales n’ont pas de morphing détaillé. Les performances de la V2.1 validées par la propriétaire ne prouvent pas celles de la V2.2.
 
 ## Simulation quotidienne et sociale
 
@@ -69,7 +75,10 @@ Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-
 - `src/core.js` : règles pures, validation, économie, relations et cycle familial.
 - `src/navigation.js` : recherche de chemins et déplacement avec collisions.
 - `src/engine.js` : WebGL, matrices, géométries.
-- `src/characters.js` : maillages, personnalisation et animations.
+- `src/controls.js` : calibration et lissage des entrées.
+- `src/characters.js` : accessoires et maillages procéduraux de secours.
+- `src/humans.js` : modèles humains et animation GPU.
+- `assets/humans.js` : données 3D compactées sous licence CC0.
 - `src/world.js` : maison conservée et quartier meublé.
 - `src/game.js` : boucle, caméra, commandes et persistance.
 - `src/community.js` : routines, invitations, enfants et interactions.
@@ -78,6 +87,6 @@ Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-
 
 ## Validation et publication
 
-`node tests/simulation.test.cjs` : 37 tests de règles et d’intégration DOM/WebGL simulée. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 613 objets regroupés en 149 lots statiques, 220 872 sommets statiques. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS.
+`node tests/simulation.test.cjs` : 43 tests de règles et d’intégration DOM/WebGL simulée. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 613 objets regroupés en 149 lots statiques, 220 872 sommets statiques. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS.
 
-Branche de travail : `develop/v2.1`. La V2 candidate est conservée sur `develop/v2.0`. La version V1 publiée sur `main` reste préservée jusqu’à un nouvel accord de publication. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. L’archive V0.2 est conservée dans `archive/v0.2`. Aucun transfert manuel de HTML n’est nécessaire.
+Branche de travail : `develop/v2.2`. La V2.1 est publiée sur `main`. Elle reste préservée jusqu’à un nouvel accord de publication de la V2.2. Les candidates précédentes sont conservées sur leurs branches. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. L’archive V0.2 est conservée dans `archive/v0.2`. Aucun transfert manuel de HTML n’est nécessaire.

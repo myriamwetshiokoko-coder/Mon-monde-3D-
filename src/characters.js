@@ -1,6 +1,8 @@
 /* Original procedural meshes: connected anatomical rings, articulated limbs, no external assets. */
-function profileMesh(rings,segments=14){const vertices=[];const pts=rings.map(([y,rx,rz])=>Array.from({length:segments},(_,i)=>{const a=i/segments*Math.PI*2;return [Math.cos(a)*rx,y,Math.sin(a)*rz]}));
- for(let j=0;j<rings.length-1;j++)for(let i=0;i<segments;i++){const next=(i+1)%segments;for(const triangle of [[pts[j][i],pts[j+1][i],pts[j][next]],[pts[j][next],pts[j+1][i],pts[j+1][next]]]){const [a,b,c]=triangle,ab=b.map((x,i)=>x-a[i]),ac=c.map((x,i)=>x-a[i]);let n=[ab[1]*ac[2]-ab[2]*ac[1],ab[2]*ac[0]-ab[0]*ac[2],ab[0]*ac[1]-ab[1]*ac[0]],len=Math.hypot(...n)||1;n=n.map(x=>x/len);if(n[0]*a[0]+n[2]*a[2]<0)n=n.map(x=>-x);for(const p of triangle)vertices.push(...p,...n)}}return makeMesh(vertices)}
+function profileMesh(rings,segments=20){const vertices=[],pts=rings.flatMap(([y,rx,rz])=>Array.from({length:segments},(_,i)=>{const a=i/segments*Math.PI*2;return [Math.cos(a)*rx,y,Math.sin(a)*rz]})),normals=pts.map(()=>[0,0,0]),triangles=[];
+ for(let j=0;j<rings.length-1;j++)for(let i=0;i<segments;i++){const next=(i+1)%segments,a=j*segments+i,b=(j+1)*segments+i,c=j*segments+next,d=(j+1)*segments+next;triangles.push([a,b,c],[c,b,d])}
+ for(const ids of triangles){const [a,b,c]=ids.map(i=>pts[i]),ab=b.map((x,i)=>x-a[i]),ac=c.map((x,i)=>x-a[i]);let n=[ab[1]*ac[2]-ab[2]*ac[1],ab[2]*ac[0]-ab[0]*ac[2],ab[0]*ac[1]-ab[1]*ac[0]];if(n[0]*a[0]+n[2]*a[2]<0)n=n.map(x=>-x);for(const id of ids)for(let k=0;k<3;k++)normals[id][k]+=n[k]}
+ for(const ids of triangles)for(const id of ids){const n=normals[id],len=Math.hypot(...n)||1;vertices.push(...pts[id],...n.map(v=>v/len))}return makeMesh(vertices)}
 shapes.torso=profileMesh([[0,.10,.075],[.04,.19,.11],[.17,.19,.115],[.27,.145,.10],[.38,.19,.12],[.51,.22,.105],[.58,.10,.075],[.64,.055,.055]]);
 shapes.dress=profileMesh([[0,.28,.18],[.08,.285,.18],[.3,.22,.14],[.52,.145,.10],[.63,.19,.12],[.76,.22,.10],[.83,.1,.075],[.88,.055,.055]]);
 shapes.head=profileMesh([[-.20,.015,.03],[-.16,.07,.072],[-.09,.12,.11],[0,.145,.125],[.1,.145,.12],[.18,.10,.095],[.205,.025,.025]]);

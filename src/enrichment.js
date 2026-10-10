@@ -1,5 +1,7 @@
 /* V2.1: daily activities, curated home styles and family routines. */
-function syncAppearance(){for(const [id,key]of [['bodyHeight','height'],['bodyWidth','width'],['eyeColor','eyes']])$(id).value=state.appearance[key];$('glasses').checked=state.appearance.glasses}
+for(const key of ['sensitivity','deadZone']){$(key).value=state.settings[key];$(key).oninput=e=>{state.settings[key]=Number(e.target.value)}}
+$('bodyType').value=state.appearance.body;$('bodyType').onchange=e=>state.appearance.body=e.target.value;
+function syncAppearance(){$('bodyType').value=state.appearance.body;for(const key of ['sensitivity','deadZone'])$(key).value=state.settings[key];for(const [id,key]of [['bodyHeight','height'],['bodyWidth','width'],['eyeColor','eyes']])$(id).value=state.appearance[key];$('glasses').checked=state.appearance.glasses}
 syncAppearance();
 for(const [id,key]of [['bodyHeight','height'],['bodyWidth','width'],['eyeColor','eyes']])$(id).oninput=e=>state.appearance[key]=Number(e.target.value);
 $('glasses').onchange=e=>state.appearance.glasses=e.target.checked;
