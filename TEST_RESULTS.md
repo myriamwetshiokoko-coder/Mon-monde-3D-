@@ -1,6 +1,6 @@
-# Vérifications — candidate V2.5.0
+# Vérifications — V2.5.0
 
-Préparée le 10 octobre 2026 sur `develop/v2.5`. La V2.4 reste publiée ; la publication V2.5 nécessite l’accord de la propriétaire.
+Préparée et validée le 10 octobre 2026 sur `develop/v2.5`. Publication autorisée par la propriétaire le même jour.
 
 ## Vérifications de cette révision
 
