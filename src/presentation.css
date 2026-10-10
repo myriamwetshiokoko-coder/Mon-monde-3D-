@@ -1,0 +1,32 @@
+/* Compact play HUD: the full life controls remain available from Menu. */
+.top{top:calc(env(safe-area-inset-top,0px) + 9px);left:12px;right:12px}
+.brand{padding:7px 11px;border-radius:15px}.brand strong{font-size:13px}.brand small{font-size:8px;letter-spacing:1px}
+.clock{padding:10px;font-size:10px;margin-right:0}
+.needs{top:calc(env(safe-area-inset-top,0px) + 61px);left:12px;right:12px;gap:5px;max-width:560px}
+.need{padding:6px 5px;border-radius:10px}.need .lab{font-size:8px!important}.bar{margin-top:4px;height:4px}
+.utility{top:calc(env(safe-area-inset-top,0px) + 102px);left:12px;right:99px;gap:6px;max-width:560px}
+.utility button{min-height:44px;padding:9px 11px;font-size:11px}
+.utility>.more-action,.utility>#mood,.utility>#saveStatus{display:none}
+#wallet{font-size:10px;padding:6px 9px;flex-basis:auto!important;border-radius:9px;white-space:nowrap}
+.mini-map{top:calc(env(safe-area-inset-top,0px) + 102px);right:12px;width:78px;padding:5px;border-radius:12px}
+.mini-map small{font-size:8px;margin:3px 0}
+.controls{left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 17px)}
+.action-area{display:grid;grid-template-columns:1fr 1fr;gap:7px;max-width:186px}
+.action-area .subact{min-height:44px;font-size:11px;padding:9px 8px}
+.action-area .act{grid-column:1 / 3;max-width:none;min-height:55px}
+.scene-label{bottom:calc(env(safe-area-inset-bottom,0px) + 146px);font-size:10px;padding:6px 11px;max-width:88%}
+.panel{bottom:calc(env(safe-area-inset-bottom,0px) + 184px)}
+.work-hud{bottom:calc(env(safe-area-inset-bottom,0px) + 191px)}
+.hint{bottom:calc(env(safe-area-inset-bottom,0px) + 191px)}
+.minihelp{display:none}
+@media(max-width:450px)and(min-height:501px){.utility button{min-height:44px;font-size:11px;padding:9px 10px}.utility{gap:5px}}
+@media(max-width:360px)and(min-height:501px){.utility{right:12px}.mini-map{display:none}}
+@media(max-height:500px){
+ .top{left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 6px)}.brand{padding:6px 9px}.clock{margin-right:0}
+ .needs{left:12px;top:calc(env(safe-area-inset-top,0px) + 54px);max-width:330px}
+ .utility{top:calc(env(safe-area-inset-top,0px) + 94px);right:auto;max-width:330px}.utility button{min-height:44px}
+ .mini-map{top:calc(env(safe-area-inset-top,0px) + 57px);right:12px;width:78px}
+ .scene-label{bottom:22px;max-width:42%}.hint{bottom:99px}.panel{bottom:132px}.work-hud{bottom:119px;max-width:42%}
+ .controls{bottom:calc(env(safe-area-inset-bottom,0px) + 12px)}
+}
+@media(min-width:800px)and(min-height:501px){.mini-map{width:110px;top:102px;right:24px}.utility{max-width:430px}.scene-label{bottom:30px}}

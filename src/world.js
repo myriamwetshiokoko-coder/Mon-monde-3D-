@@ -21,10 +21,10 @@ box('#bd9279',-5.0,.38,.75,.4,.74,.7);box('#42383c',-4.96,.97,.7,.74,.66,.07);fl
 // Cuisine (fond gauche)
 box('#e9b6a2',-3.4,.47,-3.95,4.65,.92,.85);box('#faf2e9',-3.4,.97,-3.95,4.8,.13,.95);box('#e1c9b5',-4.45,1.8,-4.96,2.1,.78,.16);box('#e1c9b5',-2.2,1.8,-4.96,1.6,.78,.16);
 box('#a6b9b5',-4.35,1.06,-3.91,.9,.02,.4);box('#75716e',-4.35,1.07,-3.91,.5,.02,.22);for(let xx of [-2.75,-2.05])cyl('#3a3638',xx,1.05,-3.95,.42,.045,.42);
-box('#d4b7a0',-5.35,1.2,-2.45,1.1,2.4,1.05);box('#f6e5d8',-5.35,1.7,-1.91,.10,.96,.05);box('#ad816f',-5.06,1.30,-1.88,.09,.14,.05);
+fixture('home-fridge','maison',()=>{box('#d4b7a0',-5.35,1.2,-2.45,1.1,2.4,1.05);box('#f6e5d8',-5.35,1.7,-1.91,.10,.96,.05);box('#ad816f',-5.06,1.30,-1.88,.09,.14,.05)});
 // Chambre (fond droit)
 box('#ddd1c7',2.9,.06,-3.2,5.4,.07,3.2);box('#bd958f',3.15,.4,-3.55,2.25,.68,2.4);box('#ece2d7',3.15,.78,-3.55,2.08,.16,2.24);box('#f4d3c0',3.15,.9,-3.1,2.05,.24,1.4);box('#fef8ee',2.6,.91,-4.43,.76,.19,.46);box('#fef8ee',3.52,.91,-4.43,.76,.19,.46);box('#9f766a',3.15,.96,-4.79,2.5,1.1,.23);
-box('#b38b76',5.22,.35,-3.7,.86,.7,.7);flower(5.2,-3.75);box('#cab2a4',1.2,.86,-3.5,.7,1.74,1.65);box('#927766',1.64,1.02,-3.45,.05,.25,.10);
+box('#b38b76',5.22,.35,-3.7,.86,.7,.7);flower(5.2,-3.75);fixture('home-wardrobe','maison',()=>{box('#cab2a4',1.2,.86,-3.5,.7,1.74,1.65);box('#927766',1.64,1.02,-3.45,.05,.25,.10)});
 // Coin détente et salle d'eau (avant droit)
 box('#d6e1da',3.7,.035,2.75,4,.06,3.5);box('#e7f0ec',5.0,.11,3.28,1.65,.23,1.35);box('#d3ddd5',5,.45,3.28,1.65,.58,1.35);box('#fefdfa',5,.6,3.28,1.28,.34,1.08);box('#d3d8d4',5.78,1.08,3.28,.08,1.2,1.24);cyl('#abb9b8',5.27,.85,3.27,.08,.28,.08);box('#e7ece5',3.15,.32,3.72,1.0,.58,.8);box('#a6b8b5',3.15,.68,3.72,.8,.13,.6);box('#efe9df',2.4,.05,2.2,.6,.05,.8);
 // Espace repas central
@@ -92,6 +92,8 @@ box('#b6897e',2.85,1.64,14.37,.68,.08,.45);
 
 // Continuous quarter: open fronts with walkable doors; walls are shared with collision data.
 const quarterBarriers=[];
+// These existing tall pieces had no matching collision in the earlier house.
+for(const f of foregroundFixtures.filter(f=>['home-fridge','home-wardrobe'].includes(f.id)))quarterBarriers.push([f.bounds.min[0],f.bounds.max[0],f.bounds.min[2],f.bounds.max[2]]);
 function solid(x,y,z,w,h,d,color){box(color,x,y,z,w,h,d);quarterBarriers.push([x-w/2,x+w/2,z-d/2,z+d/2]);}
 box('#a9c89c',0,-.24,29,65,.3,35);
 box('#8e939a',0,-.045,21.35,64,.12,6.7);box('#d4d1c8',0,-.015,17,64,.13,2.8);box('#d4d1c8',0,-.015,25,64,.13,2);
@@ -108,7 +110,7 @@ function building(cx,color){
 building(-12,'#e4b7a5');building(12,'#c4cbb6');
 // Café: counter, machine, tables and chairs.
 fixture('cafe-counter','café',()=>{solid(-12,.5,32.7,7,1,.85,'#bb8c73');box('#f9eee0',-12,1.07,32.7,7.2,.12,1);box('#56575a',-14,1.4,32.7,.9,.6,.55);cyl('#e9cda6',-12,1.2,32.5,.17,.22,.17)});
-for(let x of [-14.5,-9.5]){fixture('cafe-table-'+x,'café',()=>{solid(x,.75,29,1.4,.1,1.4,'#b58b6e');cyl('#9f7d65',x,.38,29,.12,.7,.12);flower(x,29)});for(let z of [28,30]){box('#d2aa86',x,.4,z,.55,.12,.5);box('#c8a382',x,.72,z+(z>29?.2:-.2),.55,.7,.08)}}
+for(let x of [-14.5,-9.5]){fixture('cafe-table-'+x,'café',()=>{solid(x,.75,29,1.4,.1,1.4,'#b58b6e');cyl('#9f7d65',x,.38,29,.12,.7,.12);flower(x,29)});for(let z of [28,30])fixture('cafe-chair-'+x+'-'+z,'café',()=>{box('#d2aa86',x,.4,z,.55,.12,.5);box('#c8a382',x,.72,z+(z>29?.2:-.2),.55,.7,.08)})}
 // Shop shelves are solid, leaving a wide central aisle.
 for(let x of [8.5,15.5])fixture('shop-shelf-'+x,'épicerie',()=>{solid(x,.8,30,.6,1.6,5,'#b6987e');for(let z=28;z<=32;z++)for(let y of [.6,1.2,1.8]){box('#f5dec0',x,y,z,.7,.08,.75);ball(z%2?'#b27a66':'#dcb571',x,y+.18,z,.16,.18,.18)}});
 fixture('shop-counter','épicerie',()=>{solid(12,.5,33,3,1,.8,'#b79776');box('#f5eee0',12,1.06,33,3.2,.12,1)});
@@ -131,8 +133,8 @@ box('#d5b3a0',-5.92,2.1,-.5,.035,1.1,1.5);box('#f2e5ce',-5.89,2.1,-.5,.04,.85,1.
 for(let z=-4.8;z<4.8;z+=.7)box('#dcc4ad',0,.035,z,11.7,.012,.022);
 
 // Everyday accents: a real book corner, larger TV frames and café details.
-solid(-1.1,1,-1.8,.95,1.9,.24,'#b49a80');
-for(let y of [.5,1,1.5]){box('#f1e2ce',-1.1,y,-1.62,1,.045,.3);for(let i=0;i<5;i++)box(['#b98499','#8faaa0','#d0ac77'][i%3],-1.45+i*.17,y+.16,-1.62,.11,.28+(i%2)*.07,.18)}
+fixture('home-library','maison',()=>{solid(-1.1,1,-1.8,.95,1.9,.24,'#b49a80');
+for(let y of [.5,1,1.5]){box('#f1e2ce',-1.1,y,-1.62,1,.045,.3);for(let i=0;i<5;i++)box(['#b98499','#8faaa0','#d0ac77'][i%3],-1.45+i*.17,y+.16,-1.62,.11,.28+(i%2)*.07,.18)}});
 box('#42383c',-4.96,1.06,.71,1.24,.73,.08);
 for(let x of [-27,27]){box('#42383c',x+2,1.05,8.74,1.23,.73,.07);box('#ad8d78',x+2,.45,8.74,1.38,.85,.32)}
 box('#42383c',-12,1.7,33.9,1.24,.73,.07);

@@ -37,7 +37,7 @@ canvas.addEventListener('pointerdown',e=>{pinchPoints.set(e.pointerId,[e.clientX
 canvas.addEventListener('pointermove',e=>{if(!pinchPoints.has(e.pointerId))return;pinchPoints.set(e.pointerId,[e.clientX,e.clientY]);if(pinchPoints.size===2){const p=[...pinchPoints.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);camZoom=Life.clamp(camZoom+(pinchDistance-d)*.025,3.5,11);state.settings.zoom=camZoom;pinchDistance=d}});
 for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,e=>{pinchPoints.delete(e.pointerId);pinchDistance=0});
 for(const [id,key]of [['style','style'],['hairColor','hairColor']]){$(id).value=state[key];$(id).onchange=e=>state[key]=Number(e.target.value)}
-$('previewBtn').onclick=()=>{releaseControls();oldCamera={camYaw,camPitch,camZoom};editorMode=true;document.body.classList.add('editing');paused=true;$('welcome').style.display='none';$('editor').hidden=false;$('editor').append($('appearance'));camZoom=3.5;camPitch=.22;camYaw=PI;};
+$('previewBtn').onclick=()=>{releaseControls();oldCamera={camYaw,camPitch,camZoom};editorMode=true;document.body.classList.add('editing');paused=true;$('welcome').style.display='none';$('editor').hidden=false;$('editor').append($('appearance'));camZoom=3.5;camPitch=.18;camYaw=0;};
 $('finishEditor').onclick=()=>{editorMode=false;document.body.classList.remove('editing');$('appearanceHost').append($('appearance'));$('editor').hidden=true;$('welcome').style.display='grid';if(oldCamera){camYaw=oldCamera.camYaw;camPitch=oldCamera.camPitch;camZoom=oldCamera.camZoom;state.settings.zoom=camZoom;$('zoom').value=camZoom;smoothEye=null}};
 function updatePreview(now){if(editorMode&&now-previewLast>20){previewLast=now;$('editorName').textContent=state.name;}}
 const oldStyle=$('styleBtn').onclick;$('styleBtn').onclick=()=>{if(activity){inform('Termine ou annule ton activité avant de changer de style.');return}oldStyle()};
@@ -45,3 +45,6 @@ $('homeBtn').onclick=()=>showMenu('Retour express','Revenir à la Maison Soleil 
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('phone').hidden)return;if(!menu.hidden)closeMenu();else if(activity)$('cancel').onclick();}});
 // Releasing controls also clears multi-touch tracking to avoid stuck inputs after backgrounding.
 window.addEventListener('blur',()=>pinchPoints.clear());
+
+// All previous shortcuts stay accessible without covering the world during play.
+$('moreBtn').onclick=()=>showMenu('Mon monde',`${state.money} sols · ${state.groceries} provisions · ${state.meals} repas\n`+Life.needs.map(k=>({hunger:'Faim',energy:'Énergie',hygiene:'Hygiène',fun:'Loisirs',social:'Vie sociale'}[k])+': '+Math.round(state[k])+'%').join(' · '),[['Ma vie','lifeBtn'],['Personnage et réglages','styleBtn'],['Carnet et sauvegardes','journalBtn'],['Mon foyer','familyBtn'],['Carte du quartier','mapBtn'],['Retour express','homeBtn'],['Sauvegarder maintenant','saveBtn']].map(([label,id])=>({label,onClick:()=>{closeMenu();$(id).onclick()}})));

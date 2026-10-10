@@ -1,6 +1,6 @@
-# Vérifications V2.3.1 — 10 octobre 2026
+# Vérifications de la candidate V2.3.2 — 10 octobre 2026
 
-Commandes : `node tests/simulation.test.cjs` (63 tests) et `node tests/daily.test.cjs` (7 tests). **70 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
+Commandes : `node tests/simulation.test.cjs` (73 tests) et `node tests/daily.test.cjs` (7 tests). **80 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
 
 ## Couverture automatisée
 
@@ -15,11 +15,11 @@ Commandes : `node tests/simulation.test.cjs` (63 tests) et `node tests/daily.tes
 - Grossesse sauvegardée, naissance après trois jours, adoption, soins, coût des provisions, croissance en enfant, limite à deux enfants et conservation après séparation.
 - Besoins des enfants pendant les heures sautées par sommeil, restauration du teint clair et de besoins à zéro.
 - Déplacement des enfants sans collision, interactions suivant leur position et remplacement propre des étiquettes après changement de nom.
-- Restauration des réglages de caméra/vêtements et invalidation des trajets ; caméra bornée à la pièce.
+- Restauration des réglages de caméra/vêtements et invalidation des trajets ; caméra conservant son angle près des portes et limites de pièce.
 - Déclenchement des gestionnaires joystick/annulation et pincement à deux doigts dans le DOM simulé ; libération du suivi tactile.
 - Concordance mathématique des articulations entre maillage de membre et position du genou.
 
-La grille de 0,4 m atteint **17 819 positions**, avec vérification des segments intermédiaires. La scène contient 646 objets regroupés en 176 lots statiques, pour 224 388 sommets statiques. Ces mesures décrivent la géométrie, pas les FPS.
+La grille de 0,4 m atteint **17 792 positions**, avec vérification des segments intermédiaires. La scène contient 646 objets regroupés en 181 lots statiques, pour 224 388 sommets statiques. Ces mesures décrivent la géométrie, pas les FPS.
 
 ## Ajouts testés en V2.1
 
@@ -35,7 +35,7 @@ La propriétaire a confirmé la fluidité générale de la **V2.1** sur iPhone 1
 
 ## Limites de vérification
 
-Aucun navigateur de test pris en charge n’était disponible pour cette session. Le DOM et WebGL sont simulés : ils ne compilent pas les shaders sur un GPU, ne valident pas l’image produite, la mise en page Safari ou les événements tactiles natifs. Le test des gestionnaires ne remplace pas un vrai geste sur iPhone. Aucune fréquence d’images sur iPhone 16 n’a été mesurée.
+Aucun navigateur de test pris en charge n’était disponible. La suite Node simule le DOM et WebGL ; à elle seule, elle ne compile pas les shaders et ne valide pas les images. Elle est maintenant complétée par un rendu OpenGL ES/Mesa réel hors navigateur, décrit ci-dessous. Le moteur logiciel utilisé ne mesure pas le GPU de l’iPhone. La mise en page Safari, les événements tactiles natifs et les FPS sur iPhone 16 restent à vérifier sur appareil.
 
 ## Recette Safari restante
 
@@ -84,3 +84,28 @@ Huit tests de régression supplémentaires vérifient : fermeture explicite et b
 Le regroupement des meubles occultants passe de 159 à 176 lots statiques sans ajout de sommets au décor. Chaque jupe ajoute 125 sommets et 192 triangles, générés une fois, soit un appel de rendu supplémentaire pour le style robe. La transparence conserve les géométries déjà chargées. Ces chiffres ne garantissent pas un débit d’images sur iPhone.
 
 Recette ciblée restante : faire tourner la caméra autour du comptoir et des tables ; regarder les robes en marche, assise et en conversation ; manger au café avec les habitants ; tenter un service après 20 h puis le lendemain après 8 h ; provoquer un achat refusé dans un menu et dans le téléphone ; vérifier les étiquettes en portrait/paysage et recharger la sauvegarde. Aucun enregistrement, image de diagnostic ou sauvegarde privée n’est inclus dans le dépôt.
+
+## Diagnostic et correctifs V2.3.2
+
+Le nouvel enregistrement d’environ 64 s affiche bien V2.3.1. Il montre un vêtement appliqué comme une couleur sur le corps, un HUD prenant une grande part de l’écran et une caméra très plongeante, notamment après recentrage. Il montre aussi « Tu prépares le repas » pendant le semis. Ces défauts sont traités dans cette candidate ; l’enregistrement ne valide pas le résultat des nouveaux changements.
+
+Dix régressions supplémentaires vérifient : yeux/sourcils devant le modèle selon l’axe de marche ; maillages de vêtements avec indices, normales et poids valides ; pieds plats au sol en position assise pour les deux corps, trois tailles et trois hauteurs de siège ; assiette restant horizontale pendant le geste ; accès aux anciens raccourcis depuis Menu ; petits déplacements analogiques proportionnels, arrêt immédiat et animation arrêtée contre un obstacle ; semis avec pose et texte adaptés, annulation sans dépense ; aperçu face au personnage et restitution de la caméra ; résolution suivant la taille réellement visible du canvas ; bibliothèque et chaises devenant transparentes lorsqu’elles masquent le joueur, collisions manquantes de l’armoire et du réfrigérateur corrigées.
+
+Les 17 792 positions accessibles et tous les objets/postes atteignables sont recalculés après les deux nouvelles collisions. L’économie, les besoins, les horaires, le foyer, les relations, le schéma et les clés de sauvegarde restent identiques. Une position ancienne désormais dans un meuble est replacée à l’entrée de la maison.
+
+## Contrôle supplémentaire des shaders et images
+
+`tools/capture_render.cjs` charge les scripts du jeu et enregistre leurs buffers, shaders, matrices, couleurs et commandes de dessin avec une partie synthétique. `tools/check_render.py` rejoue ces commandes avec un vrai contexte EGL/OpenGL ES. Aucun navigateur ni serveur n’est utilisé.
+
+Exemple :
+
+```sh
+node tools/capture_render.cjs /tmp/frame.json studio:female:0:walk:0
+python tools/check_render.py /tmp/frame.json /tmp/frame.png
+```
+
+Moteur de contrôle : Mesa 25.2.8, llvmpipe (LLVM 20.1.2), OpenGL ES 3.2. Les shaders GLSL ES 1.00 du jeu compilent et se lient ; les commandes contrôlées ne produisent aucune erreur GL. Les images sont inspectées pour les deux corps, les trois styles, les trois coiffures, marche, repas, lecture, téléphone, repos et les scènes de rue, chambre, potager et café. Ce contrôle a permis de corriger l’orientation des personnages, les manches anguleuses, l’assiette verticale, la position des pieds assis et la chaise masquant le dos du joueur.
+
+Il ne valide **ni les styles CSS et l’agencement réel du HUD, ni Safari/WebKit, ni les événements tactiles natifs, ni les FPS de l’iPhone**. Les animations restent calculées par le jeu, les vêtements n’ont pas de physique de tissu et le décor reste stylisé. Les images et enregistrements de diagnostic ne sont pas ajoutés au dépôt.
+
+La candidate `develop/v2.3.2` est préparée pour validation. `main` conserve la V2.3.1 publiée ; la publication de cette candidate attend un nouvel accord de la propriétaire.

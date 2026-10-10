@@ -26,13 +26,13 @@ for sex in ['Female','Male']:
  for name in keep:
   i=named[name];j=parent.get(i)
   while j is not None and d['nodes'][j]['name'] not in keep:j=parent.get(j)
-  pivot=world(i)[:3,3];pivot[2]*=-1;bones.append({'name':name,'parent':keep.index(d['nodes'][j]['name']) if j is not None else -1,'pivot':[round(float(v),6) for v in pivot]})
+  pivot=world(i)[:3,3];bones.append({'name':name,'parent':keep.index(d['nodes'][j]['name']) if j is not None else -1,'pivot':[round(float(v),6) for v in pivot]})
  vertices=bytearray();indices=[];offset=0
  for mesh in d['meshes']:
   for pr in mesh['primitives']:
-   a=pr['attributes'];pos=read(a['POSITION']);norm=read(a['NORMAL']);js=read(a['JOINTS_0']);weights=read(a['WEIGHTS_0']);uv=read(a['TEXCOORD_0']);mat=1 if mesh['name']=='Eyes' else 0 if mesh['name']=='Eyebrows' else 2
+   a=pr['attributes'];pos=read(a['POSITION']);norm=read(a['NORMAL']);js=read(a['JOINTS_0']);weights=read(a['WEIGHTS_0']);uv=read(a['TEXCOORD_0']);mat=1 if mesh['name'].lower().startswith('eyes') else 0 if mesh['name'].lower().startswith('eyebrows') else 2
    for v,n,j,w,t in zip(pos,norm,js,weights,uv):
-    v=v.copy();n=n.copy();v[2]*=-1;n[2]*=-1;w=w/max(w.sum(),.00001);wi=np.rint(w*255).astype(int);wi[np.argmax(w)]+=255-wi.sum()
+    v=v.copy();n=n.copy();w=w/max(w.sum(),.00001);wi=np.rint(w*255).astype(int);wi[np.argmax(w)]+=255-wi.sum()
     vertices.extend(struct.pack('<3h3b4B4BB2H',*np.rint(v*10000).astype(int),*np.clip(np.rint(n*127),-127,127).astype(int),*[mapping[int(i)] for i in j],*wi,mat,*np.clip(np.rint(t*65535),0,65535).astype(int)))
    indices.extend((read(pr['indices']).flatten()+offset).tolist());offset+=len(pos)
   packed=base64.b64encode(vertices).decode();ix=base64.b64encode(np.array(indices,dtype='<u2').tobytes()).decode();models[sex.lower()]={'bones':bones,'vertices':packed,'indices':ix,'count':len(indices),'vertexCount':offset}
@@ -45,7 +45,7 @@ for name in ['Hair_BuzzedFemale','Hair_Buns','Hair_Long']:
   for pr in mesh['primitives']:
    a=pr['attributes'];pos=read(a['POSITION']);norm=read(a['NORMAL']);uv=read(a['TEXCOORD_0'])
    for v,n,t in zip(pos,norm,uv):
-    v=v.copy();n=n.copy();v[2]*=-1;n[2]*=-1
+    v=v.copy();n=n.copy()
     vertices.extend(struct.pack('<3h3b4B4BB2H',*np.rint(v*10000).astype(int),*np.clip(np.rint(n*127),-127,127).astype(int),6,0,0,0,255,0,0,0,3,*np.clip(np.rint(t*65535),0,65535).astype(int)))
    indices.extend((read(pr['indices']).flatten()+offset).tolist());offset+=len(pos)
  models['hair'].append({'vertices':base64.b64encode(vertices).decode(),'indices':base64.b64encode(np.array(indices,dtype='<u2').tobytes()).decode(),'count':len(indices),'vertexCount':offset})

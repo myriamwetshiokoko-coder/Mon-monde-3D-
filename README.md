@@ -1,8 +1,22 @@
-# Mon Monde 3D — V2.3.1 · Correctifs
+# Mon Monde 3D — V2.3.2 · Confort et personnages
 
 Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille) sont réunis dans cette version. Le quartier reste continu et la maison, le jardin, les activités et les sauvegardes antérieures sont conservés. Jeu personnel WebGL 1, sans serveur de jeu, compte ni CDN. Le quartier est généré par le code ; les modèles humains CC0 sont inclus localement (voir `ASSETS.md`).
 
-## Correctifs V2.3.1
+## Candidate V2.3.2
+
+Cette candidate reprend les défauts observés dans le nouvel enregistrement de la V2.3.1. Elle est conservée sur `develop/v2.3.2` ; **la version publiée reste V2.3.1 sur `main`**, jusqu’à un nouvel accord de publication.
+
+- Le visage et les coiffures des modèles sont orientés vers la direction de déplacement. Les matériaux des yeux et sourcils masculins sont corrigés. L’aperçu commence face au personnage avec un éclairage lisible.
+- Les vêtements sont des maillages distincts animés : haut à manches, pantalon ou short plus ample, jupe et chaussures fermées. La couleur choisie habille le haut ; le pantalon reçoit une teinte foncée contrastée. Les parties du corps sous le vêtement sont masquées pour limiter les traversées. Les trois styles, teints, sexes et réglages sont conservés.
+- La caméra commence à un angle moins plongeant (environ 19°) ; le bouton de recentrage retrouve cet angle. Les murs des pièces occupées sont coupés pour conserver la distance et l’angle près des portes. Le recul supplémentaire en portrait est retiré ; le champ de vue vertical est de 50°. La distance initiale passe à 5,2 m ; une distance déjà sauvegardée reste conservée.
+- Marche à 1,85 m/s, course à 3,2 m/s, geste analogique proportionnel. La cadence de marche suit la distance réellement parcourue ; rester bloqué contre un meuble n’entretient plus cette animation.
+- L’écran de jeu conserve Téléphone, Style et Menu. Menu donne accès à Ma vie, au carnet, au foyer, à la carte, au retour et à la sauvegarde. Les besoins et le solde restent affichés. Les commandes principales ont une hauteur tactile d’au moins 44 px.
+- Ombres de contact légères, ciel nocturne plus bleu et personnages mieux lisibles la nuit. Pieds ajustés au sol, jambes assises calculées selon le siège et le sol, lunettes suivant la tête. L’assiette accompagne la main en restant à plat. Le sommeil place le visage vers le haut. Semer/récolter utilisent un geste accroupi et des textes adaptés au potager.
+- Bibliothèque, armoire, réfrigérateur et chaises du café rejoignent la visibilité par transparence ; une courte retenue limite l’alternance au bord du meuble. L’armoire et le réfrigérateur reçoivent les collisions manquantes. Le quartier et tous les postes restent atteignables. Une ancienne position devenue occupée reprend à l’entrée de la maison ; les autres données du foyer restent conservées.
+
+80 tests passent (73 intégration/règles + 7 métiers/économie). Des rendus hors navigateur compilent les shaders réels avec OpenGL ES/Mesa et permettent d’inspecter les vêtements, coiffures, poses et lieux. Ils ne valident pas la mise en page de Safari, le tactile natif ni les FPS de l’iPhone. Le style reste stylisé, les animations restent procédurales et il n’y a pas de simulation physique du tissu. Voir `TEST_RESULTS.md`.
+
+## Correctifs V2.3.1 (historique)
 
 - Le café explique la fermeture de la prise de service après 20 h ; le bouton est désactivé et un trajet vers la maison est proposé. Le salaire quotidien déjà reçu est également signalé. Les règles, prix et rémunérations restent identiques.
 - Les messages d’erreur restent visibles devant les menus et le téléphone. Les récompenses et réponses finales sont affichées après la fin de l’activité.
@@ -20,14 +34,14 @@ Le bouton **Téléphone** (touche P sur ordinateur) réunit messages, contacts, 
 
 Mobile : joystick, glissement pour tourner la caméra, deux doigts pour zoomer, Courir et bouton d’interaction. PC : ZQSD / WASD ou flèches, Maj pour courir, E pour interagir, souris et molette. Les menus suspendent le temps. Une activité peut être annulée sans transaction. Les commandes se libèrent à la perte de focus.
 
-Style ouvre les réglages du personnage et l’aperçu 3D. Carte pose un repère sans téléportation. Le retour express propose une confirmation ; le trajet à pied reste toujours possible. Carnet contient les relations, souvenirs, progression de cuisine et export/import de sauvegarde. Foyer regroupe les étapes familiales.
+Style ouvre les réglages du personnage et l’aperçu 3D. Menu réunit les autres raccourcis. Carte pose un repère sans téléportation. Le retour express propose une confirmation ; le trajet à pied reste toujours possible. Carnet contient les relations, souvenirs, progression de cuisine et export/import de sauvegarde. Foyer regroupe les étapes familiales.
 
 Quitter la maison, traverser le jardin et le passage piéton : café à gauche, épicerie à droite, parc en face. Les maisons de Noah et Emma sont maintenant ouvertes et meublées, aux extrémités du quartier.
 
 ## Confort et personnages
 
 - Mouvement progressif au joystick, rotation du personnage adoucie et déplacements par sous-pas contre le passage à travers les obstacles.
-- Caméra lissée, distance réglable, suivi de direction optionnel, adaptation à l’intérieur et murs masqués dans la pièce occupée.
+- Caméra lissée, distance réglable, suivi de direction optionnel et murs masqués dans la pièce occupée pour conserver son angle.
 - Carte miniature et repères de destination ; affichage prévu pour portrait et paysage, avec zones de sécurité.
 - Réglages de taille et silhouette, trois couleurs d’yeux, lunettes et trois looks prêts à porter. Quatre teints, trois formes de visage, trois coiffures, quatre couleurs de cheveux, quatre couleurs de vêtements et trois silhouettes vestimentaires.
 - Deux maillages humains Quaternius avec visages, oreilles et mains détaillés, plus trois coiffures modélisées. Animation GPU sur 21 articulations ; doigts rigidement rattachés aux mains. Marche/course et hochements lors des discussions. Les teints et vêtements sont colorés par le moteur ; les textures originales ne sont pas utilisées. Poses pour dormir, cuisiner, manger, se doucher, s’asseoir, lire et câliner. Les activités principales positionnent visuellement le personnage près du meuble utilisé.
@@ -46,7 +60,7 @@ Limites : l’âge du personnage joueur reste fixe. Les silhouettes jeunes utili
 
 Zone de repos centrale de 18 % du joystick, réponse progressive, vitesse de marche 2,35 m/s et course 3,6 m/s. Relâcher le doigt arrête immédiatement l’entrée. Un second doigt ne prend plus le contrôle du joystick déjà utilisé. Le suivi de caméra conserve la direction initiale du geste ; il ne fait plus tourner involontairement la trajectoire du personnage. La caméra reste immobile pendant les menus et l’aperçu, et son point visé est lissé avec sa position. Sensibilité réduite par défaut, réglable dans Style, comme la zone de repos (10–30 %).
 
-Les modèles utilisent deux appels de rendu (corps et cheveux), plus un troisième pour la jupe en style robe et les accessoires éventuels. Un repli vers les modèles procéduraux existe si le shader humain n’est pas compatible avec le GPU. Le rendu GPU/Safari de cette nouvelle représentation reste à vérifier sur appareil. Les personnages restent stylisés, leurs vêtements sont simples et les expressions faciales n’ont pas de morphing détaillé. Les performances de la V2.1 validées par la propriétaire ne prouvent pas celles de la V2.2.
+Les modèles utilisent cinq appels de rendu (corps, haut, bas, chaussures et cheveux), plus les accessoires et trois couches d’ombre de contact. Un repli vers les modèles procéduraux existe si le shader humain n’est pas compatible avec le GPU. Le rendu GPU/Safari de cette nouvelle représentation reste à vérifier sur appareil. Les personnages restent stylisés, leurs vêtements sont simples et les expressions faciales n’ont pas de morphing détaillé. Les performances de la V2.1 validées par la propriétaire ne prouvent pas celles de la V2.2.
 
 ## Simulation quotidienne et sociale
 
@@ -117,11 +131,13 @@ Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-
 - `src/world.js` : maison conservée et quartier meublé.
 - `src/game.js` : boucle, caméra, commandes et persistance.
 - `src/community.js` : routines, invitations, enfants et interactions.
-- `src/ui.js` : conversations, famille, carnet, carte et aperçu.
+- `src/ui.js` : conversations, famille, carnet, carte, menu compact et aperçu.
+- `src/presentation.css` : disposition compacte et responsive de l’écran de jeu.
+- `tools/capture_render.cjs` et `tools/check_render.py` : inspection des shaders réels hors navigateur, avec des états synthétiques.
 - `src/enrichment.js` : recettes, maison, objectifs, activités supplémentaires, sorties et aide familiale.
 
 ## Validation et publication
 
-`node tests/simulation.test.cjs` : 63 tests de règles et d’intégration DOM/WebGL simulée. `node tests/daily.test.cjs` : 7 tests supplémentaires d’économie, métiers et téléphone. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 646 objets regroupés en 176 lots statiques, 224 388 sommets statiques ; 17 819 positions atteignables sur la grille de test. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS. Les motifs TV et accessoires utilisent les maillages déjà chargés ; les ajouts ne nécessitent ni nouveau modèle 3D, ni texture, ni dépendance externe.
+`node tests/simulation.test.cjs` : 73 tests de règles et d’intégration DOM/WebGL simulée. `node tests/daily.test.cjs` : 7 tests supplémentaires d’économie, métiers et téléphone. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 646 objets regroupés en 181 lots statiques, 224 388 sommets statiques ; 17 792 positions atteignables sur la grille de test. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS. Les motifs TV et accessoires utilisent les maillages déjà chargés ; les ajouts ne nécessitent ni nouveau modèle 3D, ni texture, ni dépendance externe.
 
-Branche de travail conservée : `develop/v2.3.1`. La V2.3.1 est publiée sur `main` après accord de la propriétaire le 10 octobre 2026. La V2.2, la V2.3 et les candidates précédentes restent conservées sur leurs branches. Les mises à jour approuvées de `main` déclenchent le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.
+Branche candidate : `develop/v2.3.2`, en attente d’accord de publication. La V2.3.1 reste publiée sur `main` après accord de la propriétaire le 10 octobre 2026. La V2.2, la V2.3 et les candidates précédentes restent conservées sur leurs branches. Les mises à jour approuvées de `main` déclenchent le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.
