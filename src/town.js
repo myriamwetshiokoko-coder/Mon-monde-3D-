@@ -1,0 +1,22 @@
+/* Shared, stable identifiers for the neighbourhood and locally saved households. */
+const Town=(()=>{
+ const people=[
+  {id:'lina',name:'Lina',sex:'female',age:29,skin:2,outfit:1,style:1,hair:1,hairColor:1,face:1,height:.98,width:1,eyes:1,job:'cafe',interest:'cuisine',about:'J’aime inventer des recettes et prendre le café avec mes amis.',start:[-5,25],home:[-9.5,30],seat:[-9.5,30,Math.PI,0],park:[-6,39.2],parkSeat:[-6,40,Math.PI,.12]},
+  {id:'noah',name:'Noah',sex:'male',age:31,skin:3,outfit:2,style:3,hair:0,hairColor:3,face:0,height:1.07,width:1.05,eyes:0,job:'shop',interest:'jardin',about:'Le parc et le jardinage, c’est mon moment de calme.',start:[19,25],home:[27,8],seat:[-14.5,30,Math.PI,0],park:[6,39.2],parkSeat:[6,40,Math.PI,.12]},
+  {id:'emma',name:'Emma',sex:'female',age:25,skin:0,outfit:3,style:4,hair:2,hairColor:1,face:2,height:.94,width:.96,eyes:2,job:'gardener',interest:'musique',about:'J’aime les livres et la musique. Je prends aussi soin des fleurs du parc.',start:[-20,25],home:[-27,8],seat:[-14.5,28,0,0],park:[-1,36]},
+  {id:'adam',name:'Adam',sex:'male',age:36,skin:1,outfit:4,style:0,hair:0,hairColor:1,face:1,height:1.02,width:1.1,eyes:1,job:'cafe',interest:'cuisine',about:'Je travaille au café. Après le service, une promenade me fait du bien.',start:[-12,26.8],home:[-27,9],seat:[-9.5,28,0,0],park:[-8,36]},
+  {id:'ines',name:'Inès',sex:'female',age:27,skin:4,outfit:5,style:2,hair:3,hairColor:3,face:0,height:1.03,width:.95,eyes:0,job:'shop',interest:'jardin',about:'Les fleurs, les couleurs et les amis rendent le quartier plus beau.',start:[13,25],home:[27,9],seat:[-20,26.5,0,0],park:[8,36]},
+  {id:'sami',name:'Sami',sex:'male',age:23,skin:5,outfit:1,style:5,hair:3,hairColor:0,face:2,height:.97,width:1.02,eyes:0,job:'gardener',interest:'musique',about:'Je jardine le matin et je passe voir mes amis au parc.',start:[5,35],home:[27,10],seat:[-20,28.5,Math.PI,0],park:[2,37]},
+  {id:'jade',name:'Jade',sex:'female',age:42,skin:1,outfit:0,style:3,hair:4,hairColor:2,face:1,height:.96,width:1.08,eyes:1,job:'cafe',interest:'musique',about:'Je collectionne les livres. On pourrait échanger nos lectures.',start:[-3,36],home:[-27,10],seat:[-22,26.5,0,0],park:[-4,35]},
+  {id:'hugo',name:'Hugo',sex:'male',age:66,skin:0,outfit:6,style:4,hair:0,hairColor:4,face:2,height:1.04,width:1.02,eyes:2,job:null,interest:'jardin',about:'J’ai le temps de lire et de profiter du quartier. Raconte-moi ta journée.',start:[7,38],home:[-27,9.5],seat:[-22,28.5,Math.PI,0],park:[4,35]}
+ ];
+ const ids=people.map(p=>p.id),byId=Object.fromEntries(people.map(p=>[p.id,p]));
+ const houses={soleil:{name:'Maison Soleil',x:0,z:0,price:0,theme:0},sauge:{name:'Maison Sauge',x:-17.2,z:0,price:280,theme:1},rose:{name:'Maison Roseraie',x:17.2,z:0,price:420,theme:2}};
+ const styles=[{name:'Chemise et pantalon',bottom:0},{name:'Blouse et jupe',bottom:1},{name:'T-shirt et short',bottom:2},{name:'Polo et jean',bottom:0},{name:'Pull et pantalon',bottom:0},{name:'Tenue de sport',bottom:2}];
+ const furniture={armchair:{name:'Fauteuil de lecture',price:45,w:.9,d:.9,color:'#bca083'},plant:{name:'Grande plante',price:20,w:.55,d:.55,color:'#6e987a'},lamp:{name:'Lampadaire',price:30,w:.45,d:.45,color:'#e1c8a4'},desk:{name:'Bureau',price:65,w:1.25,d:.65,color:'#b98f71'},rug:{name:'Tapis',price:25,w:1.7,d:1.1,color:'#c5baa4'}};
+ const home=s=>houses[s.home.residence]||houses.soleil;
+ const point=(s,x,z)=>[home(s).x+x,home(s).z+z];
+ const inside=(s,x=s.x,z=s.z)=>Math.abs(x-home(s).x)<5.75&&z-home(s).z>-4.7&&z-home(s).z<4.75;
+ return {people,ids,byId,houses,styles,furniture,home,point,inside};
+})();
+if(typeof module!=='undefined')module.exports=Town;

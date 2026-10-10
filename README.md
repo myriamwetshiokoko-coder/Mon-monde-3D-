@@ -1,143 +1,75 @@
-# Mon Monde 3D — V2.3.2 · Confort et personnages
+# Mon Monde 3D — V2.4.0
 
-Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille) sont réunis dans cette version. Le quartier reste continu et la maison, le jardin, les activités et les sauvegardes antérieures sont conservés. Jeu personnel WebGL 1, sans serveur de jeu, compte ni CDN. Le quartier est généré par le code ; les modèles humains CC0 sont inclus localement (voir `ASSETS.md`).
+Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
-## Candidate V2.3.2
+**Candidate sur `develop/v2.4`. La version en ligne reste V2.3.1 sur `main` jusqu’à l’accord de publication de la propriétaire.**
 
-Cette candidate reprend les défauts observés dans le nouvel enregistrement de la V2.3.1. Elle est conservée sur `develop/v2.3.2` ; **la version publiée reste V2.3.1 sur `main`**, jusqu’à un nouvel accord de publication.
+## Nouveautés jouables
 
-- Le visage et les coiffures des modèles sont orientés vers la direction de déplacement. Les matériaux des yeux et sourcils masculins sont corrigés. L’aperçu commence face au personnage avec un éclairage lisible.
-- Les vêtements sont des maillages distincts animés : haut à manches, pantalon ou short plus ample, jupe et chaussures fermées. La couleur choisie habille le haut ; le pantalon reçoit une teinte foncée contrastée. Les parties du corps sous le vêtement sont masquées pour limiter les traversées. Les trois styles, teints, sexes et réglages sont conservés.
-- La caméra commence à un angle moins plongeant (environ 19°) ; le bouton de recentrage retrouve cet angle. Les murs des pièces occupées sont coupés pour conserver la distance et l’angle près des portes. Le recul supplémentaire en portrait est retiré ; le champ de vue vertical est de 50°. La distance initiale passe à 5,2 m ; une distance déjà sauvegardée reste conservée.
-- Marche à 1,85 m/s, course à 3,2 m/s, geste analogique proportionnel. La cadence de marche suit la distance réellement parcourue ; rester bloqué contre un meuble n’entretient plus cette animation.
-- L’écran de jeu conserve Téléphone, Style et Menu. Menu donne accès à Ma vie, au carnet, au foyer, à la carte, au retour et à la sauvegarde. Les besoins et le solde restent affichés. Les commandes principales ont une hauteur tactile d’au moins 44 px.
-- Ombres de contact légères, ciel nocturne plus bleu et personnages mieux lisibles la nuit. Pieds ajustés au sol, jambes assises calculées selon le siège et le sol, lunettes suivant la tête. L’assiette accompagne la main en restant à plat. Le sommeil place le visage vers le haut. Semer/récolter utilisent un geste accroupi et des textes adaptés au potager.
-- Bibliothèque, armoire, réfrigérateur et chaises du café rejoignent la visibilité par transparence ; une courte retenue limite l’alternance au bord du meuble. L’armoire et le réfrigérateur reçoivent les collisions manquantes. Le quartier et tous les postes restent atteignables. Une ancienne position devenue occupée reprend à l’entrée de la maison ; les autres données du foyer restent conservées.
+- Marche orientée vers le déplacement. Conversations face à face, personnes espacées et caméra cadrant le duo. Les habitants quittent leur siège pour discuter. Portes, montants et meubles masquant les acteurs rejoignent le rendu en coupe ou la transparence.
+- Deux corps humains articulés, six styles vestimentaires, six teints, huit couleurs de haut, cinq coiffures et cinq couleurs de cheveux. Chemise/pantalon, blouse/jupe, T-shirt/short, polo/jean, pull à manches longues, tenue de sport. Couleurs indépendantes du pantalon et des chaussures. Sexe, âge de départ, morphologie, silhouette, taille, visage, yeux et lunettes restent réglables.
+- Huit habitants : Lina, Noah, Emma, Adam, Inès, Sami, Jade et Hugo. Chacun conserve sa position, ses besoins, son emploi éventuel et sa progression de service. Ils mangent, lisent, se reposent, se rendent au travail et engagent des discussions entre eux.
+- Trois métiers sur place : café, épicerie et jardinage. Quatre tâches visibles puis retour au poste de départ pour recevoir le salaire. Gestes et accessoires : assiette, commandes, provisions, arrosoir et balai. Les habitants employés suivent également ces postes physiquement.
+- Le conjoint cohabitant a un métier choisi dans **Menu → Mon foyer → Métier et journée**. Son salaire rejoint le compte du foyer après son service complet, une fois par jour. Celui du joueur s’y ajoute. Le conjoint peut cuisiner deux repas avec une provision, manger un repas du foyer, se rafraîchir, se détendre, dormir et aider les enfants lorsque cette option est activée.
+- Projet de bébé : vie commune, présence à la maison et partenaire proche. **Préparer notre projet à la maison** lui donne un rendez-vous ; fermer les menus puis attendre son arrivée. Choix du prénom et de la personne portant la grossesse. Grossesse de trois jours fictifs ; adoption disponible, notamment si aucune personne du couple ne peut porter la grossesse. Paiement après le moment partagé ; annulation gratuite. Les anciennes grossesses et les enfants sont conservés.
+- Trois logements meublés et visitables : Soleil, Sauge et Roseraie. Le déménagement conserve enfants, provisions, meubles et relations ; les activités et rendez-vous domestiques suivent le logement. Retour gratuit dans un logement déjà acquis.
+- Plan tactile pour acheter, placer, tourner, déplacer, ranger et réinstaller jusqu’à dix meubles supplémentaires : fauteuil, plante, lampadaire, bureau et tapis. Le placement refuse murs, meubles, personnes et passages ; un contrôle de trajet protège l’accès aux pièces. Fauteuil/bureau permettent de lire, plante d’arroser. Paiement après confirmation du placement.
+- Quatre voitures circulent sur deux voies et cèdent le passage. Les personnages évitent leur volume et un habitant bloqué adapte son trajet. Au rechargement, les voitures apparaissent à distance des personnages.
 
-80 tests passent (73 intégration/règles + 7 métiers/économie). Des rendus hors navigateur compilent les shaders réels avec OpenGL ES/Mesa et permettent d’inspecter les vêtements, coiffures, poses et lieux. Ils ne valident pas la mise en page de Safari, le tactile natif ni les FPS de l’iPhone. Le style reste stylisé, les animations restent procédurales et il n’y a pas de simulation physique du tissu. Voir `TEST_RESULTS.md`.
+## Fonctions conservées
 
-## Correctifs V2.3.1 (historique)
+Maison et jardin d’origine, rues, parc, café, épicerie et maisons de Noah et Emma accessibles à pied ; caméra à la troisième personne ; marche et course ; besoins de faim, énergie, hygiène, loisirs et vie sociale ; cuisine/recettes, table, douche, repos, livres et télévision ; potager, bouquets, cadeaux, objectifs et livraisons ; amitié, couple, vie commune, fiançailles, mariage, soins aux enfants et sorties familiales ; téléphone avec messages fictifs, contacts, agenda, compte, emplois, bibliothèque et adresses ; jour/nuit et ambiances intérieures.
 
-- Le café explique la fermeture de la prise de service après 20 h ; le bouton est désactivé et un trajet vers la maison est proposé. Le salaire quotidien déjà reçu est également signalé. Les règles, prix et rémunérations restent identiques.
-- Les messages d’erreur restent visibles devant les menus et le téléphone. Les récompenses et réponses finales sont affichées après la fin de l’activité.
-- La robe utilise une jupe de 125 sommets animée par le bassin et les cuisses. Le second torse rigide superposé est retiré. Les achats à emporter restent au comptoir ; un repas au café choisit une chaise libre, conservée pendant toute l’activité. Les habitants utilisent des sièges pour dîner et se lèvent correctement pour discuter.
-- Les comptoirs, tables et rayons proches deviennent transparents quand ils masquent le joueur ; leurs collisions sont conservées. Cette coupe concerne les meubles des deux commerces, pas chaque objet du quartier.
-- Les noms évitent les boutons, les panneaux et les autres étiquettes. Ils sont masqués pendant les menus et l’aperçu. Bandeau et scripts affichent la même version.
+Les modèles portent des vêtements distincts, avec articulations animées, ombres de contact, accessoires en main et pieds ajustés au sol en position assise. L’interface compacte conserve les anciens raccourcis dans Menu.
 
-Le correctif V2.3.1 est publié depuis `main` après accord de la propriétaire ; sa branche de développement est conservée sur `develop/v2.3.1`. Le rendu de la nouvelle jupe et de la transparence reste à vérifier sur Safari/iPhone ; les tests de géométrie et de règles ne remplacent pas cette observation.
+## Commandes et parcours
 
-## Jouer
+Sur iPhone : joystick pour marcher, **Courir** pour changer d’allure, glissement pour tourner la caméra, pincement à deux doigts pour régler la distance. **Style** ouvre apparence, sensibilité, zone de repos du joystick, suivi de direction et résolution : Économie, Équilibré ou Détaillé.
 
-La racine du dépôt fonctionne sur GitHub Pages sans compilation. Pour un développement local, servir le dossier avec un serveur HTTP ; un HTML isolé ne suffit pas, car les scripts sont dans `src`.
+Sur ordinateur : ZQSD, WASD ou flèches ; Maj pour courir ; E pour interagir ; glissement pour la caméra, molette pour zoomer. Approcher un objet ou un habitant active le bouton d’interaction. Les activités peuvent être annulées. Les menus mettent le temps en pause.
 
-Le bouton **Téléphone** (touche P sur ordinateur) réunit messages, contacts, compte, emplois, agenda, bibliothèque et adresses. Il suspend le temps pendant sa consultation.
+Travail : **Téléphone → Emplois**, choisir un métier, marcher au poste de départ entre 8 h et 20 h, rejoindre chaque repère puis revenir au comptoir. Les habitants employés commencent entre 8 h et midi. Aucune rémunération n’est calculée pendant l’absence du joueur.
 
-Mobile : joystick, glissement pour tourner la caméra, deux doigts pour zoomer, Courir et bouton d’interaction. PC : ZQSD / WASD ou flèches, Maj pour courir, E pour interagir, souris et molette. Les menus suspendent le temps. Une activité peut être annulée sans transaction. Les commandes se libèrent à la perte de focus.
+Logement : **Menu → Mon foyer → Logement et aménagement**, ou l’application **Foyer** du téléphone. Visiter donne un repère sans téléporter le personnage. Placer les meubles depuis son propre logement, sur le plan, avec des pas de 25 cm et une rotation à 90°.
 
-Style ouvre les réglages du personnage et l’aperçu 3D. Menu réunit les autres raccourcis. Carte pose un repère sans téléportation. Le retour express propose une confirmation ; le trajet à pied reste toujours possible. Carnet contient les relations, souvenirs, progression de cuisine et export/import de sauvegarde. Foyer regroupe les étapes familiales.
+## Sols et sauvegardes
 
-Quitter la maison, traverser le jardin et le passage piéton : café à gauche, épicerie à droite, parc en face. Les maisons de Noah et Emma sont maintenant ouvertes et meublées, aux extrémités du quartier.
+Les **sols** sont une monnaie virtuelle. Aucun paiement ni compte bancaire réel. Achats, salaires et objectifs partagent un compte avec les 40 dernières opérations. Les refus et annulations ne changent pas le solde.
 
-## Confort et personnages
+| Action | Sols |
+| --- | ---: |
+| Salaire de base café / épicerie / jardinage | 65 / 60 / 55 |
+| Livraison terminée chez Noah | 40 |
+| Trois provisions | 18 |
+| Café/pâtisserie / repas à emporter | 12 / 16 |
+| Projet de bébé / adoption | 30 |
+| Maison Sauge / Roseraie | 280 / 420 |
+| Fauteuil / plante / lampadaire / bureau / tapis | 45 / 20 / 30 / 65 / 25 |
 
-- Mouvement progressif au joystick, rotation du personnage adoucie et déplacements par sous-pas contre le passage à travers les obstacles.
-- Caméra lissée, distance réglable, suivi de direction optionnel et murs masqués dans la pièce occupée pour conserver son angle.
-- Carte miniature et repères de destination ; affichage prévu pour portrait et paysage, avec zones de sécurité.
-- Réglages de taille et silhouette, trois couleurs d’yeux, lunettes et trois looks prêts à porter. Quatre teints, trois formes de visage, trois coiffures, quatre couleurs de cheveux, quatre couleurs de vêtements et trois silhouettes vestimentaires.
-- Deux maillages humains Quaternius avec visages, oreilles et mains détaillés, plus trois coiffures modélisées. Animation GPU sur 21 articulations ; doigts rigidement rattachés aux mains. Marche/course et hochements lors des discussions. Les teints et vêtements sont colorés par le moteur ; les textures originales ne sont pas utilisées. Poses pour dormir, cuisiner, manger, se doucher, s’asseoir, lire et câliner. Les activités principales positionnent visuellement le personnage près du meuble utilisé.
+Le salaire du joueur progresse avec ses services terminés. Le solde de la partie précédente est conservé ; une nouvelle partie commence avec 120 sols et trois provisions.
 
-Le rendu reste stylisé. Il n’atteint pas le semi-réalisme d’un jeu commercial ; l’éditeur n’a pas de curseurs détaillés du visage et les mouvements de tête restent simples.
+Sauvegarde automatique locale toutes les six secondes de jeu et à l’arrière-plan, sauvegarde manuelle depuis Menu. Les clés antérieures V0.1, V0.2 et V1 restent reconnues ; schéma `version: 2` et clé `monmonde3d_v2` conservés. Les nouveaux champs sont ajoutés à la reprise. Une position occupée reprend à l’entrée du logement ; un meuble importé dans un passage reste dans l’inventaire.
 
-## Sexe et âge de départ
+**Carnet → Sauvegarde et commandes** permet l’export/import. Les sauvegardes restent sur l’appareil ou dans le fichier exporté par la joueuse et ne sont jamais envoyées à GitHub. Effacer les données de Safari efface la sauvegarde locale : un export permet de la conserver.
 
-L’éditeur permet de choisir un sexe féminin ou masculin et un âge entier de 6 à 90 ans. Le choix du sexe sélectionne le maillage correspondant ; la morphologie reste personnalisable séparément. Les enfants (6–12 ans) et adolescents (13–17 ans) ont une taille adaptée, y compris le point visé par la caméra. Les choix sont conservés dans la sauvegarde, l’export/import et affichés dans Ma vie.
+## Vérifications et architecture
 
-Les discussions et cadeaux restent amicaux avant 18 ans ; couple, rendez-vous romantiques, mariage et parentalité sont réservés aux adultes. Un foyer ayant déjà un partenaire, une grossesse ou des enfants ne peut pas être changé en personnage mineur ; l’import d’un foyer incohérent conserve sa progression avec un âge minimum de 18 ans.
+108 tests locaux passent : 73 de simulation/intégration, 7 d’économie/métiers, 28 du quartier/foyer. Les gestionnaires d’interface sont exécutés avec DOM et WebGL simulés. Des rendus EGL/OpenGL ES compilent les shaders et dessinent les scènes réelles hors navigateur ; détails dans `TEST_RESULTS.md`.
 
-Limites : l’âge du personnage joueur reste fixe. Les silhouettes jeunes utilisent les maillages adultes redimensionnés ; il n’y a pas encore de modèles d’enfants dédiés, de rides, de vieillissement du joueur ni de parcours scolaire. Les bébés et bambins du foyer sont des personnages non jouables. La croissance des enfants du foyer continue à suivre ses propres étapes fictives.
+```sh
+node tests/simulation.test.cjs
+node tests/daily.test.cjs
+node tests/neighbourhood.test.cjs
+```
 
-## Calibration V2.2
+Le workflow **Vérifications du jeu** exécute ces suites sur `main`, `develop/**` et les pull requests. Il ne publie pas le jeu. La mise en ligne conserve le dépôt et la configuration GitHub Pages existants après accord, sans remplacement manuel du HTML.
 
-Zone de repos centrale de 18 % du joystick, réponse progressive, vitesse de marche 2,35 m/s et course 3,6 m/s. Relâcher le doigt arrête immédiatement l’entrée. Un second doigt ne prend plus le contrôle du joystick déjà utilisé. Le suivi de caméra conserve la direction initiale du geste ; il ne fait plus tourner involontairement la trajectoire du personnage. La caméra reste immobile pendant les menus et l’aperçu, et son point visé est lissé avec sa position. Sensibilité réduite par défaut, réglable dans Style, comme la zone de repos (10–30 %).
+Modules : `town.js` pour identités/logements/catalogues ; `core.js` et `daily.js` pour simulation/transactions ; `household.js` pour habitants/revenus ; `housing.js` pour placement/migration ; `navigation.js` et `traffic.js` pour déplacements ; modules de rendu et d’interface pour le monde et les commandes. Aucun paquet à installer pour jouer ou exécuter les tests Node.js.
 
-Les modèles utilisent cinq appels de rendu (corps, haut, bas, chaussures et cheveux), plus les accessoires et trois couches d’ombre de contact. Un repli vers les modèles procéduraux existe si le shader humain n’est pas compatible avec le GPU. Le rendu GPU/Safari de cette nouvelle représentation reste à vérifier sur appareil. Les personnages restent stylisés, leurs vêtements sont simples et les expressions faciales n’ont pas de morphing détaillé. Les performances de la V2.1 validées par la propriétaire ne prouvent pas celles de la V2.2.
+## Limites actuelles
 
-## Simulation quotidienne et sociale
+CSS Safari, tactile natif et FPS sur iPhone 16 restent à valider sur appareil. Le rendu est stylisé, les animations procédurales et les réponses de dialogue prédéfinies. Pas de simulation physique du tissu ni d’expressions faciales détaillées.
 
-Cuisiner consomme une provision et prépare une portion ; manger à table la consomme. Douche, sommeil, télévision, détente, arrosage, lecture et méditation restaurent les besoins. Les cinq besoins diminuent durant le jeu ; une énergie faible ralentit la marche. Sommeil et travail font avancer l’horloge et diminuent également les besoins pendant les heures écoulées.
+Les voitures circulent mais ne sont pas conduisibles. Les trois logements partagent un plan ; les meubles d’origine restent fixes. Seuls les cinq types supplémentaires se déplacent. Pas encore d’éditeur de murs/étages, de commerce géré par le joueur ou de loyer.
 
-120 sols et trois provisions au départ, ou le solde exact de ta partie précédente. Trois provisions coûtent 18 sols, café/pâtisserie 12 sols, repas à emporter 16 sols. Les sols sont la monnaie virtuelle de cette simulation ; aucun paiement ni compte bancaire réel. Les salaires, achats et objectifs utilisent le même solde et enregistrent les 40 dernières opérations. L’historique commence avec la V2.3 ; les opérations des anciennes versions ne sont pas reconstituées. La cuisine augmente sa compétence.
-
-## Journées vivantes V2.3
-
-- **Deux métiers accessibles aux adultes** : service au Café Fleur et employé à l’épicerie. Choisir l’équipe dans Téléphone → Emplois, marcher au comptoir entre 8 h et 20 h et prendre le service. Effectuer quatre tâches à des postes différents : accueillir/préparer/servir/ranger au café, recevoir/remplir les deux rayons/accueillir en caisse à l’épicerie. Une tâche se valide à la fin de son animation, à proximité du poste ; le repère au sol et la carte indiquent la suivante. Retourner au comptoir pour recevoir 65 sols au café ou 60 à l’épicerie. Un seul service payé par jour ; chaque groupe de trois services augmente les salaires de 10 sols (bonus plafonné à 40). Le compteur d’expérience est commun aux deux métiers. La fin du service avance le temps de deux heures fictives et simule les besoins. Une livraison reste une activité distincte, à 40 sols.
-- **Reprise du travail** : poste en cours et progression enregistrés. Annuler l’animation ne valide pas la tâche. Quitter volontairement le service dans le téléphone abandonne sa progression sans salaire ; il est possible de recommencer.
-- **Téléphone jouable** : messages à Lina, Noah et Emma, réponses prédéfinies, notifications, contacts avec position sur la carte, propositions amicales de rencontre au parc après 20 d’amitié, agenda avec besoins et rendez-vous, compte et historique, métiers, bibliothèque et adresses des commerces. Les messages sont fictifs et locaux ; ils ne contactent personne à l’extérieur. Une heure de jeu entre deux messages à un même contact ; ils renforcent seulement l’amitié.
-- **Activités visibles** : assiette avec nourriture et couvert suivant les mains animées, geste de repas ; livre ouvert avec pages, posé entre les mains ; téléphone tenu lors d’un message ; commande portée, rangement et remplissage des rayons. Les animations sont procédurales et simples. Le service donne une tenue temporaire, puis restaure la tenue personnalisée.
-- **Télévision** : trois émissions à choisir au salon, interrupteur, personnage assis et écran animé. Ce sont des motifs 3D animés, sans véritable vidéo ni dialogues audio d’émission. La chaîne et l’état de la télévision sont sauvegardés. Le salon permet également de lire ou se détendre.
-- **Bibliothèque et repas** : un roman offert au départ ; deux livres achetables à l’épicerie (18 et 25 sols), puis lisibles depuis le téléphone ou le meuble bibliothèque. Un livre reste acquis. Lire restaure loisirs et énergie ; les livres ne débloquent pas de compétences spéciales. Le repas à emporter rejoint le sac et se consomme à la table de la maison.
-- **Habitants actifs** : petit déjeuner, déjeuner, promenade et lecture au parc, dîner, télévision et repos suivent l’horloge. Ils rejoignent physiquement leur destination avant de prendre la pose. Les repas utilisent des sièges distincts au café. Les conversations animent aussi l’habitant. Les besoins et dépenses de ces habitants ne sont pas simulés comme ceux du joueur.
-
-Les dialogues sont prédéfinis et les carrières restent limitées à ces deux métiers. Il n’y a pas de connexion multi-appareils, de conversation générée, de circulation automobile, de vidéos réelles sur la TV ou de scènes photoréalistes. Les modèles humains et le calibrage de V2.2, ainsi que le sexe et l’âge de départ, sont inclus.
-
-Lina, Noah et Emma ont des centres d’intérêt distincts et des destinations quotidiennes : domicile, café, ville, parc et soirée. Leurs trajets respectent les collisions. Discussions, anecdotes et sujets préférés augmentent l’amitié ; les compliments romantiques augmentent l’affection. Une courte attente entre les conversations évite la progression instantanée. À partir de 20 d’amitié, une invitation les fait venir physiquement à la maison pendant quatre heures de jeu.
-
-Le sac conserve provisions, repas, bouquets et livres ; il ne gère pas chaque objet individuel. Les relations restent enregistrées dans le même foyer.
-
-## Famille réellement implémentée
-
-1. Se connaître : amitié 55 et affection 40 pour devenir un couple ; les premiers compliments demandent amitié 35.
-2. Emménager ensemble : le partenaire rejoint la Maison Soleil le soir et la nuit.
-3. Se fiancer après un jour de couple et affection 75 : 25 sols.
-4. Célébrer le mariage sous l’arche du parc : 40 sols.
-5. Avec un partenaire vivant dans le foyer, choisir une grossesse ou une adoption et nommer le bébé : 30 sols, maximum deux enfants. Le mariage n’est pas obligatoire.
-6. Une grossesse est visible par un ventre qui évolue en trois étapes et aboutit après trois jours de jeu ; l’adoption accueille immédiatement un bébé. Le bébé est visible dans son berceau. Nourrir utilise une provision ; câliner, jouer et apaiser augmentent ses besoins.
-7. Après deux jours, le bébé devient un bambin mobile ; après quatre jours, il devient un enfant qui marche dans la maison et conserve ses interactions. Faim, réconfort et jeu diminuent avec le temps.
-
-Les durées sont fictives : un jour normal correspond à environ 18 minutes de jeu actif ; dormir permet d’avancer de huit heures. La séparation conserve les enfants et une grossesse en cours. Partenaire, état du couple, grossesse, enfants, besoins et souvenirs sont sauvegardés.
-
-Cette première simulation familiale n’inclut pas de génétique, d’école, d’adolescence, de vieillissement adulte, de scènes de cérémonie complexes ou de gestion autonome détaillée du partenaire. Les bambins et enfants peuvent suivre le joueur au parc puis rentrer par les chemins. L’aide du partenaire peut être activée pour des soins simples à proximité, espacés de deux heures de jeu. Les apprentissages augmentent un compteur, sans système scolaire.
-
-## Ajouts de la V2.1
-
-Le bouton **Ma vie** réunit les ambiances de maison, objectifs, destinations d’activités, sons facultatifs et conseils. Une humeur est calculée à partir des besoins ; elle renseigne le joueur sans multiplicateur caché.
-
-- Trois ambiances gratuites : terracotta, sauge et lilas, appliquées aux murs, canapé et tapis. Composition florale à 25 sols et guirlande à 35 sols achetables à l’épicerie, aux emplacements prévus. Éclairage chaud simulé dans la maison et près des lampadaires le soir.
-- Trois recettes : assiette maison (1 provision/1 portion), brunch (niveau 2, 2 provisions/3 portions), repas familial (niveau 5, 3 provisions/5 portions). Cuisine et quantités sont réellement enregistrées.
-- Potager dans le jardin : semer coûte 5 sols, récolter à partir du lendemain donne 3 provisions. Une récolte ne peut pas être prise deux fois. Compétence de jardinage.
-- Table créative sur la terrasse : confectionner un bouquet consomme une provision ; offrir le bouquet augmente amitié et affection. Compétence créative. Dessiner restaure les loisirs, sans album d’images générées.
-- Livraison à pied : prendre la commande au café, marcher jusqu’à la maison de Noah, la remettre pour 40 sols. Une livraison par jour ; commande non livrée expirée le lendemain.
-- Cinq objectifs vérifiés (repas, livraison, amitié, bouquets, enfant), avec récompenses à réclamer une seule fois.
-- Rendez-vous au café : faire venir physiquement le partenaire, puis partager la pause à 12 sols ; un rendez-vous renforce l’affection. Les plans de rendez-vous sont sauvegardés. Le mariage attend désormais le partenaire sous l’arche.
-- Sortie familiale : les enfants mobiles suivent par les chemins et reviennent à pied à la maison. Le pique-nique consomme une portion et exige un enfant arrivé au parc ; les bébés restent au berceau. Les positions des enfants sont sauvegardées.
-- Sons brefs originaux synthétisés lors des activités, désactivés au départ et activables par choix. Aucun fichier audio ni musique en continu.
-
-La décoration propose des palettes et ajouts fixes, pas un mode construction avec placement libre. Les lumières sont une approximation légère sans ombres réalistes. Les dialogues et soins restent simples. Les bambins ne marchent pas dans les bras du joueur et les bébés ne peuvent pas sortir.
-
-## Sauvegardes et architecture
-
-Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-plan, manuelle et export/import JSON validé. La V2 utilise `monmonde3d_v2` et reprend automatiquement `monmonde3d_v1`, puis les anciennes V0.2/V0.1, sans effacer ces clés. Les sauvegardes ne sont jamais envoyées au dépôt. Elles restent propres au navigateur et à l’appareil ; exporter permet de les transférer ou les conserver avant de vider Safari.
-
-- `src/core.js` : règles pures, validation, économie, relations et cycle familial.
-- `src/daily.js` : métiers, tâches, messages et nouveaux achats, règles pures.
-- `src/phone.js` : téléphone, compte, emplois, contacts et agenda.
-- `src/everyday.js` : activités visibles, accessoires, travail sur place et télévision.
-- `src/navigation.js` : recherche de chemins et déplacement avec collisions.
-- `src/engine.js` : WebGL, matrices, géométries.
-- `src/controls.js` : calibration et lissage des entrées.
-- `src/characters.js` : accessoires et maillages procéduraux de secours.
-- `src/humans.js` : modèles humains et animation GPU.
-- `assets/humans.js` : données 3D compactées sous licence CC0.
-- `src/world.js` : maison conservée et quartier meublé.
-- `src/game.js` : boucle, caméra, commandes et persistance.
-- `src/community.js` : routines, invitations, enfants et interactions.
-- `src/ui.js` : conversations, famille, carnet, carte, menu compact et aperçu.
-- `src/presentation.css` : disposition compacte et responsive de l’écran de jeu.
-- `tools/capture_render.cjs` et `tools/check_render.py` : inspection des shaders réels hors navigateur, avec des états synthétiques.
-- `src/enrichment.js` : recettes, maison, objectifs, activités supplémentaires, sorties et aide familiale.
-
-## Validation et publication
-
-`node tests/simulation.test.cjs` : 73 tests de règles et d’intégration DOM/WebGL simulée. `node tests/daily.test.cjs` : 7 tests supplémentaires d’économie, métiers et téléphone. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 646 objets regroupés en 181 lots statiques, 224 388 sommets statiques ; 17 792 positions atteignables sur la grille de test. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS. Les motifs TV et accessoires utilisent les maillages déjà chargés ; les ajouts ne nécessitent ni nouveau modèle 3D, ni texture, ni dépendance externe.
-
-Branche candidate : `develop/v2.3.2`, en attente d’accord de publication. La V2.3.1 reste publiée sur `main` après accord de la propriétaire le 10 octobre 2026. La V2.2, la V2.3 et les candidates précédentes restent conservées sur leurs branches. Les mises à jour approuvées de `main` déclenchent le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.
+Le projet de bébé utilise un moment de couple habillé et un calendrier fictif. Deux enfants au maximum ; bambin après deux jours, enfant après quatre. L’âge choisi pour le joueur reste fixe ; enfants et aînés n’ont pas de corps dédiés. Pas de multijoueur, connexion de compte ni synchronisation entre appareils.

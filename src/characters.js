@@ -7,7 +7,7 @@ shapes.torso=profileMesh([[0,.10,.075],[.04,.19,.11],[.17,.19,.115],[.27,.145,.1
 shapes.dress=profileMesh([[0,.28,.18],[.08,.285,.18],[.3,.22,.14],[.52,.145,.10],[.63,.19,.12],[.76,.22,.10],[.83,.1,.075],[.88,.055,.055]]);
 shapes.head=profileMesh([[-.20,.015,.03],[-.16,.07,.072],[-.09,.12,.11],[0,.145,.125],[.1,.145,.12],[.18,.10,.095],[.205,.025,.025]]);
 shapes.limb=profileMesh([[0,.015,.015],[.035,.07,.065],[.20,.075,.065],[.34,.045,.045],[.38,.025,.025]],10);
-const hairColors=['#352a2a','#765340','#ac8457','#171b22'];
+const hairColors=['#352a2a','#765340','#ac8457','#171b22','#bcb6a8'];
 function jointMatrix(x,y,z,sx,sy,sz,yaw,tilt=0){let m=modelMatrix(x,y,z,1,1,1,yaw);if(tilt){const c=Math.cos(tilt),s=Math.sin(tilt);m=mul(m,[1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1])}return mul(m,modelMatrix(0,0,0,sx,sy,sz,0))}
 function human(x,z,dir,teint,tenue,phase,moving,hair=0,face=0,pose='',style=0,hairColor=0,scale=1,lift=0,appearance={}){
  const sk=skins[teint],cloth=outfits[tenue],hc=hairColors[hairColor],swing=Math.sin(phase)*.55*moving,bob=moving?Math.abs(Math.sin(phase))*.022:Math.sin(phase*.3)*.007;
@@ -38,4 +38,4 @@ function human(x,z,dir,teint,tenue,phase,moving,hair=0,face=0,pose='',style=0,ha
  if(pose==='phone')part('cube','#4f464e',.15,waist+.42,.27,.085,.15,.014);
  if(['carry','stock'].includes(pose))part('cube','#c39a70',0,waist+.23,.33,.32,.22,.26);
 }
-function drawBaby(c,index){const x=3.9+index*1.2,z=-.5;dynamic('sphere',outfits[outfit],x,.82,z,.19,.07,.3);dynamic('sphere',skins[c.skin],x,.88,z+.22,.11,.1,.1);for(const side of [-1,1])dynamic('sphere','#473531',x+side*.035,.955,z+.26,.01,.01,.01)}
+function drawBaby(c,index){const x=Town.home(state).x+3.9+index*1.2,z=-.5;dynamic('sphere',outfits[outfit],x,.82,z,.19,.07,.3);dynamic('sphere',skins[c.skin],x,.88,z+.22,.11,.1,.1);for(const side of [-1,1])dynamic('sphere','#473531',x+side*.035,.955,z+.26,.01,.01,.01)}

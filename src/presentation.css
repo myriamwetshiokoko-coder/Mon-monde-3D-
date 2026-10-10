@@ -30,3 +30,5 @@
  .controls{bottom:calc(env(safe-area-inset-bottom,0px) + 12px)}
 }
 @media(min-width:800px)and(min-height:501px){.mini-map{width:110px;top:102px;right:24px}.utility{max-width:430px}.scene-label{bottom:30px}}
+
+#decorPlan{display:block;width:100%;max-height:36dvh;background:#ede2d1;border-radius:14px;touch-action:none}#decor .modal{max-width:430px}.decor-controls{display:flex;gap:7px;flex-wrap:wrap}.decor-controls button{min-width:44px;min-height:44px}#decorStatus{font-size:12px;min-height:36px;margin:10px 0}.field select{max-width:100%}.phone-copy{overflow-wrap:anywhere}

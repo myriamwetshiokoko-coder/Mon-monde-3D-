@@ -1,6 +1,7 @@
 /* Capture the game's real draw commands for offscreen GLES inspection, without a browser.
    node tools/capture_render.cjs /tmp/frame.json studio:female:0:walk
-   Scenes: street, bedroom, garden, cafe, studio:<body>:<style>:<pose>. Synthetic saves only. */
+   Scenes: street, bedroom, garden, cafe, conversation, home:<id>, partner-work,
+   furniture, family, studio:<body>:<style>:<pose>:<hair>. Synthetic saves only. */
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'index.html'),'utf8'),commands=[];
 let serial=1,attribute=0;
@@ -25,10 +26,15 @@ els.world.getContext=()=>gl;
 const ctx={console,Math,JSON,Number,Float32Array,Uint8Array,Map,Blob,URL,atob:s=>Buffer.from(s,'base64').toString('binary'),setTimeout:()=>0,clearTimeout(){},innerWidth:393,innerHeight:700,devicePixelRatio:1,performance:{now:()=>0},requestAnimationFrame(){},window:{addEventListener(){}},localStorage:{getItem(){return null},setItem(){}},document:{body:element(),hidden:false,getElementById:id=>els[id],createElement:()=>element(),addEventListener(){}},location:{reload(){}}};
 vm.createContext(ctx);for(const m of html.matchAll(/<script src="([^"]+)"/g)){const f=m[1].split('?')[0];vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f})}
 const run=s=>vm.runInContext(s,ctx),scene=process.argv[3]||'street';
-run("started=true;paused=false;state.time=1;state.skin=skin=2;state.outfit=outfit=3;state.settings.quality=quality=1;state.x=0;state.z=18;camYaw=.8;smoothEye=null;state.name='Personnage test'");
+run("started=true;paused=false;state.time=10;state.skin=skin=2;state.outfit=outfit=3;state.settings.quality=quality=1;state.x=0;state.z=18;camYaw=.8;smoothEye=null;state.name='Personnage test'");
 if(scene==='bedroom')run('state.x=.1;state.z=-2;camYaw=.22;camPitch=.34');
 if(scene==='garden')run("state.x=-3;state.z=13;camYaw=.5;activity={name:'Potager',pose:'garden',t:0,seconds:5}");
 if(scene==='cafe')run("state.x=-12;state.z=31.4;state.time=9;camYaw=0;camPitch=.4;activity={name:'Café Fleur',pose:'eat',anchor:[-9.5,30,Math.PI,0],t:0,seconds:5}");
+if(scene==='conversation')run("state.x=0;state.z=25;residents[1].x=1.25;residents[1].z=25;state.time=15;camYaw=0;camZoom=4.4;camPitch=.3;beginAction({npc:'noah',pose:'talk',verb:'Discussion',seconds:10});updateResidents(.05)");
+if(scene.startsWith('home:')){const id=scene.split(':')[1];if(!['soleil','sauge','rose'].includes(id))throw Error('Unknown home');run(`state.home.residence='${id}';state.home.theme=Town.home(state).theme;state.x=Town.home(state).x;state.z=2.8;syncHomeInteractions();state.time=${id==='rose'?22:10};camYaw=.65;camZoom=4.5;camPitch=.32;`);}
+if(scene==='partner-work')run("state.x=-13;state.z=30.5;state.time=9;camYaw=-.3;camZoom=5;camPitch=.34;residents[0].x=-14;residents[0].z=31.4;Household.prepareWork(state,'lina');state.citizens.lina.shift.step=1;residents[0].targetKey=targetFor(residents[0]).key;residents[0].path=[];residents[0].pathIndex=0;residents[0].pose='cook';residents[0].dir=0;paused=true");
+if(scene==='furniture')run("state.x=-2.2;state.z=-.8;state.home.furnishings=[{id:1,type:'desk',x:-3.5,z:-1,turn:0},{id:2,type:'plant',x:-2.5,z:-2.5,turn:0},{id:3,type:'armchair',x:4,z:-1.5,turn:1},{id:4,type:'rug',x:-3,z:.5,turn:0}];rebuildFurnitureCollisions();state.time=14;camYaw=.6;camZoom=5;camPitch=.4;activity={name:'Bureau',pose:'readStand',t:0,seconds:20}");
+if(scene==='family')run("state.x=0;state.z=2.8;Object.assign(state.family,{partnerId:'emma',status:'couple',movedIn:true,pregnancy:{carrierId:'emma',startedDay:1,dueDay:4,name:'Test'}});residents[2].x=-1.25;residents[2].z=2.8;state.time=18;state.day=2;camYaw=-.3;camZoom=4.5;camPitch=.3;beginAction({npc:'emma',pose:'talk',verb:'Discussion',seconds:10});updateResidents(.05)");
 if(scene.startsWith('studio')){
  const [,body='female',style='0',pose='idle',hair='1']=scene.split(':');
  run(`state.time=10;gl.viewport(0,0,393,700);gl.clearColor(.86,.9,.86,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.useProgram(program);gl.enableVertexAttribArray(attrPosition);gl.enableVertexAttribArray(attrNormal);gl.uniform1f(uOpacity,1);gl.uniform3fv(uLight,[1,1,1]);const checkVP=mul(perspective(PI/4,393/700,.1,100),lookAt([.12,1.22,-3.4],[0,.9,0]));gl.uniformMatrix4fv(uVP,false,new Float32Array(checkVP));HumanRenderer.setView(checkVP);human(0,0,PI,2,3,1.57,${pose==='walk'?1:0},${Number(hair)},0,${JSON.stringify(pose==='idle'||pose==='walk'?'':pose)},${Number(style)},0,1,0,{body:${JSON.stringify(body)},height:1,width:1});`);

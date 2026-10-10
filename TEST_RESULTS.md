@@ -1,111 +1,73 @@
-# Vérifications de la candidate V2.3.2 — 10 octobre 2026
+# Vérifications — candidate V2.4.0
 
-Commandes : `node tests/simulation.test.cjs` (73 tests) et `node tests/daily.test.cjs` (7 tests). **80 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
+Tests exécutés le 10 octobre 2026 sur la branche de développement, avec Node.js 24.19.0. **La V2.4 n’est pas publiée ; `main` conserve V2.3.1 jusqu’à l’accord de la propriétaire.**
 
-## Couverture automatisée
+## Résultats
 
-- Migration des anciennes parties, bornage des valeurs invalides, aller-retour JSON et préservation des anciennes clés de stockage.
-- Cuisine, repas, achats, provisions insuffisantes, plafond quotidien du travail et sommeil passant minuit.
-- Initialisation de tous les modules, boucle de rendu, affichage du portefeuille/besoins, menus et aperçu 3D avec DOM/WebGL simulés.
-- Collisions des murs, meubles, porte, clôtures et limites ; déplacements subdivisés contre le passage à travers une barrière.
-- Tous les objets interactifs atteignables depuis la maison ; trajets vers café, épicerie, parc et retour ; accès aux deux maisons des voisins.
-- Trajets des trois habitants pendant cinq minutes simulées ; routines jour/nuit ; invitation avec arrivée physique à la maison et expiration.
-- Annulation sans transaction, onglet masqué suspendu, effets de conversation uniquement à la fin de l’activité.
-- Amitié, attente entre discussions, affection, couple et vie commune ; fiançailles avec seuils ; paiement du mariage uniquement au bon lieu et dans le bon état.
-- Grossesse sauvegardée, naissance après trois jours, adoption, soins, coût des provisions, croissance en enfant, limite à deux enfants et conservation après séparation.
-- Besoins des enfants pendant les heures sautées par sommeil, restauration du teint clair et de besoins à zéro.
-- Déplacement des enfants sans collision, interactions suivant leur position et remplacement propre des étiquettes après changement de nom.
-- Restauration des réglages de caméra/vêtements et invalidation des trajets ; caméra conservant son angle près des portes et limites de pièce.
-- Déclenchement des gestionnaires joystick/annulation et pincement à deux doigts dans le DOM simulé ; libération du suivi tactile.
-- Concordance mathématique des articulations entre maillage de membre et position du genou.
+| Suite | Résultat | Portée |
+| --- | --- | --- |
+| `node tests/simulation.test.cjs` | 73 réussis | Fonctions existantes, scripts/gestionnaires DOM, besoins, profils, relations, enfants, gestes, collisions, trajets, sauvegardes |
+| `node tests/daily.test.cjs` | 7 réussis | Achats atomiques, compte, salaires, horaires, métiers, progression, livres, téléphone |
+| `node tests/neighbourhood.test.cjs` | 28 réussis | Conversations, conception, huit habitants, autonomie/revenus, logements, meubles, circulation |
+| Syntaxe Node.js | 24 fichiers JS/CJS valides | Sources, tests, outil de capture |
+| Structure HTML | 107 identifiants uniques ; 20 scripts + 1 style locaux | Balises structurelles équilibrées, chemins existants, cache `2.4.0` uniforme |
+| `git diff --check` | Aucune erreur | Espaces et conflits de patch |
 
-La grille de 0,4 m atteint **17 792 positions**, avec vérification des segments intermédiaires. La scène contient 646 objets regroupés en 181 lots statiques, pour 224 388 sommets statiques. Ces mesures décrivent la géométrie, pas les FPS.
+Total : **108 tests**. DOM et appels WebGL simulés dans les suites d’intégration ; ce résultat ne constitue pas une recette dans Safari.
 
-## Ajouts testés en V2.1
+## Parcours contrôlés
 
-Onze tests supplémentaires vérifient : recettes débloquées et portions ; récolte différée et non duplicable ; bouquets et cadeaux ; récompenses uniques ; livraison avec collecte/destination/expiration ; achat unique des décorations et personnalisation ; bambins/apprentissages/pique-nique ; suivi familial jusqu’au parc et retour collision-safe ; sauvegarde des positions ; soins du partenaire même quand le joueur est ailleurs, avec dépense de provisions et espacement ; menus reliés aux transactions ; rendez-vous sauvegardés ; attente physique du partenaire avant le mariage ; reprise d’un retour familial après rechargement.
+- Discussion depuis quatre orientations et depuis une position superposée : faces orientées l’une vers l’autre, distance suffisante, joueur dans une position valide, annulation sans progression. Cadrage des deux personnes. Axe avant +Z des modèles/coiffures cohérent avec la marche dans quatre directions.
+- Projet de bébé refusé hors domicile, sans partenaire proche, sans porteur éligible ou avec un choix incohérent, sans dépense. Vrai bouton de rendez-vous, arrivée du partenaire à pied, activation de la conception, choix du porteur, paiement à la fin, sauvegarde et naissance après trois jours. Adoption pour un foyer masculin. Anciennes grossesses, enfants et relations conservés.
+- Les sept habitants employés terminent chacun quatre postes et la fin de service avec les routes réelles. Aucune progression à distance. Sauvegarde/reprise du temps de tâche, rémunération une seule fois par jour. Seul le conjoint cohabitant contribue au compte du joueur. Les deux salaires s’additionnent sans crédit lors des jours sautés ou d’une absence.
+- Conjoint : cuisine consommant une provision/créant deux repas, repas consommé/refaisant la faim, toilette et sommeil refaisant leurs besoins. Discussions spontanées face à face, sans interruption des repas, du sommeil ou du travail.
+- Accès aux trois maisons et aux pièces par des routes valides, portes indépendantes. Déménagement annulé sans dépense, achat au prix prévu, refus pendant le service du joueur, retour gratuit dans un logement acquis. Enfants, objets, rendez-vous et activités restent au bon logement après reprise.
+- Meubles : aucune dépense avant confirmation, chevauchements et passages refusés, trajets domestiques conservés, rotation du volume de collision, déplacement gratuit, rangement et identité sauvegardée. Un meuble valide près du joueur ne se range plus au rechargement. Une personne à son emplacement bloque l’installation. Lecture au bureau : pose visible et compteur incrémenté à la fin.
+- Circulation : freinage puis reprise, collision d’une voiture arrêtée, habitant traversant le trafic sans chevauchement ni blocage permanent, reprise sur la route avec voitures à distance. L’arrière-plan gèle la simulation.
+- Six styles/cinq coiffures sauvegardés sur les deux corps, indices/poids/normales valides des manches longues et nouvelles coiffures, déformation des manches avec les bras, poses finies.
+- Objets hors caméra : rejet derrière la caméra, conservation dans le champ et sur le plan proche, bornes finies. Une vue synthétique ciblée garde 103 des 363 lots statiques avant les autres filtres.
 
-Les scènes dynamiques du potager et des décorations achetées ajoutent des appels de rendu aux 159 lots statiques ; le total exact varie selon la position et le foyer. La V2.1 n’ajoutait pas de modèle externe. La V2.2 ajoute environ 1 Mo de modèles humains servis par le même dépôt.
+La grille indépendante de 40 cm trouve 16 878 positions atteignables et vérifie l’accès aux objets du quartier. La recherche du jeu utilise une grille distincte de 50 cm et une arrivée précise lorsque le dernier segment est libre.
 
-## Calibration et personnages V2.2
+## Corrections issues des essais
 
-Six tests supplémentaires vérifient : zone de repos et progressivité du joystick ; sensibilité et lissage indépendants de la cadence ; trajectoire droite malgré le suivi de caméra ; indices des modèles, normales et poids totalisant 255 ; matrices finies pour toutes les poses et bras animés ; passage des deux morphologies et trois coiffures dans le rendu simulé. L’import de données 3D ne dépend pas du réseau pendant le jeu.
+Une arrivée au rayon pouvait choisir le mauvais voisin de grille et arrêter Noah/Inès trop loin pour travailler. La sélection de la case la plus proche, l’arrivée précise et l’espacement parallèle au rayon corrigent ce blocage. Le test suit leurs services entiers et vérifie les salaires.
 
-La propriétaire a confirmé la fluidité générale de la **V2.1** sur iPhone 16, tout en signalant une sensibilité excessive et des personnages insatisfaisants. Cette observation ne valide pas encore la V2.3.
+Un piéton pouvait entrer dans une voiture qui venait de s’arrêter. Les déplacements des habitants/enfants utilisent désormais son volume et recalculent un trajet après un blocage. La reprise d’une sauvegarde sur une voiture initialement au même endroit est protégée par le placement du trafic à distance.
 
-## Limites de vérification
+La restauration d’un meuble pouvait le ranger lorsque le joueur se tenait juste à côté ; les installations valides sont conservées. Les rendez-vous domestiques suivent le déménagement. Une position ancienne invalide rejoint l’entrée du logement actuel.
 
-Aucun navigateur de test pris en charge n’était disponible. La suite Node simule le DOM et WebGL ; à elle seule, elle ne compile pas les shaders et ne valide pas les images. Elle est maintenant complétée par un rendu OpenGL ES/Mesa réel hors navigateur, décrit ci-dessous. Le moteur logiciel utilisé ne mesure pas le GPU de l’iPhone. La mise en page Safari, les événements tactiles natifs et les FPS sur iPhone 16 restent à vérifier sur appareil.
+Le cadrage centré sur le joueur pouvait couper son interlocuteur en portrait. Le duo sert de cible. Le rendu en coupe retire montants/porte intérieure et la transparence protège aussi le partenaire et le bouquet d’entrée.
 
-## Recette Safari restante
+## Rendu réel hors navigateur
 
-1. Créer/reprendre un personnage et ouvrir son aperçu ; essayer tous les styles et revenir au jeu.
-2. Joystick, course, rotation, pincement, suivi caméra ; passer en portrait/paysage et arrière-plan.
-3. Marcher autour des meubles, ouvrir la porte, sortir du jardin, entrer dans les deux commerces et les maisons de Noah et Emma, revenir à pied.
-4. Cuisiner, manger, se laver, dormir, travailler ; annuler une action et vérifier l’absence de dépense.
-5. Rencontrer un habitant, discuter de ses centres d’intérêt, inviter et vérifier son arrivée ; progresser jusqu’à couple et vie commune.
-6. Se fiancer, se rendre sous l’arche, célébrer le mariage ; adopter ou lancer une grossesse, sauvegarder, recharger et poursuivre.
-7. Nourrir/câliner/jouer avec le bébé, avancer les jours en dormant et vérifier l’enfant mobile.
-8. Utiliser Ma vie, appliquer les ambiances, acheter les décorations, semer/récolter, confectionner/offrir des bouquets, débloquer les recettes et réclamer des objectifs.
-9. Tester le joystick près du centre, les deux réglages de calibration, le suivi caméra avec un geste maintenu en ligne droite, les deux morphologies et les poses des modèles humains.
-10. Prendre une livraison, marcher chez Noah et recevoir le salaire. Vérifier le refus d’une seconde livraison le même jour.
-10. Planifier un rendez-vous et faire venir le partenaire à la cérémonie. Activer l’aide aux enfants, la sortie familiale, attendre les enfants au parc, pique-niquer et rentrer. Recharger pendant la sortie et le retour.
-11. Tester yeux, silhouette, taille, lunettes, looks, ventre évolutif et sons facultatifs.
-12. Exporter/restaurer ; vérifier la persistance des enfants, relations et réglages. Tester les trois résolutions et contrôler visuellement la fluidité.
-
-La publication de la V2.3.1 a été autorisée le 10 octobre 2026, après présentation des correctifs et des 70 tests. La candidate testée reste conservée dans l’historique de `develop/v2.3.1` ; la publication ne modifie que le statut de ces documents.
-
-## Sexe et âge de départ
-
-Cinq tests supplémentaires vérifient la migration et les bornes 6–90 ans, les étapes d’âge et la taille, l’absence de vieillissement automatique, les transactions adultes bloquées sans dépense pour les mineurs, les cadeaux amicaux, la conservation des foyers adultes à l’import, les vrais gestionnaires de sélection, l’aperçu dans le rendu simulé, la sauvegarde/reprise du profil et l’absence de boutons romantiques pour un personnage enfant. Le rendu à taille réduite utilise les modèles existants ; les apparences d’enfant et d’aîné ne constituent pas des modèles dédiés.
-
-## Travail, économie et téléphone V2.3
-
-Quatorze nouveaux tests couvrent : solde et historique cohérents, achats refusés sans transaction, bornes des historiques, migration du solde ancien, métiers réservés aux adultes, lieu et horaires de prise de service, blocage d’un second service, ordre des tâches et refus à distance, sauvegarde à chaque étape, salaire versé une seule fois, progression après trois services, livres et repas avec prix/lieu vérifiés, messages amicaux avec attente et rendez-vous persistants.
-
-Les tests d’intégration déclenchent les boutons du téléphone et des menus de travail, valident un service complet avec annulation/reprise, lisent le crédit dans l’écran du compte, déclenchent lecture/repas/télévision, vérifient les choix sauvegardés, le déplacement du couvert avec la main, les matrices des nouvelles poses, les routes des habitants jusqu’à leurs repas/lectures/TV et la rencontre proposée par téléphone. Tous les nouveaux postes ont une route depuis la maison sans traverser les obstacles. Le simulateur DOM prend désormais en charge les enfants multiples de `append` et l’état `hidden` initial du HTML.
-
-Correction vérifiée pendant ces scénarios : la restauration efface les animations de soin transitoires des habitants afin de reprendre leurs routines actuelles. La tenue du service est temporaire ; les modèles humains existants sont conservés.
-
-## Vérification iPhone V2.3 à effectuer après publication
-
-- Ouvrir Téléphone en portrait et paysage, faire défiler chaque application, vérifier pause/reprise et lisibilité.
-- Choisir un emploi, suivre chaque poste, annuler/reprendre une tâche et recharger au milieu du service ; collecter le salaire et vérifier son inscription au compte.
-- Acheter un livre et un repas au bon commerce, lire sur le canapé ou debout, manger à table, changer/éteindre la télévision. Contrôler visuellement mains, objets et sièges.
-- Envoyer un message, proposer une rencontre au parc, attendre l’habitant, sauvegarder et recharger. Observer petit déjeuner, lecture et TV des habitants aux heures correspondantes.
-- Vérifier les versions des scripts après rechargement et la fluidité selon le réglage de résolution. Le GPU, la mise en page Safari et les FPS restent non mesurés ici.
-
-## Diagnostic et correctifs V2.3.1
-
-L’enregistrement iPhone fourni, d’environ 2 min 35, montre la V2.3 en utilisation réelle malgré le bandeau resté en V2.2. Les déplacements, le téléphone et une livraison rémunérée y sont observés. Il montre aussi une robe avec un torse superposé, des meubles devant le joueur, des étiquettes derrière le HUD et un démarrage du service sans retour visible après 20 h. Le refus horaire est conforme aux règles ; son message était derrière le menu. Cette observation ne valide ni le correctif ni les FPS.
-
-Huit tests de régression supplémentaires vérifient : fermeture explicite et boutons inactifs ; messages d’échec devant menus/téléphone sans mutation de la partie ; résultat de livraison seulement à la fin et achat annulable ; jupe aux poids normalisés, indices valides, sommets bornés et déformés en marche/position assise, sans second torse ; discussion sans ancrage sur chaise, dîners avec siège et chaise libre conservée pour le joueur ; rayons caméra/meuble, maintien des collisions et restauration de l’opacité/écriture de profondeur ; noms ne recouvrant pas les rectangles du HUD ou les autres noms ; version identique du bandeau et des 15 scripts.
-
-Le regroupement des meubles occultants passe de 159 à 176 lots statiques sans ajout de sommets au décor. Chaque jupe ajoute 125 sommets et 192 triangles, générés une fois, soit un appel de rendu supplémentaire pour le style robe. La transparence conserve les géométries déjà chargées. Ces chiffres ne garantissent pas un débit d’images sur iPhone.
-
-Recette ciblée restante : faire tourner la caméra autour du comptoir et des tables ; regarder les robes en marche, assise et en conversation ; manger au café avec les habitants ; tenter un service après 20 h puis le lendemain après 8 h ; provoquer un achat refusé dans un menu et dans le téléphone ; vérifier les étiquettes en portrait/paysage et recharger la sauvegarde. Aucun enregistrement, image de diagnostic ou sauvegarde privée n’est inclus dans le dépôt.
-
-## Diagnostic et correctifs V2.3.2
-
-Le nouvel enregistrement d’environ 64 s affiche bien V2.3.1. Il montre un vêtement appliqué comme une couleur sur le corps, un HUD prenant une grande part de l’écran et une caméra très plongeante, notamment après recentrage. Il montre aussi « Tu prépares le repas » pendant le semis. Ces défauts sont traités dans cette candidate ; l’enregistrement ne valide pas le résultat des nouveaux changements.
-
-Dix régressions supplémentaires vérifient : yeux/sourcils devant le modèle selon l’axe de marche ; maillages de vêtements avec indices, normales et poids valides ; pieds plats au sol en position assise pour les deux corps, trois tailles et trois hauteurs de siège ; assiette restant horizontale pendant le geste ; accès aux anciens raccourcis depuis Menu ; petits déplacements analogiques proportionnels, arrêt immédiat et animation arrêtée contre un obstacle ; semis avec pose et texte adaptés, annulation sans dépense ; aperçu face au personnage et restitution de la caméra ; résolution suivant la taille réellement visible du canvas ; bibliothèque et chaises devenant transparentes lorsqu’elles masquent le joueur, collisions manquantes de l’armoire et du réfrigérateur corrigées.
-
-Les 17 792 positions accessibles et tous les objets/postes atteignables sont recalculés après les deux nouvelles collisions. L’économie, les besoins, les horaires, le foyer, les relations, le schéma et les clés de sauvegarde restent identiques. Une position ancienne désormais dans un meuble est replacée à l’entrée de la maison.
-
-## Contrôle supplémentaire des shaders et images
-
-`tools/capture_render.cjs` charge les scripts du jeu et enregistre leurs buffers, shaders, matrices, couleurs et commandes de dessin avec une partie synthétique. `tools/check_render.py` rejoue ces commandes avec un vrai contexte EGL/OpenGL ES. Aucun navigateur ni serveur n’est utilisé.
-
-Exemple :
+`tools/capture_render.cjs` charge les scripts avec des parties synthétiques et enregistre buffers, shaders, matrices, couleurs et commandes. `tools/check_render.py` les rejoue dans un vrai contexte EGL/OpenGL ES Mesa/llvmpipe. Aucun navigateur ou serveur n’est utilisé.
 
 ```sh
-node tools/capture_render.cjs /tmp/frame.json studio:female:0:walk:0
+node tools/capture_render.cjs /tmp/frame.json conversation
 python tools/check_render.py /tmp/frame.json /tmp/frame.png
 ```
 
-Moteur de contrôle : Mesa 25.2.8, llvmpipe (LLVM 20.1.2), OpenGL ES 3.2. Les shaders GLSL ES 1.00 du jeu compilent et se lient ; les commandes contrôlées ne produisent aucune erreur GL. Les images sont inspectées pour les deux corps, les trois styles, les trois coiffures, marche, repas, lecture, téléphone, repos et les scènes de rue, chambre, potager et café. Ce contrôle a permis de corriger l’orientation des personnages, les manches anguleuses, l’assiette verticale, la position des pieds assis et la chaise masquant le dos du joueur.
+Quatorze cas distincts : conversation dans la rue, conversation du foyer avec grossesse, maisons Sauge/Roseraie (nuit), rue de jour, café avec repas, travail au café, meubles placés, homme en polo marchant, femme en pull lisant avec queue de cheval, homme en sport arrosant avec cheveux bouclés, femme en jupe assise, homme au repos et homme en pull.
 
-Il ne valide **ni les styles CSS et l’agencement réel du HUD, ni Safari/WebKit, ni les événements tactiles natifs, ni les FPS de l’iPhone**. Les animations restent calculées par le jeu, les vêtements n’ont pas de physique de tissu et le décor reste stylisé. Les images et enregistrements de diagnostic ne sont pas ajoutés au dépôt.
+**Aucune erreur de compilation/liaison des shaders ni erreur GL sur les cas exécutés.** Les images sont inspectées pour orientation, vêtements/coiffures, cadrage, accessoires, sièges et occultations. Conversation et famille sont rejouées après les corrections de cadrage et de porte.
 
-La candidate `develop/v2.3.2` est préparée pour validation. `main` conserve la V2.3.1 publiée ; la publication de cette candidate attend un nouvel accord de la propriétaire.
+Décor final : 1 120 objets, 363 lots statiques, 359 940 sommets avant filtrage. Le fichier local des modèles humains, inchangé depuis V2.3.2, mesure 1 009 230 octets. Vêtements, nouvelles coiffures et voitures générés une fois/partagés. Filtrage par champ de vision/distance. Ces nombres ne mesurent pas des FPS.
+
+Ce contrôle ne valide **ni CSS et HUD réel, ni Safari/WebKit, ni gestes tactiles natifs, ni FPS sur iPhone 16**. Aucun enregistrement, capture ou sauvegarde de la propriétaire n’est inclus dans le dépôt.
+
+## Vérifications automatiques
+
+`.github/workflows/validate.yml` exécute syntaxe et trois suites Node.js sur `main`, `develop/**` et les pull requests. Actions officielles fixées à leurs commits vérifiés, accès au dépôt en lecture. Aucune étape de déploiement.
+
+## Recette restante sur iPhone
+
+1. Reprendre la partie : monnaie, foyer, apparence. Joystick, course, arrêt, caméra, pincement, portrait/paysage et arrière-plan.
+2. Observer les deux corps et six tenues en marche ; parler au café/domicile, contrôler visages, sièges, cadrage et étiquettes.
+3. Choisir un métier, suivre quatre postes, annuler/reprendre, recharger au milieu du service, contrôler salaire/historique.
+4. Observer le travail/salaire du conjoint puis son retour/repas. Fermer les menus pour laisser ses trajets avancer.
+5. Rendez-vous à la maison, attendre le partenaire, choisir le porteur, annuler puis terminer le projet, recharger et poursuivre jusqu’à la naissance.
+6. Visiter, déménager, vérifier enfants/meubles. Placer, tourner, déplacer, ranger et réinstaller un meuble ; lire ou arroser.
+7. Traverser la rue, observer le trafic, essayer les trois résolutions et contrôler la fluidité des zones remplies.
+
+Conduite, éditeur de murs, multijoueur et expressions faciales détaillées restent hors de cette version et ne sont pas annoncés comme implémentés.

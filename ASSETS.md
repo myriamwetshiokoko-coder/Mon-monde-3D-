@@ -1,4 +1,4 @@
-# Ressources 3D — V2.3.2
+# Ressources 3D — V2.4.0
 
 Modèles et trois coiffures adaptés du pack **Universal Base Characters — Standard**, par Quaternius.
 
@@ -19,3 +19,5 @@ Le quartier, les accessoires, les couleurs, les sons et les maillages de secours
 V2.3.2 : les matériaux des yeux et sourcils du modèle masculin sont corrigés, y compris les noms avec suffixe dans le convertisseur. Corps, articulations et coiffures partagent l’axe avant +Z attendu par les déplacements et les poses.
 
 Les vêtements sont générés localement par `src/humans.js` : haut à anneaux et manches articulées, chaussures arrondies et fermées, bas découpés et élargis depuis les maillages existants, jupe articulée. Ils héritent de la même licence pour les parties dérivées. Aucun nouveau téléchargement de ressource, texture ou service n’est ajouté. Par corps, le haut ajoute 576 triangles, les chaussures 480, et le bas ajoute 192 (jupe), 984–1 022 (short) ou 2 330–2 372 (pantalon).
+
+V2.4 : les six styles réutilisent ces vêtements, avec un pull à manches longues de 475 sommets et 768 triangles par corps, généré une fois. Les tissus et couleurs supplémentaires sont calculés dans le shader. Les nouvelles coiffures bouclée et queue de cheval sont des maillages procéduraux liés à l’articulation de la tête ; aucune image générée ou ressource externe n’est utilisée. Les voitures, meubles supplémentaires et copies de la maison d’origine sont créés par le code du projet et leurs géométries sont partagées entre instances.
