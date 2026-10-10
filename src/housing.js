@@ -14,7 +14,7 @@ const Housing=((town)=>{
   return null;
  }
  function restore(s,raw){s.home.residence=Object.hasOwn(town.houses,raw?.residence)?raw.residence:'soleil';s.home.owned=[...new Set(['soleil',s.home.residence,...(Array.isArray(raw?.owned)?raw.owned.filter(k=>Object.hasOwn(town.houses,k)):[])])];s.home.furnishings=[];s.home.nextFurniture=1;
-  for(const f of (Array.isArray(raw?.furnishings)?raw.furnishings:[]).slice(0,10)){if(!Object.hasOwn(town.furniture,f?.type))continue;const used=s.home.furnishings.map(a=>a.id),id=Number.isInteger(f.id)&&f.id>0&&!used.includes(f.id)?f.id:s.home.nextFurniture;const a={id,type:f.type,x:Number.isFinite(f.x)?Math.round(f.x*4)/4:0,z:Number.isFinite(f.z)?Math.round(f.z*4)/4:0,turn:[0,1,2,3].includes(f.turn)?f.turn:0};if(f.stored||canPlace(s,a,null,true))a.stored=true;s.home.furnishings.push(a);s.home.nextFurniture=Math.max(s.home.nextFurniture,id+1);}
+  for(const f of (Array.isArray(raw?.furnishings)?raw.furnishings:[]).slice(0,10)){if(!Object.hasOwn(town.furniture,f?.type))continue;const used=s.home.furnishings.map(a=>a.id),id=Number.isInteger(f.id)&&f.id>0&&!used.includes(f.id)?f.id:s.home.nextFurniture;const a={id,type:f.type,x:Number.isFinite(f.x)?Math.round(f.x*4)/4:0,z:Number.isFinite(f.z)?Math.round(f.z*4)/4:0,turn:[0,1,2,3].includes(f.turn)?f.turn:0};if(Number.isInteger(f.finish)&&f.finish>=0&&f.finish<4)a.finish=f.finish;if(f.stored||canPlace(s,a,null,true))a.stored=true;s.home.furnishings.push(a);s.home.nextFurniture=Math.max(s.home.nextFurniture,id+1);}
   if(Number.isSafeInteger(raw?.nextFurniture))s.home.nextFurniture=Math.max(s.home.nextFurniture,raw.nextFurniture);
  }
  const collision=(s,f)=>{const b=bounds(f),h=town.home(s);return [b[0]+h.x,b[1]+h.x,b[2]+h.z,b[3]+h.z];};

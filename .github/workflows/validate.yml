@@ -33,3 +33,5 @@ jobs:
         run: node tests/daily.test.cjs
       - name: Quartier et foyer autonomes
         run: node tests/neighbourhood.test.cjs
+      - name: Personnages, sauvegardes et activités V2.5
+        run: node tests/revision.test.cjs

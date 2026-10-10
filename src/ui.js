@@ -4,10 +4,10 @@ function showMenu(title,text,choices=[]){paused=true;releaseControls();menuTitle
 function closeMenu(){menu.hidden=true;paused=false;releaseControls();near=findNear()}
 $('closeMenu').onclick=closeMenu;
 function beginAction(a){if(activity){inform('Termine ou annule ton activité en cours.');return false}
- a={...a};if(a.planBaby)a.npc=state.family.partnerId;if(a.wedding)a.npc=state.family.partnerId;
+ a={...a};if(a.planBaby&&!a.confirmProject)a.npc=state.family.partnerId;if(a.wedding)a.npc=state.family.partnerId;
  const participant=residents.find(n=>n.id===a.npc);if(participant){state.citizens[participant.id].x=participant.x;state.citizens[participant.id].z=participant.z;}
  const error=Life.can(state,a);if(error){inform(error);return false}
- if(a.npc&&a.pose!=='eat'){const placementError=alignConversation(a);if(placementError){inform(placementError);return false}}
+ if(a.npc&&a.pose!=='eat'&&!a.familyStart){const placementError=alignConversation(a);if(placementError){inform(placementError);return false}}
  if(a.socialAction==='date'&&participant){const pairs=[[[-14.5,28,0,0],[-14.5,30,PI,0]],[[-9.5,28,0,0],[-9.5,30,PI,0]],[[-18.2,26.5,0,0],[-18.2,28.5,PI,0]]],pair=pairs.find(pair=>!residents.some(n=>n!==participant&&pair.some(p=>Math.hypot(n.x-p[0],n.z-p[1])<.7)));if(!pair){inform('Attends qu’une table se libère pour votre rendez-vous.');return false}a.anchor=pair[0];a.partnerAnchor=pair[1];}
  if(a.shiftTask!==undefined){const task=Daily.currentTask(state);if(task)a.anchor=[...task.point,task.dir||0,0];}
  closeMenu();activity={seconds:4,effect:{},...a,anchor:a.anchor||(a.name==='Café Fleur'&&a.pose==='eat'?freeCafeSeat():null),t:0};$('activityTitle').textContent=a.verb;$('activityText').textContent=activityDescription(a);$('activityProgress').style.width='0%';$('activity').classList.add('show');return true}
