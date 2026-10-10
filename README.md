@@ -10,7 +10,7 @@ Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille
 - Les comptoirs, tables et rayons proches deviennent transparents quand ils masquent le joueur ; leurs collisions sont conservées. Cette coupe concerne les meubles des deux commerces, pas chaque objet du quartier.
 - Les noms évitent les boutons, les panneaux et les autres étiquettes. Ils sont masqués pendant les menus et l’aperçu. Bandeau et scripts affichent la même version.
 
-Le correctif est préparé sur `develop/v2.3.1`. Le rendu de la nouvelle jupe et de la transparence reste à vérifier sur Safari/iPhone ; les tests de géométrie et de règles ne remplacent pas cette observation.
+Le correctif V2.3.1 est publié depuis `main` après accord de la propriétaire ; sa branche de développement est conservée sur `develop/v2.3.1`. Le rendu de la nouvelle jupe et de la transparence reste à vérifier sur Safari/iPhone ; les tests de géométrie et de règles ne remplacent pas cette observation.
 
 ## Jouer
 
@@ -124,4 +124,4 @@ Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-
 
 `node tests/simulation.test.cjs` : 63 tests de règles et d’intégration DOM/WebGL simulée. `node tests/daily.test.cjs` : 7 tests supplémentaires d’économie, métiers et téléphone. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 646 objets regroupés en 176 lots statiques, 224 388 sommets statiques ; 17 819 positions atteignables sur la grille de test. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS. Les motifs TV et accessoires utilisent les maillages déjà chargés ; les ajouts ne nécessitent ni nouveau modèle 3D, ni texture, ni dépendance externe.
 
-Branche de travail : `develop/v2.3.1`. La V2.3 est publiée sur `main`. Elle reste préservée jusqu’à l’accord de publication de ce correctif. La V2.2, la V2.3 et les candidates précédentes restent conservées sur leurs branches. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.
+Branche de travail conservée : `develop/v2.3.1`. La V2.3.1 est publiée sur `main` après accord de la propriétaire le 10 octobre 2026. La V2.2, la V2.3 et les candidates précédentes restent conservées sur leurs branches. Les mises à jour approuvées de `main` déclenchent le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.

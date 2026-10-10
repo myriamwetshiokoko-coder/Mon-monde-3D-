@@ -53,7 +53,7 @@ Aucun navigateur de test pris en charge n’était disponible pour cette session
 11. Tester yeux, silhouette, taille, lunettes, looks, ventre évolutif et sons facultatifs.
 12. Exporter/restaurer ; vérifier la persistance des enfants, relations et réglages. Tester les trois résolutions et contrôler visuellement la fluidité.
 
-La branche `develop/v2.3.1` ne remplace pas la V2.3 publiée sans accord.
+La publication de la V2.3.1 a été autorisée le 10 octobre 2026, après présentation des correctifs et des 70 tests. La candidate testée reste conservée dans l’historique de `develop/v2.3.1` ; la publication ne modifie que le statut de ces documents.
 
 ## Sexe et âge de départ
 
