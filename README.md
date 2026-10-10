@@ -1,4 +1,4 @@
-# Mon Monde 3D — V2.0
+# Mon Monde 3D — V2.1
 
 Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille) sont réunis dans cette version. Le quartier reste continu et la maison, le jardin, les activités et les sauvegardes antérieures sont conservés. Jeu personnel WebGL 1, sans serveur de jeu, compte, CDN ni modèles externes. Les ressources originales sont générées par le code.
 
@@ -17,7 +17,7 @@ Quitter la maison, traverser le jardin et le passage piéton : café à gauche, 
 - Mouvement progressif au joystick, rotation du personnage adoucie et déplacements par sous-pas contre le passage à travers les obstacles.
 - Caméra lissée, distance réglable, suivi de direction optionnel, adaptation à l’intérieur et murs masqués dans la pièce occupée.
 - Carte miniature et repères de destination ; affichage prévu pour portrait et paysage, avec zones de sécurité.
-- Quatre teints, trois formes de visage, trois coiffures, quatre couleurs de cheveux, quatre couleurs de vêtements et trois silhouettes vestimentaires.
+- Réglages de taille et silhouette, trois couleurs d’yeux, lunettes et trois looks prêts à porter. Quatre teints, trois formes de visage, trois coiffures, quatre couleurs de cheveux, quatre couleurs de vêtements et trois silhouettes vestimentaires.
 - Maillages anatomiques originaux à anneaux, membres articulés, marche/course, respiration, clignements et bouche animée pendant la discussion. Poses pour dormir, cuisiner, manger, se doucher, s’asseoir, lire et câliner. Les activités principales positionnent visuellement le personnage près du meuble utilisé.
 
 Le rendu reste stylisé et procédural. Il n’atteint pas le semi-réalisme d’un jeu commercial ; l’éditeur n’a pas de curseurs détaillés du visage et les expressions restent simples.
@@ -39,12 +39,28 @@ Les dialogues sont courts et prédéfinis. Il n’y a pas de conversation géné
 3. Se fiancer après un jour de couple et affection 75 : 25 pièces.
 4. Célébrer le mariage sous l’arche du parc : 40 pièces.
 5. Avec un partenaire vivant dans le foyer, choisir une grossesse ou une adoption et nommer le bébé : 30 pièces, maximum deux enfants. Le mariage n’est pas obligatoire.
-6. Une grossesse aboutit après trois jours de jeu ; l’adoption accueille immédiatement un bébé. Le bébé est visible dans son berceau. Nourrir utilise une provision ; câliner, jouer et apaiser augmentent ses besoins.
-7. Après quatre jours, le bébé devient un enfant qui marche dans la maison et conserve ses interactions. Faim, réconfort et jeu diminuent avec le temps.
+6. Une grossesse est visible par un ventre qui évolue en trois étapes et aboutit après trois jours de jeu ; l’adoption accueille immédiatement un bébé. Le bébé est visible dans son berceau. Nourrir utilise une provision ; câliner, jouer et apaiser augmentent ses besoins.
+7. Après deux jours, le bébé devient un bambin mobile ; après quatre jours, il devient un enfant qui marche dans la maison et conserve ses interactions. Faim, réconfort et jeu diminuent avec le temps.
 
 Les durées sont fictives : un jour normal correspond à environ 18 minutes de jeu actif ; dormir permet d’avancer de huit heures. La séparation conserve les enfants et une grossesse en cours. Partenaire, état du couple, grossesse, enfants, besoins et souvenirs sont sauvegardés.
 
-Cette première simulation familiale n’inclut pas de grossesse visuellement évolutive, de génétique, d’école, d’adolescence, de vieillissement adulte, de scènes de cérémonie complexes ou de gestion autonome détaillée du partenaire. Les enfants se déplacent dans la maison et leurs soins sont pilotés par le joueur.
+Cette première simulation familiale n’inclut pas de génétique, d’école, d’adolescence, de vieillissement adulte, de scènes de cérémonie complexes ou de gestion autonome détaillée du partenaire. Les bambins et enfants peuvent suivre le joueur au parc puis rentrer par les chemins. L’aide du partenaire peut être activée pour des soins simples à proximité, espacés de deux heures de jeu. Les apprentissages augmentent un compteur, sans système scolaire.
+
+## Ajouts de la V2.1
+
+Le bouton **Ma vie** réunit les ambiances de maison, objectifs, destinations d’activités, sons facultatifs et conseils. Une humeur est calculée à partir des besoins ; elle renseigne le joueur sans multiplicateur caché.
+
+- Trois ambiances gratuites : terracotta, sauge et lilas, appliquées aux murs, canapé et tapis. Composition florale à 25 pièces et guirlande à 35 pièces achetables à l’épicerie, aux emplacements prévus. Éclairage chaud simulé dans la maison et près des lampadaires le soir.
+- Trois recettes : assiette maison (1 provision/1 portion), brunch (niveau 2, 2 provisions/3 portions), repas familial (niveau 5, 3 provisions/5 portions). Cuisine et quantités sont réellement enregistrées.
+- Potager dans le jardin : semer coûte 5 pièces, récolter à partir du lendemain donne 3 provisions. Une récolte ne peut pas être prise deux fois. Compétence de jardinage.
+- Table créative sur la terrasse : confectionner un bouquet consomme une provision ; offrir le bouquet augmente amitié et affection. Compétence créative. Dessiner restaure les loisirs, sans album d’images générées.
+- Livraison à pied : prendre la commande au café, marcher jusqu’à la maison de Noah, la remettre pour 40 pièces. Une livraison par jour ; commande non livrée expirée le lendemain.
+- Cinq objectifs vérifiés (repas, livraison, amitié, bouquets, enfant), avec récompenses à réclamer une seule fois.
+- Rendez-vous au café : faire venir physiquement le partenaire, puis partager la pause à 12 pièces ; un rendez-vous renforce l’affection. Les plans de rendez-vous sont sauvegardés. Le mariage attend désormais le partenaire sous l’arche.
+- Sortie familiale : les enfants mobiles suivent par les chemins et reviennent à pied à la maison. Le pique-nique consomme une portion et exige un enfant arrivé au parc ; les bébés restent au berceau. Les positions des enfants sont sauvegardées.
+- Sons brefs originaux synthétisés lors des activités, désactivés au départ et activables par choix. Aucun fichier audio ni musique en continu.
+
+La décoration propose des palettes et ajouts fixes, pas un mode construction avec placement libre. Les lumières sont une approximation légère sans ombres réalistes. Les dialogues et soins restent simples. Les bambins ne marchent pas dans les bras du joueur et les bébés ne peuvent pas sortir.
 
 ## Sauvegardes et architecture
 
@@ -58,9 +74,10 @@ Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-
 - `src/game.js` : boucle, caméra, commandes et persistance.
 - `src/community.js` : routines, invitations, enfants et interactions.
 - `src/ui.js` : conversations, famille, carnet, carte et aperçu.
+- `src/enrichment.js` : recettes, maison, objectifs, activités supplémentaires, sorties et aide familiale.
 
 ## Validation et publication
 
-`node tests/simulation.test.cjs` : 26 tests de règles et d’intégration DOM/WebGL simulée. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 613 objets regroupés en 149 lots statiques, 220 872 sommets statiques. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS.
+`node tests/simulation.test.cjs` : 37 tests de règles et d’intégration DOM/WebGL simulée. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 613 objets regroupés en 149 lots statiques, 220 872 sommets statiques. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS.
 
-Branche de travail : `develop/v2.0`. La version V1 publiée sur `main` reste préservée jusqu’à un nouvel accord de publication. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. L’archive V0.2 est conservée dans `archive/v0.2`. Aucun transfert manuel de HTML n’est nécessaire.
+Branche de travail : `develop/v2.1`. La V2 candidate est conservée sur `develop/v2.0`. La version V1 publiée sur `main` reste préservée jusqu’à un nouvel accord de publication. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. L’archive V0.2 est conservée dans `archive/v0.2`. Aucun transfert manuel de HTML n’est nécessaire.

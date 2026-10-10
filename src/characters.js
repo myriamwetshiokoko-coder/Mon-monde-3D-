@@ -7,9 +7,9 @@ shapes.head=profileMesh([[-.20,.015,.03],[-.16,.07,.072],[-.09,.12,.11],[0,.145,
 shapes.limb=profileMesh([[0,.015,.015],[.035,.07,.065],[.20,.075,.065],[.34,.045,.045],[.38,.025,.025]],10);
 const hairColors=['#352a2a','#765340','#ac8457','#171b22'];
 function jointMatrix(x,y,z,sx,sy,sz,yaw,tilt=0){let m=modelMatrix(x,y,z,1,1,1,yaw);if(tilt){const c=Math.cos(tilt),s=Math.sin(tilt);m=mul(m,[1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1])}return mul(m,modelMatrix(0,0,0,sx,sy,sz,0))}
-function human(x,z,dir,teint,tenue,phase,moving,hair=0,face=0,pose='',style=0,hairColor=0,scale=1,lift=0){
+function human(x,z,dir,teint,tenue,phase,moving,hair=0,face=0,pose='',style=0,hairColor=0,scale=1,lift=0,appearance={}){
  const sk=skins[teint],cloth=outfits[tenue],hc=hairColors[hairColor],swing=Math.sin(phase)*.55*moving,bob=moving?Math.abs(Math.sin(phase))*.022:Math.sin(phase*.3)*.007;
- const base=modelMatrix(x,pose==='sleep'?.90:lift,z,scale,scale,scale,dir);const transform=pose==='sleep'?mul(base,[1,0,0,0,0,0,1,0,0,-1,0,0,0,0,-.90,1]):base;
+ const base=modelMatrix(x,pose==='sleep'?.90:lift,z,scale*(appearance.width||1),scale*(appearance.height||1),scale,dir);const transform=pose==='sleep'?mul(base,[1,0,0,0,0,0,1,0,0,-1,0,0,0,0,-.90,1]):base;
  function part(shape,color,px,y,pz,sx,sy,sz,tilt=0){drawOne(shapes[shape],hex(color),mul(transform,jointMatrix(px,y+bob,pz,sx,sy,sz,0,tilt)))}
  const seated=['sit','eat','read','cuddle'].includes(pose),cook=pose==='cook',shower=pose==='shower',wave=pose==='talk';const waist=seated?.5:.78;
  part(style===1?'dress':'torso',cloth,0,style===1?waist-.22:waist,0,1,1,1);
@@ -18,8 +18,10 @@ function human(x,z,dir,teint,tenue,phase,moving,hair=0,face=0,pose='',style=0,ha
  if(hair===1)part('sphere',hc,0,waist+1.10,-.07,.095,.09,.09);
  if(hair===2){for(const side of [-1,1]){part('sphere',hc,side*.135,waist+.85,-.025,.04,.19,.085);part('sphere',hc,side*.13,waist+.7,-.06,.05,.15,.07)}}
  const blink=Math.sin(phase*.21)> .992?.003:.017;
- for(const side of [-1,1]){part('sphere',sk,side*.145,waist+.83,.005,.023,.045,.025);part('sphere','#fffaf2',side*.058,waist+.87,.118,.032,blink,.012);part('sphere','#463531',side*.058,waist+.87,.13,.013,blink,.009);part('cube',hc,side*.06,waist+.915,.117,.066,.01,.014);}
+ for(const side of [-1,1]){part('sphere',sk,side*.145,waist+.83,.005,.023,.045,.025);part('sphere','#fffaf2',side*.058,waist+.87,.118,.032,blink,.012);part('sphere',['#463531','#73917d','#678fac'][appearance.eyes||0],side*.058,waist+.87,.13,.013,blink,.009);part('cube',hc,side*.06,waist+.915,.117,.066,.01,.014);}
  part('sphere',sk,0,waist+.82,.133,.025,.037,.028);part('sphere','#a76766',0,waist+.748,.113,.042,pose==='talk'?.016:.009,.012);
+ if(appearance.glasses){for(const side of [-1,1]){part('cube','#4a4545',side*.058,waist+.90,.136,.083,.009,.013);part('cube','#4a4545',side*.058,waist+.84,.136,.083,.009,.013);for(const e of [-1,1])part('cube','#4a4545',side*.058+e*.039,waist+.87,.136,.008,.066,.013)}part('cube','#4a4545',0,waist+.875,.14,.035,.008,.011)}
+ if(appearance.pregnancy)part('sphere',cloth,0,waist+.19,.10,.17,.20,.10+appearance.pregnancy*.10);
  for(const side of [-1,1]){
   let leg=seated?-1.45:swing*side;
   const hip=[side*.11,waist+.06,0],knee=[hip[0],hip[1]-.38*Math.cos(leg),hip[2]-.38*Math.sin(leg)];
