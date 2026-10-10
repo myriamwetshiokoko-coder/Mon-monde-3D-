@@ -1,18 +1,18 @@
 // Residents have persisted visiting plans, daily destinations and collision-safe paths.
-const npcInfo={lina:{interest:'cuisine',about:'J’aime inventer des recettes et prendre le café avec mes amis.',home:[-12,30.5]},noah:{interest:'jardin',about:'Le parc et le jardinage, c’est mon moment de calme.',home:[27,8]},emma:{interest:'musique',about:'J’aime la musique, les livres et les longues discussions.',home:[-27,8]}};
+const npcInfo={lina:{interest:'cuisine',about:'J’aime inventer des recettes et prendre le café avec mes amis.',home:[-9.5,30]},noah:{interest:'jardin',about:'Le parc et le jardinage, c’est mon moment de calme.',home:[27,8]},emma:{interest:'musique',about:'J’aime la musique, les livres et les longues discussions.',home:[-27,8]}};
 const npcNames={lina:'Lina',noah:'Noah',emma:'Emma'};
 function targetFor(n){const f=state.family,h=state.time;const meet=state.appointments[n.id];
  if(meet?.until>Life.stamp(state))return {key:'meeting'+meet.until,point:meet.point,pose:'',label:'Votre rendez-vous'};
  if(state.visits[n.id]>Life.stamp(state))return {key:'visit',point:[-1,3],pose:'talk',label:'En visite chez toi'};
  if(f.partnerId===n.id&&f.movedIn&&(h>=19||h<8))return {key:f.autoCare?'home-care':'home-together',point:f.autoCare?[2.5,1]:[-3.8,1.4],pose:f.autoCare?'':'watch',anchor:f.autoCare?null:[-4.4,2.65,PI,.18],label:'À la maison'};
- const house=n.id==='noah'?27:-27,seat=n.id==='lina'?[-9.5,30,PI,.12]:n.id==='noah'?[-14.5,30,PI,.12]:[-14.5,28,0,.12];
- if(h<6||h>=22)return {key:'home',point:npcInfo[n.id].home,pose:n.id==='lina'?'sit':'sleep',anchor:n.id==='lina'?[-9.5,30,PI,.12]:[house-1.8,7,0,0],label:'Chez soi'};
+ const house=n.id==='noah'?27:-27,seat=n.id==='lina'?[-9.5,30,PI,0]:n.id==='noah'?[-14.5,30,PI,0]:[-14.5,28,0,0];
+ if(h<6||h>=22)return {key:'home',point:npcInfo[n.id].home,pose:n.id==='lina'?'sit':'sleep',anchor:n.id==='lina'?[-9.5,30,PI,0]:[house-1.8,7,0,0],label:'Chez soi'};
  if(h<8)return {key:'breakfast',point:seat.slice(0,2),pose:'eat',anchor:seat,label:'Petit déjeuner au café'};
- if(h<12)return {key:'morning',point:n.id==='lina'?[-14,31.4]:n.id==='noah'?[10.5,30]:[-9.5,30],pose:n.id==='lina'?'cook':n.id==='emma'?'read':'',anchor:n.id==='emma'?[-9.5,30,PI,.12]:null,label:n.id==='lina'?'Au café':'En ville'};
+ if(h<12)return {key:'morning',point:n.id==='lina'?[-14,31.4]:n.id==='noah'?[10.5,30]:[-9.5,30],pose:n.id==='lina'?'cook':n.id==='emma'?'read':'',anchor:n.id==='emma'?[-9.5,30,PI,0]:null,label:n.id==='lina'?'Au café':'En ville'};
  if(h<14)return {key:'lunch',point:seat.slice(0,2),pose:'eat',anchor:seat,label:'Déjeuner au café'};
  if(h<18)return {key:'park',point:n.id==='lina'?[-6,39.2]:n.id==='noah'?[6,39.2]:[-1,36],pose:n.id==='emma'?'readStand':'read',anchor:n.id==='emma'?null:[n.id==='lina'?-6:6,40,PI,.12],label:'Au parc'};
- if(h<20)return {key:'dinner',point:n.id==='lina'?[-9.5,30]:[house+1,6.2],pose:'eat',anchor:n.id==='lina'?[-9.5,30,PI,.12]:null,label:'Dîner au calme'};
- return {key:'evening',point:n.id==='lina'?[-9.5,30]:[house+2,8.7],pose:'watch',anchor:n.id==='lina'?[-9.5,30,0,.12]:[house+2,9.7,PI,.14],label:'Soirée télévision'};
+ if(h<20)return {key:'dinner',point:n.id==='lina'?[-9.5,30]:[house+2,8.7],pose:'eat',anchor:n.id==='lina'?[-9.5,30,PI,0]:[house+2,9.7,PI,.26],label:'Dîner au calme'};
+ return {key:'evening',point:n.id==='lina'?[-9.5,30]:[house+2,8.7],pose:'watch',anchor:n.id==='lina'?[-9.5,30,0,0]:[house+2,9.7,PI,.26],label:'Soirée télévision'};
 }
 function updateResidents(dt){for(const n of residents){n.moving=0;const t=targetFor(n);n.label=t.label;if(n.el)n.el.textContent=n.name+' · '+n.label;if(n.targetKey!==t.key){n.targetKey=t.key;n.path=Navigation.path([n.x,n.z],t.point,barriers);n.pathIndex=0;n.pose=''}if(activity?.npc===n.id){n.pose='talk';n.dir=Math.atan2(state.x-n.x,state.z-n.z);n.label='En conversation';if(n.el)n.el.textContent=n.name+' · '+n.label;continue;}
  if(n.pathIndex<n.path.length){const p=n.path[n.pathIndex],d=Math.hypot(p[0]-n.x,p[1]-n.z);if(d<.06){n.pathIndex++;continue}const step=Math.min(d,dt*.85);Navigation.move(n,(p[0]-n.x)/d*step,(p[1]-n.z)/d*step,barriers);n.dir=Math.atan2(p[0]-n.x,p[1]-n.z);n.moving=1;n.pose=''}else n.pose=t.pose;

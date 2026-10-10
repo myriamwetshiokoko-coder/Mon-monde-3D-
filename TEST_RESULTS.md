@@ -1,6 +1,6 @@
-# Vérifications V2.3 — 10 octobre 2026
+# Vérifications V2.3.1 — 10 octobre 2026
 
-Commandes : `node tests/simulation.test.cjs` (55 tests) et `node tests/daily.test.cjs` (7 tests). **62 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
+Commandes : `node tests/simulation.test.cjs` (63 tests) et `node tests/daily.test.cjs` (7 tests). **70 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
 
 ## Couverture automatisée
 
@@ -19,7 +19,7 @@ Commandes : `node tests/simulation.test.cjs` (55 tests) et `node tests/daily.tes
 - Déclenchement des gestionnaires joystick/annulation et pincement à deux doigts dans le DOM simulé ; libération du suivi tactile.
 - Concordance mathématique des articulations entre maillage de membre et position du genou.
 
-La grille de 0,4 m atteint **17 819 positions**, avec vérification des segments intermédiaires. La scène contient 646 objets regroupés en 159 lots statiques, pour 224 388 sommets statiques. Ces mesures décrivent la géométrie, pas les FPS.
+La grille de 0,4 m atteint **17 819 positions**, avec vérification des segments intermédiaires. La scène contient 646 objets regroupés en 176 lots statiques, pour 224 388 sommets statiques. Ces mesures décrivent la géométrie, pas les FPS.
 
 ## Ajouts testés en V2.1
 
@@ -53,7 +53,7 @@ Aucun navigateur de test pris en charge n’était disponible pour cette session
 11. Tester yeux, silhouette, taille, lunettes, looks, ventre évolutif et sons facultatifs.
 12. Exporter/restaurer ; vérifier la persistance des enfants, relations et réglages. Tester les trois résolutions et contrôler visuellement la fluidité.
 
-La branche de développement ne remplace pas la V2.1 publiée sans accord.
+La branche `develop/v2.3.1` ne remplace pas la V2.3 publiée sans accord.
 
 ## Sexe et âge de départ
 
@@ -74,3 +74,13 @@ Correction vérifiée pendant ces scénarios : la restauration efface les animat
 - Acheter un livre et un repas au bon commerce, lire sur le canapé ou debout, manger à table, changer/éteindre la télévision. Contrôler visuellement mains, objets et sièges.
 - Envoyer un message, proposer une rencontre au parc, attendre l’habitant, sauvegarder et recharger. Observer petit déjeuner, lecture et TV des habitants aux heures correspondantes.
 - Vérifier les versions des scripts après rechargement et la fluidité selon le réglage de résolution. Le GPU, la mise en page Safari et les FPS restent non mesurés ici.
+
+## Diagnostic et correctifs V2.3.1
+
+L’enregistrement iPhone fourni, d’environ 2 min 35, montre la V2.3 en utilisation réelle malgré le bandeau resté en V2.2. Les déplacements, le téléphone et une livraison rémunérée y sont observés. Il montre aussi une robe avec un torse superposé, des meubles devant le joueur, des étiquettes derrière le HUD et un démarrage du service sans retour visible après 20 h. Le refus horaire est conforme aux règles ; son message était derrière le menu. Cette observation ne valide ni le correctif ni les FPS.
+
+Huit tests de régression supplémentaires vérifient : fermeture explicite et boutons inactifs ; messages d’échec devant menus/téléphone sans mutation de la partie ; résultat de livraison seulement à la fin et achat annulable ; jupe aux poids normalisés, indices valides, sommets bornés et déformés en marche/position assise, sans second torse ; discussion sans ancrage sur chaise, dîners avec siège et chaise libre conservée pour le joueur ; rayons caméra/meuble, maintien des collisions et restauration de l’opacité/écriture de profondeur ; noms ne recouvrant pas les rectangles du HUD ou les autres noms ; version identique du bandeau et des 15 scripts.
+
+Le regroupement des meubles occultants passe de 159 à 176 lots statiques sans ajout de sommets au décor. Chaque jupe ajoute 125 sommets et 192 triangles, générés une fois, soit un appel de rendu supplémentaire pour le style robe. La transparence conserve les géométries déjà chargées. Ces chiffres ne garantissent pas un débit d’images sur iPhone.
+
+Recette ciblée restante : faire tourner la caméra autour du comptoir et des tables ; regarder les robes en marche, assise et en conversation ; manger au café avec les habitants ; tenter un service après 20 h puis le lendemain après 8 h ; provoquer un achat refusé dans un menu et dans le téléphone ; vérifier les étiquettes en portrait/paysage et recharger la sauvegarde. Aucun enregistrement, image de diagnostic ou sauvegarde privée n’est inclus dans le dépôt.

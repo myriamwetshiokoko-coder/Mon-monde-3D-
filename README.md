@@ -1,6 +1,16 @@
-# Mon Monde 3D — V2.3 · Journées vivantes
+# Mon Monde 3D — V2.3.1 · Correctifs
 
 Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille) sont réunis dans cette version. Le quartier reste continu et la maison, le jardin, les activités et les sauvegardes antérieures sont conservés. Jeu personnel WebGL 1, sans serveur de jeu, compte ni CDN. Le quartier est généré par le code ; les modèles humains CC0 sont inclus localement (voir `ASSETS.md`).
+
+## Correctifs V2.3.1
+
+- Le café explique la fermeture de la prise de service après 20 h ; le bouton est désactivé et un trajet vers la maison est proposé. Le salaire quotidien déjà reçu est également signalé. Les règles, prix et rémunérations restent identiques.
+- Les messages d’erreur restent visibles devant les menus et le téléphone. Les récompenses et réponses finales sont affichées après la fin de l’activité.
+- La robe utilise une jupe de 125 sommets animée par le bassin et les cuisses. Le second torse rigide superposé est retiré. Les achats à emporter restent au comptoir ; un repas au café choisit une chaise libre, conservée pendant toute l’activité. Les habitants utilisent des sièges pour dîner et se lèvent correctement pour discuter.
+- Les comptoirs, tables et rayons proches deviennent transparents quand ils masquent le joueur ; leurs collisions sont conservées. Cette coupe concerne les meubles des deux commerces, pas chaque objet du quartier.
+- Les noms évitent les boutons, les panneaux et les autres étiquettes. Ils sont masqués pendant les menus et l’aperçu. Bandeau et scripts affichent la même version.
+
+Le correctif est préparé sur `develop/v2.3.1`. Le rendu de la nouvelle jupe et de la transparence reste à vérifier sur Safari/iPhone ; les tests de géométrie et de règles ne remplacent pas cette observation.
 
 ## Jouer
 
@@ -36,7 +46,7 @@ Limites : l’âge du personnage joueur reste fixe. Les silhouettes jeunes utili
 
 Zone de repos centrale de 18 % du joystick, réponse progressive, vitesse de marche 2,35 m/s et course 3,6 m/s. Relâcher le doigt arrête immédiatement l’entrée. Un second doigt ne prend plus le contrôle du joystick déjà utilisé. Le suivi de caméra conserve la direction initiale du geste ; il ne fait plus tourner involontairement la trajectoire du personnage. La caméra reste immobile pendant les menus et l’aperçu, et son point visé est lissé avec sa position. Sensibilité réduite par défaut, réglable dans Style, comme la zone de repos (10–30 %).
 
-Les modèles utilisent deux appels de rendu (corps et cheveux), plus les accessoires éventuels. Un repli vers les modèles procéduraux existe si le shader humain n’est pas compatible avec le GPU. Le rendu GPU/Safari de cette nouvelle représentation reste à vérifier sur appareil. Les personnages restent stylisés, leurs vêtements sont simples et les expressions faciales n’ont pas de morphing détaillé. Les performances de la V2.1 validées par la propriétaire ne prouvent pas celles de la V2.2.
+Les modèles utilisent deux appels de rendu (corps et cheveux), plus un troisième pour la jupe en style robe et les accessoires éventuels. Un repli vers les modèles procéduraux existe si le shader humain n’est pas compatible avec le GPU. Le rendu GPU/Safari de cette nouvelle représentation reste à vérifier sur appareil. Les personnages restent stylisés, leurs vêtements sont simples et les expressions faciales n’ont pas de morphing détaillé. Les performances de la V2.1 validées par la propriétaire ne prouvent pas celles de la V2.2.
 
 ## Simulation quotidienne et sociale
 
@@ -112,6 +122,6 @@ Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-
 
 ## Validation et publication
 
-`node tests/simulation.test.cjs` : 55 tests de règles et d’intégration DOM/WebGL simulée. `node tests/daily.test.cjs` : 7 tests supplémentaires d’économie, métiers et téléphone. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 646 objets regroupés en 159 lots statiques, 224 388 sommets statiques ; 17 819 positions atteignables sur la grille de test. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS. Les motifs TV et accessoires utilisent les maillages déjà chargés ; les ajouts ne nécessitent ni nouveau modèle 3D, ni texture, ni dépendance externe.
+`node tests/simulation.test.cjs` : 63 tests de règles et d’intégration DOM/WebGL simulée. `node tests/daily.test.cjs` : 7 tests supplémentaires d’économie, métiers et téléphone. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 646 objets regroupés en 176 lots statiques, 224 388 sommets statiques ; 17 819 positions atteignables sur la grille de test. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS. Les motifs TV et accessoires utilisent les maillages déjà chargés ; les ajouts ne nécessitent ni nouveau modèle 3D, ni texture, ni dépendance externe.
 
-Branche de travail : `develop/v2.3`. La V2.1 est publiée sur `main`. Elle reste préservée jusqu’à un nouvel accord de publication. La V2.2 et les candidates précédentes restent conservées sur leurs branches. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.
+Branche de travail : `develop/v2.3.1`. La V2.3 est publiée sur `main`. Elle reste préservée jusqu’à l’accord de publication de ce correctif. La V2.2, la V2.3 et les candidates précédentes restent conservées sur leurs branches. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.

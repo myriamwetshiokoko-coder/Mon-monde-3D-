@@ -1,4 +1,10 @@
 // V0.2 : la maison existante et un extérieur d’un seul tenant, sans chargement.
+const foregroundFixtures=[];
+function fixture(id,zone,build){
+ const start=scene.length;build();const bounds={min:[Infinity,Infinity,Infinity],max:[-Infinity,-Infinity,-Infinity]};
+ for(const o of scene.slice(start)){o.foreground=id;const m=o.m,r=o.shape==='cube'?[.5,.5,.5]:o.shape==='sphere'?[1,1,1]:[1,.5,1];for(let axis=0;axis<3;axis++){const extent=Math.abs(m[axis])*r[0]+Math.abs(m[4+axis])*r[1]+Math.abs(m[8+axis])*r[2];bounds.min[axis]=Math.min(bounds.min[axis],m[12+axis]-extent);bounds.max[axis]=Math.max(bounds.max[axis],m[12+axis]+extent)}}
+ foregroundFixtures.push({id,zone,bounds});
+}
 box('#aed5ab',0,-.22,0,29,.3,29);box('#e8c8b1',0,-.03,0,12.3,.14,10.5);box('#f8eadd',0,.01,0,11.8,.04,10.0);
 box('#ead3c7',0,1.6,-5.05,12.25,3.3,.20);box('#ead3c7',-6.04,1.6,0,.20,3.3,10.3);box('#ead3c7',6.04,1.6,0,.20,3.3,10.3);
 // Façade côté jardin : deux pans de mur encadrent une vraie ouverture praticable.
@@ -101,11 +107,11 @@ function building(cx,color){
 }
 building(-12,'#e4b7a5');building(12,'#c4cbb6');
 // Café: counter, machine, tables and chairs.
-solid(-12,.5,32.7,7,1,.85,'#bb8c73');box('#f9eee0',-12,1.07,32.7,7.2,.12,1);box('#56575a',-14,1.4,32.7,.9,.6,.55);cyl('#e9cda6',-12,1.2,32.5,.17,.22,.17);
-for(let x of [-14.5,-9.5]){solid(x,.75,29,1.4,.1,1.4,'#b58b6e');cyl('#9f7d65',x,.38,29,.12,.7,.12);for(let z of [28,30]){box('#d2aa86',x,.4,z,.55,.12,.5);box('#c8a382',x,.72,z+.2,.55,.7,.08)}flower(x,29)}
+fixture('cafe-counter','café',()=>{solid(-12,.5,32.7,7,1,.85,'#bb8c73');box('#f9eee0',-12,1.07,32.7,7.2,.12,1);box('#56575a',-14,1.4,32.7,.9,.6,.55);cyl('#e9cda6',-12,1.2,32.5,.17,.22,.17)});
+for(let x of [-14.5,-9.5]){fixture('cafe-table-'+x,'café',()=>{solid(x,.75,29,1.4,.1,1.4,'#b58b6e');cyl('#9f7d65',x,.38,29,.12,.7,.12);flower(x,29)});for(let z of [28,30]){box('#d2aa86',x,.4,z,.55,.12,.5);box('#c8a382',x,.72,z+(z>29?.2:-.2),.55,.7,.08)}}
 // Shop shelves are solid, leaving a wide central aisle.
-for(let x of [8.5,15.5]){solid(x,.8,30,.6,1.6,5,'#b6987e');for(let z=28;z<=32;z++)for(let y of [.6,1.2,1.8]){box('#f5dec0',x,y,z,.7,.08,.75);ball(z%2?'#b27a66':'#dcb571',x,y+.18,z,.16,.18,.18)}}
-solid(12,.5,33,3,1,.8,'#b79776');box('#f5eee0',12,1.06,33,3.2,.12,1);
+for(let x of [8.5,15.5])fixture('shop-shelf-'+x,'épicerie',()=>{solid(x,.8,30,.6,1.6,5,'#b6987e');for(let z=28;z<=32;z++)for(let y of [.6,1.2,1.8]){box('#f5dec0',x,y,z,.7,.08,.75);ball(z%2?'#b27a66':'#dcb571',x,y+.18,z,.16,.18,.18)}});
+fixture('shop-counter','épicerie',()=>{solid(12,.5,33,3,1,.8,'#b79776');box('#f5eee0',12,1.06,33,3.2,.12,1)});
 // Park paths, benches, pond, and a decorative residential block.
 box('#e5d5b8',0,.02,36,7,.06,18);box('#e5d5b8',0,.03,39,49,.07,2);
 for(let x of [-23,-18,18,23])for(let z of [30,36,43]){solid(x,1.1,z,.55,2.2,.55,'#88694b');ball('#80ab77',x,3,z,1.6,1.6,1.5);ball('#a0bd80',x+.8,3.3,z,.85,1,.9)}
@@ -130,5 +136,5 @@ for(let y of [.5,1,1.5]){box('#f1e2ce',-1.1,y,-1.62,1,.045,.3);for(let i=0;i<5;i
 box('#42383c',-4.96,1.06,.71,1.24,.73,.08);
 for(let x of [-27,27]){box('#42383c',x+2,1.05,8.74,1.23,.73,.07);box('#ad8d78',x+2,.45,8.74,1.38,.85,.32)}
 box('#42383c',-12,1.7,33.9,1.24,.73,.07);
-for(let x of [-14.5,-9.5]){cyl('#fff0db',x-.42,.87,29.22,.13,.025,.13);cyl('#dcc4a4',x-.42,.96,29.22,.055,.15,.055);ball('#c2955e',x+.3,.86,28.7,.1,.04,.06)}
-box('#d8b788',-15,1.35,32.5,.75,.5,.2);box('#ecd2b2',-15,1.08,32.5,.85,.025,.3);
+for(let x of [-14.5,-9.5]){const start=scene.length;cyl('#fff0db',x-.42,.87,29.22,.13,.025,.13);cyl('#dcc4a4',x-.42,.96,29.22,.055,.15,.055);ball('#c2955e',x+.3,.86,28.7,.1,.04,.06);for(const o of scene.slice(start))o.foreground='cafe-table-'+x}
+const counterDetailStart=scene.length;box('#d8b788',-15,1.35,32.5,.75,.5,.2);box('#ecd2b2',-15,1.08,32.5,.85,.025,.3);for(const o of scene.slice(counterDetailStart))o.foreground='cafe-counter';
