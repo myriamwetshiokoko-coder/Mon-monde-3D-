@@ -1,7 +1,7 @@
 /* Versioned simulation, transactions and family lifecycle. No network or private data. */
 const Life = (() => {
  const needs=['hunger','energy','hygiene','fun','social'],ids=['lina','noah','emma'];
- const defaults={version:2,x:0,z:3,time:9,day:1,hunger:75,energy:82,hygiene:88,fun:72,social:65,name:'Mon personnage',sex:'female',age:24,skin:2,outfit:0,hair:0,face:0,style:0,hairColor:0,money:120,groceries:3,meals:0,relationships:{lina:0,noah:0,emma:0},romance:{lina:0,noah:0,emma:0},lastTalk:{},visits:{},appointments:{},family:{partnerId:null,status:'single',sinceDay:0,movedIn:false,pregnancy:null,children:[],outing:false,autoCare:false},workDay:0,skill:0,journal:[],settings:{quality:1.35,zoom:6.8,follow:false,sound:false,deadZone:.18,sensitivity:.7},appearance:{body:'female',height:1,width:1,eyes:0,glasses:false},home:{theme:0,flowers:false,lights:false},skills:{garden:0,creative:0},garden:{plantedDay:0,harvestDay:0},inventory:{bouquets:0},delivery:null,deliveryDay:0,achievements:[],lastCare:0};
+ const defaults={version:2,x:0,z:3,time:9,day:1,hunger:75,energy:82,hygiene:88,fun:72,social:65,name:'Mon personnage',sex:'female',age:24,skin:2,outfit:0,hair:0,face:0,style:0,hairColor:0,money:120,groceries:3,meals:0,relationships:{lina:0,noah:0,emma:0},romance:{lina:0,noah:0,emma:0},lastTalk:{},visits:{},appointments:{},family:{partnerId:null,status:'single',sinceDay:0,movedIn:false,pregnancy:null,children:[],outing:false,autoCare:false},workDay:0,skill:0,journal:[],settings:{quality:1.35,zoom:6.8,follow:false,sound:false,deadZone:.18,sensitivity:.7},appearance:{body:'female',height:1,width:1,eyes:0,glasses:false},home:{theme:0,flowers:false,lights:false,tvOn:false,tvChannel:0},skills:{garden:0,creative:0},garden:{plantedDay:0,harvestDay:0},inventory:{bouquets:0,books:{novel:true,cookbook:false,garden:false}},career:{job:null,completed:0,shift:null},bank:{entries:[],earned:0,spent:0},phone:{messages:[],lastMessage:{},unread:0},daily:{reading:0,tv:0,meals:0},delivery:null,deliveryDay:0,achievements:[],lastCare:0};
  const recipes={simple:{name:'Assiette maison',provisions:1,portions:1,level:0},brunch:{name:'Brunch gourmand',provisions:2,portions:3,level:2},feast:{name:'Repas de famille',provisions:3,portions:5,level:5}};
  const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));const stamp=s=>s.day*24+s.time;
  function restore(raw){const s=JSON.parse(JSON.stringify(defaults));if(!raw||typeof raw!=='object')return s;
@@ -20,9 +20,17 @@ const Life = (() => {
  if(s.age<18)for(const id of ids)s.romance[id]=0;
  s.journal=Array.isArray(raw.journal)?raw.journal.slice(-30).filter(e=>e&&typeof e.text==='string').map(e=>({day:clamp(Number(e.day)||1,1,s.day),text:e.text.slice(0,140)})):[];
  s.appearance={body:['female','male'].includes(raw.appearance?.body)?raw.appearance.body:s.sex,height:clamp(Number(raw.appearance?.height)||1,.9,1.1),width:clamp(Number(raw.appearance?.width)||1,.85,1.2),eyes:clamp(Math.floor(Number(raw.appearance?.eyes)||0),0,2),glasses:!!raw.appearance?.glasses};
- s.home={theme:clamp(Math.floor(Number(raw.home?.theme)||0),0,2),flowers:!!raw.home?.flowers,lights:!!raw.home?.lights};
+ s.home={theme:clamp(Math.floor(Number(raw.home?.theme)||0),0,2),flowers:!!raw.home?.flowers,lights:!!raw.home?.lights,tvOn:!!raw.home?.tvOn,tvChannel:clamp(Math.floor(Number(raw.home?.tvChannel)||0),0,2)};
  for(const key of ['garden','creative'])s.skills[key]=clamp(Math.floor(Number(raw.skills?.[key])||0),0,1000);
  s.garden={plantedDay:clamp(Math.floor(Number(raw.garden?.plantedDay)||0),0,s.day),harvestDay:clamp(Math.floor(Number(raw.garden?.harvestDay)||0),0,s.day)};
+ for(const key of ['novel','cookbook','garden'])s.inventory.books[key]=key==='novel'||!!raw.inventory?.books?.[key];
+ s.career.job=['cafe','shop'].includes(raw.career?.job)?raw.career.job:null;s.career.completed=clamp(Math.floor(Number(raw.career?.completed)||0),0,1000);
+ const shift=raw.career?.shift;if(shift&&['cafe','shop'].includes(shift.job)&&shift.job===s.career.job&&Number.isFinite(shift.day)&&shift.day<=s.day&&Number.isFinite(shift.step)&&shift.step>=0&&shift.step<=4&&s.age>=18)s.career.shift={job:shift.job,day:clamp(Math.floor(shift.day),1,s.day),step:Math.floor(shift.step)};
+ s.bank.entries=Array.isArray(raw.bank?.entries)?raw.bank.entries.filter(e=>e&&Number.isFinite(e.day)&&Number.isFinite(e.amount)&&Number.isFinite(e.balance)&&typeof e.label==='string').slice(-40).map(e=>({day:clamp(Math.floor(e.day),1,s.day),amount:clamp(Math.round(e.amount),-1e6,1e6),balance:clamp(Math.round(e.balance),0,1e6),label:e.label.slice(0,65)})):[];
+ for(const key of ['earned','spent'])s.bank[key]=clamp(Math.floor(Number(raw.bank?.[key])||0),0,1e9);
+ s.phone.messages=Array.isArray(raw.phone?.messages)?raw.phone.messages.filter(m=>m&&['me','lina','noah','emma','cafe','shop','quartier'].includes(m.from)&&typeof m.text==='string').slice(-30).map(m=>({from:m.from,to:ids.includes(m.to)?m.to:'me',text:m.text.slice(0,180),day:clamp(Math.floor(Number(m.day)||1),1,s.day),time:clamp(Number(m.time)||0,0,24)})):[];
+ for(const id of ids)if(Number.isFinite(raw.phone?.lastMessage?.[id]))s.phone.lastMessage[id]=raw.phone.lastMessage[id];s.phone.unread=clamp(Math.floor(Number(raw.phone?.unread)||0),0,30);
+ for(const key of ['reading','tv','meals'])s.daily[key]=clamp(Math.floor(Number(raw.daily?.[key])||0),0,1e6);
  s.inventory.bouquets=clamp(Math.floor(Number(raw.inventory?.bouquets)||0),0,99);
  if(raw.delivery&&Number.isFinite(raw.delivery.day)&&raw.delivery.day===s.day)s.delivery={day:s.day};
  s.achievements=Array.isArray(raw.achievements)?[...new Set(raw.achievements.filter(v=>['meal','explorer','friend','artist','family'].includes(v)))]:[];
@@ -38,7 +46,11 @@ const Life = (() => {
  function isAdult(s){return s.age>=18}
  function ageStage(s){return s.age<13?'Enfant':s.age<18?'Adolescent':s.age<65?'Adulte':'Aîné'}
  function avatarScale(s){return s.age<13?.65+(s.age-6)*.025:s.age<18?.85+(s.age-13)*.025:1}
+ function transfer(s,amount,label){const before=s.money;s.money=clamp(s.money+amount,0,1e6);const delta=s.money-before;if(!delta)return;s.bank.entries.push({day:s.day,amount:delta,balance:s.money,label:String(label||'Activité').slice(0,65)});if(s.bank.entries.length>40)s.bank.entries.shift();s.bank[delta>0?'earned':'spent']+=Math.abs(delta)}
  function can(s,a){const f=s.family,id=a.npc;
+ if(a.cost!==undefined&&(!Number.isFinite(a.cost)||a.cost<0||!Number.isInteger(a.cost)))return 'Prix invalide.';
+ const dailyError=Life.daily?.can(s,a);if(dailyError)return dailyError;
+ if(a.work&&s.career.shift)return 'Termine ou quitte ton service en cours.';
  if(!isAdult(s)&&(a.wedding||a.planBaby||a.adopt||['flirt','couple','moveIn','propose','date'].includes(a.socialAction)))return 'Les relations de couple et la parentalité sont accessibles à partir de 18 ans.';
  if(a.recipe&&(!recipes[a.recipe]||s.skill<recipes[a.recipe].level))return 'Améliore ta cuisine pour débloquer cette recette.';
  if(a.recipe&&s.groceries<recipes[a.recipe].provisions)return 'Pas assez de provisions pour cette recette.';
@@ -54,7 +66,7 @@ const Life = (() => {
  if(a.picnic&&!f.children.some(c=>stage(s,c)!=='baby'))return 'Une sortie nécessite un bambin ou un enfant.';
  if(a.picnic&&s.meals<1)return 'Prépare un repas à partager.';
  if(a.picnic&&(!f.outing||Math.hypot(s.x,s.z-36)>4))return 'Active la sortie familiale puis retrouve ta famille au parc.';
- if(a.cost&&s.money<a.cost)return 'Pas assez de pièces.';if(a.cook&&s.groceries<1)return 'Achète des provisions à l’épicerie.';if(a.eat&&s.meals<1)return 'Prépare un repas dans la cuisine.';if(a.work&&s.workDay===s.day)return 'Tu as déjà travaillé aujourd’hui.';
+ if(a.cost&&s.money<a.cost)return 'Pas assez de sols.';if(a.cook&&s.groceries<1)return 'Achète des provisions à l’épicerie.';if(a.eat&&s.meals<1)return 'Prépare un repas dans la cuisine.';if(a.work&&s.workDay===s.day)return 'Tu as déjà travaillé aujourd’hui.';
  if(a.socialAction&&!ids.includes(id))return 'Habitant introuvable.';
  if(a.socialAction&&['chat','interest','joke','flirt','gift','date'].includes(a.socialAction)&&stamp(s)-(s.lastTalk[id]??-100)<.16)return 'Laissons un peu de temps entre deux conversations.';
  if(['flirt','couple'].includes(a.socialAction)&&f.partnerId&&f.partnerId!==id)return 'Tu es déjà en couple. Une séparation se décide dans le carnet.';
@@ -68,23 +80,23 @@ const Life = (() => {
  if(a.wedding&&(f.status!=='engaged'||Math.hypot(s.x,s.z-39)>3))return 'Des fiançailles et une présence sous l’arche du parc sont nécessaires.';
  if(a.planBaby||a.adopt){if(!f.partnerId||!f.movedIn)return 'Commencez par vivre ensemble.';if(f.children.length>=2||f.pregnancy)return 'La famille a déjà un projet en cours ou deux enfants.';}
  if(a.child!==undefined&&!s.family.children[a.child])return 'Enfant introuvable.';if(a.care==='feed'&&s.groceries<1)return 'Une provision est nécessaire.';return null}
- function apply(s,a){const error=can(s,a);if(error)return error;s.money-=a.cost||0;if(a.cook){const r=recipes[a.recipe||'simple'];s.groceries-=r.provisions;s.meals+=r.portions;s.skill++}if(a.eat)s.meals--;if(a.shop)s.groceries+=3;if(a.work){s.money+=65+Math.min(20,s.skill);s.workDay=s.day;advance(s,3,true)}if(a.sleep)advance(s,8,true);
+ function apply(s,a){const error=can(s,a);if(error)return error;transfer(s,-(a.cost||0),a.verb||a.name||(a.shop?'Provisions':'Achat'));if(a.cook){const r=recipes[a.recipe||'simple'];s.groceries-=r.provisions;s.meals+=r.portions;s.skill++}if(a.eat)s.meals--;if(a.shop)s.groceries+=3;if(a.work){transfer(s,65+Math.min(20,s.skill),'Salaire au Café Fleur');s.workDay=s.day;advance(s,3,true)}if(a.sleep)advance(s,8,true);
  for(const [k,v]of Object.entries(a.effect||{}))if(needs.includes(k))s[k]=clamp(s[k]+v,0,100);
  if(a.socialAction){const id=a.npc,action=a.socialAction,bonuses={chat:8,interest:12,joke:7,flirt:3,gift:10,date:15};if(bonuses[action]){s.relationships[id]=clamp(s.relationships[id]+bonuses[action],0,100);s.lastTalk[id]=stamp(s)}if(action==='gift'){s.inventory.bouquets--;if(isAdult(s))s.romance[id]=clamp(s.romance[id]+5,0,100)}if(action==='date'){s.romance[id]=clamp(s.romance[id]+18,0,100);record(s,'Un rendez-vous au Café Fleur.')}if(action==='flirt')s.romance[id]=clamp(s.romance[id]+15,0,100);if(action==='couple'){s.family.partnerId=id;s.family.status='couple';s.family.sinceDay=s.day;record(s,'Une nouvelle histoire de couple commence.')}if(action==='moveIn'){s.family.movedIn=true;record(s,'Vous emménagez ensemble à la Maison Soleil.')}if(action==='propose'){s.family.status='engaged';record(s,'Fiançailles : préparez votre cérémonie au parc.')}if(action==='invite')s.visits[id]=stamp(s)+4;
  }else if(a.npc)s.relationships[a.npc]=clamp(s.relationships[a.npc]+12,0,100);
  if(a.wedding){s.family.status='married';record(s,'Mariage célébré au Parc Soleil.')}if(a.planBaby){s.family.pregnancy={dueDay:s.day+3,name:String(a.childName||'Soleil').slice(0,18)};record(s,'Un bébé est attendu dans trois jours de jeu.')}if(a.adopt){addChild(s,a.childName);record(s,'Un bébé rejoint la famille par adoption.')}if(a.child!==undefined){const c=s.family.children[a.child];if(a.care==='feed'){s.groceries--;c.hunger=clamp(c.hunger+55,0,100)}if(a.care==='cuddle')c.comfort=clamp(c.comfort+50,0,100);if(a.care==='play')c.fun=clamp(c.fun+50,0,100);if(a.care==='learn'){c.learning=(c.learning||0)+1;c.fun=clamp(c.fun+25,0,100);c.comfort=clamp(c.comfort+15,0,100)}if(a.care==='sleep')c.comfort=clamp(c.comfort+35,0,100)}
  if(a.plant){s.garden.plantedDay=s.day;s.skills.garden++;record(s,'Le potager est semé : récolte demain.')}if(a.harvest){s.garden.plantedDay=0;s.garden.harvestDay=s.day;s.groceries+=3;s.skills.garden++}
  if(a.bouquet){s.groceries--;s.inventory.bouquets++;s.skills.creative++}
- if(a.startDelivery)s.delivery={day:s.day};if(a.completeDelivery){s.delivery=null;s.deliveryDay=s.day;s.money+=40;record(s,'Livraison chez Noah terminée : 40 pièces.')}
+ if(a.startDelivery)s.delivery={day:s.day};if(a.completeDelivery){s.delivery=null;s.deliveryDay=s.day;transfer(s,40,'Livraison chez Noah');record(s,'Livraison chez Noah terminée : 40 sols.')}
  if(a.purchase)s.home[a.purchase]=true;
  if(a.picnic){for(const c of fChildren(s).filter(c=>stage(s,c)!=='baby')){c.hunger=clamp(c.hunger+35,0,100);c.comfort=clamp(c.comfort+25,0,100);c.fun=clamp(c.fun+35,0,100)}s.meals--;record(s,'Pique-nique en famille au Parc Soleil.')}
- return null}
+ Life.daily?.apply(s,a);return null}
  function fChildren(s){return s.family.children}
  function goals(s){return [{id:'meal',name:'Un repas fait maison',done:s.skill>=1,reward:15},{id:'explorer',name:'Livrer une commande dans le quartier',done:s.deliveryDay>0,reward:20},{id:'friend',name:'Créer une amitié (50)',done:Object.values(s.relationships).some(v=>v>=50),reward:20},{id:'artist',name:'Composer trois bouquets',done:s.skills.creative>=3,reward:25},{id:'family',name:'Accueillir un enfant',done:s.family.children.length>0,reward:30}]}
- function claim(s,id){const g=goals(s).find(g=>g.id===id);if(!g?.done||s.achievements.includes(id))return false;s.achievements.push(id);s.money+=g.reward;record(s,'Objectif accompli : '+g.name);return true}
- function mood(s){const min=Math.min(...needs.map(k=>s[k]));if(min<20)return {name:'Besoin de douceur',color:'#b7746d'};if(s.fun>=80&&s.social>=70)return {name:'Rayonnante',color:'#a67c39'};if(s.energy<40)return {name:'Fatiguée',color:'#8f85a6'};return {name:'Bien dans mon monde',color:'#5e866c'}}
+ function claim(s,id){const g=goals(s).find(g=>g.id===id);if(!g?.done||s.achievements.includes(id))return false;s.achievements.push(id);transfer(s,g.reward,'Objectif : '+g.name);record(s,'Objectif accompli : '+g.name);return true}
+ function mood(s){const min=Math.min(...needs.map(k=>s[k]));if(min<20)return {name:'Besoin de douceur',color:'#b7746d'};if(s.fun>=80&&s.social>=70)return {name:s.sex==='male'?'Rayonnant':'Rayonnante',color:'#a67c39'};if(s.energy<40)return {name:s.sex==='male'?'Fatigué':'Fatiguée',color:'#8f85a6'};return {name:'Bien dans mon monde',color:'#5e866c'}}
  function decay(s,dt){for(const [k,rate]of Object.entries({hunger:.07,energy:.045,hygiene:.03,fun:.045,social:.035}))s[k]=clamp(s[k]-dt*rate,0,100);for(const c of s.family.children){c.hunger=clamp(c.hunger-dt*.065,0,100);c.comfort=clamp(c.comfort-dt*.04,0,100);c.fun=clamp(c.fun-dt*.045,0,100)}}
  function breakup(s){s.family.partnerId=null;s.family.status='single';s.family.movedIn=false;record(s,'Votre couple se sépare. Les enfants restent dans ton foyer.')}
- return {isAdult,ageStage,avatarScale,recipes,goals,claim,mood,needs,defaults,restore,valid,can,apply,advance,decay,stage,record,breakup,stamp,clamp};
+ return {transfer,isAdult,ageStage,avatarScale,recipes,goals,claim,mood,needs,defaults,restore,valid,can,apply,advance,decay,stage,record,breakup,stamp,clamp};
 })();
 if(typeof module!=='undefined')module.exports=Life;

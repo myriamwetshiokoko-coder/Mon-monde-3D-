@@ -1,6 +1,6 @@
-# Vérifications V2.2 — 10 octobre 2026
+# Vérifications V2.3 — 10 octobre 2026
 
-Commande : `node tests/simulation.test.cjs`. **48 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
+Commandes : `node tests/simulation.test.cjs` (55 tests) et `node tests/daily.test.cjs` (7 tests). **62 tests passés** ; tous les modules passent aussi `node --check` et le diff passe `git diff --check`.
 
 ## Couverture automatisée
 
@@ -19,19 +19,19 @@ Commande : `node tests/simulation.test.cjs`. **48 tests passés** ; tous les mod
 - Déclenchement des gestionnaires joystick/annulation et pincement à deux doigts dans le DOM simulé ; libération du suivi tactile.
 - Concordance mathématique des articulations entre maillage de membre et position du genou.
 
-La grille de 0,4 m atteint **17 823 positions**, avec vérification des segments intermédiaires. La scène contient 613 objets regroupés en 149 lots statiques, pour 220 872 sommets statiques. Ces mesures décrivent la géométrie, pas les FPS.
+La grille de 0,4 m atteint **17 819 positions**, avec vérification des segments intermédiaires. La scène contient 646 objets regroupés en 159 lots statiques, pour 224 388 sommets statiques. Ces mesures décrivent la géométrie, pas les FPS.
 
 ## Ajouts testés en V2.1
 
 Onze tests supplémentaires vérifient : recettes débloquées et portions ; récolte différée et non duplicable ; bouquets et cadeaux ; récompenses uniques ; livraison avec collecte/destination/expiration ; achat unique des décorations et personnalisation ; bambins/apprentissages/pique-nique ; suivi familial jusqu’au parc et retour collision-safe ; sauvegarde des positions ; soins du partenaire même quand le joueur est ailleurs, avec dépense de provisions et espacement ; menus reliés aux transactions ; rendez-vous sauvegardés ; attente physique du partenaire avant le mariage ; reprise d’un retour familial après rechargement.
 
-Les scènes dynamiques du potager et des décorations achetées ajoutent des appels de rendu aux 149 lots statiques ; le total exact varie selon la position et le foyer. La V2.1 n’ajoutait pas de modèle externe. La V2.2 ajoute environ 1 Mo de modèles humains servis par le même dépôt.
+Les scènes dynamiques du potager et des décorations achetées ajoutent des appels de rendu aux 159 lots statiques ; le total exact varie selon la position et le foyer. La V2.1 n’ajoutait pas de modèle externe. La V2.2 ajoute environ 1 Mo de modèles humains servis par le même dépôt.
 
 ## Calibration et personnages V2.2
 
 Six tests supplémentaires vérifient : zone de repos et progressivité du joystick ; sensibilité et lissage indépendants de la cadence ; trajectoire droite malgré le suivi de caméra ; indices des modèles, normales et poids totalisant 255 ; matrices finies pour toutes les poses et bras animés ; passage des deux morphologies et trois coiffures dans le rendu simulé. L’import de données 3D ne dépend pas du réseau pendant le jeu.
 
-La propriétaire a confirmé la fluidité générale de la **V2.1** sur iPhone 16, tout en signalant une sensibilité excessive et des personnages insatisfaisants. Cette observation ne valide pas encore la V2.2.
+La propriétaire a confirmé la fluidité générale de la **V2.1** sur iPhone 16, tout en signalant une sensibilité excessive et des personnages insatisfaisants. Cette observation ne valide pas encore la V2.3.
 
 ## Limites de vérification
 
@@ -58,3 +58,19 @@ La branche de développement ne remplace pas la V2.1 publiée sans accord.
 ## Sexe et âge de départ
 
 Cinq tests supplémentaires vérifient la migration et les bornes 6–90 ans, les étapes d’âge et la taille, l’absence de vieillissement automatique, les transactions adultes bloquées sans dépense pour les mineurs, les cadeaux amicaux, la conservation des foyers adultes à l’import, les vrais gestionnaires de sélection, l’aperçu dans le rendu simulé, la sauvegarde/reprise du profil et l’absence de boutons romantiques pour un personnage enfant. Le rendu à taille réduite utilise les modèles existants ; les apparences d’enfant et d’aîné ne constituent pas des modèles dédiés.
+
+## Travail, économie et téléphone V2.3
+
+Quatorze nouveaux tests couvrent : solde et historique cohérents, achats refusés sans transaction, bornes des historiques, migration du solde ancien, métiers réservés aux adultes, lieu et horaires de prise de service, blocage d’un second service, ordre des tâches et refus à distance, sauvegarde à chaque étape, salaire versé une seule fois, progression après trois services, livres et repas avec prix/lieu vérifiés, messages amicaux avec attente et rendez-vous persistants.
+
+Les tests d’intégration déclenchent les boutons du téléphone et des menus de travail, valident un service complet avec annulation/reprise, lisent le crédit dans l’écran du compte, déclenchent lecture/repas/télévision, vérifient les choix sauvegardés, le déplacement du couvert avec la main, les matrices des nouvelles poses, les routes des habitants jusqu’à leurs repas/lectures/TV et la rencontre proposée par téléphone. Tous les nouveaux postes ont une route depuis la maison sans traverser les obstacles. Le simulateur DOM prend désormais en charge les enfants multiples de `append` et l’état `hidden` initial du HTML.
+
+Correction vérifiée pendant ces scénarios : la restauration efface les animations de soin transitoires des habitants afin de reprendre leurs routines actuelles. La tenue du service est temporaire ; les modèles humains existants sont conservés.
+
+## Vérification iPhone V2.3 à effectuer après publication
+
+- Ouvrir Téléphone en portrait et paysage, faire défiler chaque application, vérifier pause/reprise et lisibilité.
+- Choisir un emploi, suivre chaque poste, annuler/reprendre une tâche et recharger au milieu du service ; collecter le salaire et vérifier son inscription au compte.
+- Acheter un livre et un repas au bon commerce, lire sur le canapé ou debout, manger à table, changer/éteindre la télévision. Contrôler visuellement mains, objets et sièges.
+- Envoyer un message, proposer une rencontre au parc, attendre l’habitant, sauvegarder et recharger. Observer petit déjeuner, lecture et TV des habitants aux heures correspondantes.
+- Vérifier les versions des scripts après rechargement et la fluidité selon le réglage de résolution. Le GPU, la mise en page Safari et les FPS restent non mesurés ici.

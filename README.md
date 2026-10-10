@@ -1,10 +1,12 @@
-# Mon Monde 3D — V2.2
+# Mon Monde 3D — V2.3 · Journées vivantes
 
 Suite de la V1.0 : les quatre volets (confort, personnages, vie sociale, famille) sont réunis dans cette version. Le quartier reste continu et la maison, le jardin, les activités et les sauvegardes antérieures sont conservés. Jeu personnel WebGL 1, sans serveur de jeu, compte ni CDN. Le quartier est généré par le code ; les modèles humains CC0 sont inclus localement (voir `ASSETS.md`).
 
 ## Jouer
 
 La racine du dépôt fonctionne sur GitHub Pages sans compilation. Pour un développement local, servir le dossier avec un serveur HTTP ; un HTML isolé ne suffit pas, car les scripts sont dans `src`.
+
+Le bouton **Téléphone** (touche P sur ordinateur) réunit messages, contacts, compte, emplois, agenda, bibliothèque et adresses. Il suspend le temps pendant sa consultation.
 
 Mobile : joystick, glissement pour tourner la caméra, deux doigts pour zoomer, Courir et bouton d’interaction. PC : ZQSD / WASD ou flèches, Maj pour courir, E pour interagir, souris et molette. Les menus suspendent le temps. Une activité peut être annulée sans transaction. Les commandes se libèrent à la perte de focus.
 
@@ -40,19 +42,31 @@ Les modèles utilisent deux appels de rendu (corps et cheveux), plus les accesso
 
 Cuisiner consomme une provision et prépare une portion ; manger à table la consomme. Douche, sommeil, télévision, détente, arrosage, lecture et méditation restaurent les besoins. Les cinq besoins diminuent durant le jeu ; une énergie faible ralentit la marche. Sommeil et travail font avancer l’horloge et diminuent également les besoins pendant les heures écoulées.
 
-120 pièces et trois provisions au départ. Trois provisions coûtent 18 pièces, café/pâtisserie 12 pièces. Un service au café est disponible une fois par jour : 65 pièces plus un bonus de cuisine plafonné à 20, fatigue et trois heures de jeu. La cuisine augmente la compétence.
+120 sols et trois provisions au départ, ou le solde exact de ta partie précédente. Trois provisions coûtent 18 sols, café/pâtisserie 12 sols, repas à emporter 16 sols. Les sols sont la monnaie virtuelle de cette simulation ; aucun paiement ni compte bancaire réel. Les salaires, achats et objectifs utilisent le même solde et enregistrent les 40 dernières opérations. L’historique commence avec la V2.3 ; les opérations des anciennes versions ne sont pas reconstituées. La cuisine augmente sa compétence.
+
+## Journées vivantes V2.3
+
+- **Deux métiers accessibles aux adultes** : service au Café Fleur et employé à l’épicerie. Choisir l’équipe dans Téléphone → Emplois, marcher au comptoir entre 8 h et 20 h et prendre le service. Effectuer quatre tâches à des postes différents : accueillir/préparer/servir/ranger au café, recevoir/remplir les deux rayons/accueillir en caisse à l’épicerie. Une tâche se valide à la fin de son animation, à proximité du poste ; le repère au sol et la carte indiquent la suivante. Retourner au comptoir pour recevoir 65 sols au café ou 60 à l’épicerie. Un seul service payé par jour ; chaque groupe de trois services augmente les salaires de 10 sols (bonus plafonné à 40). Le compteur d’expérience est commun aux deux métiers. La fin du service avance le temps de deux heures fictives et simule les besoins. Une livraison reste une activité distincte, à 40 sols.
+- **Reprise du travail** : poste en cours et progression enregistrés. Annuler l’animation ne valide pas la tâche. Quitter volontairement le service dans le téléphone abandonne sa progression sans salaire ; il est possible de recommencer.
+- **Téléphone jouable** : messages à Lina, Noah et Emma, réponses prédéfinies, notifications, contacts avec position sur la carte, propositions amicales de rencontre au parc après 20 d’amitié, agenda avec besoins et rendez-vous, compte et historique, métiers, bibliothèque et adresses des commerces. Les messages sont fictifs et locaux ; ils ne contactent personne à l’extérieur. Une heure de jeu entre deux messages à un même contact ; ils renforcent seulement l’amitié.
+- **Activités visibles** : assiette avec nourriture et couvert suivant les mains animées, geste de repas ; livre ouvert avec pages, posé entre les mains ; téléphone tenu lors d’un message ; commande portée, rangement et remplissage des rayons. Les animations sont procédurales et simples. Le service donne une tenue temporaire, puis restaure la tenue personnalisée.
+- **Télévision** : trois émissions à choisir au salon, interrupteur, personnage assis et écran animé. Ce sont des motifs 3D animés, sans véritable vidéo ni dialogues audio d’émission. La chaîne et l’état de la télévision sont sauvegardés. Le salon permet également de lire ou se détendre.
+- **Bibliothèque et repas** : un roman offert au départ ; deux livres achetables à l’épicerie (18 et 25 sols), puis lisibles depuis le téléphone ou le meuble bibliothèque. Un livre reste acquis. Lire restaure loisirs et énergie ; les livres ne débloquent pas de compétences spéciales. Le repas à emporter rejoint le sac et se consomme à la table de la maison.
+- **Habitants actifs** : petit déjeuner, déjeuner, promenade et lecture au parc, dîner, télévision et repos suivent l’horloge. Ils rejoignent physiquement leur destination avant de prendre la pose. Les repas utilisent des sièges distincts au café. Les conversations animent aussi l’habitant. Les besoins et dépenses de ces habitants ne sont pas simulés comme ceux du joueur.
+
+Les dialogues sont prédéfinis et les carrières restent limitées à ces deux métiers. Il n’y a pas de connexion multi-appareils, de conversation générée, de circulation automobile, de vidéos réelles sur la TV ou de scènes photoréalistes. Les modèles humains et le calibrage de V2.2, ainsi que le sexe et l’âge de départ, sont inclus.
 
 Lina, Noah et Emma ont des centres d’intérêt distincts et des destinations quotidiennes : domicile, café, ville, parc et soirée. Leurs trajets respectent les collisions. Discussions, anecdotes et sujets préférés augmentent l’amitié ; les compliments romantiques augmentent l’affection. Une courte attente entre les conversations évite la progression instantanée. À partir de 20 d’amitié, une invitation les fait venir physiquement à la maison pendant quatre heures de jeu.
 
-Les dialogues sont courts et prédéfinis. Il n’y a pas de conversation générée, d’inventaire détaillé, de circulation automobile ou de carrière complète.
+Le sac conserve provisions, repas, bouquets et livres ; il ne gère pas chaque objet individuel. Les relations restent enregistrées dans le même foyer.
 
 ## Famille réellement implémentée
 
 1. Se connaître : amitié 55 et affection 40 pour devenir un couple ; les premiers compliments demandent amitié 35.
 2. Emménager ensemble : le partenaire rejoint la Maison Soleil le soir et la nuit.
-3. Se fiancer après un jour de couple et affection 75 : 25 pièces.
-4. Célébrer le mariage sous l’arche du parc : 40 pièces.
-5. Avec un partenaire vivant dans le foyer, choisir une grossesse ou une adoption et nommer le bébé : 30 pièces, maximum deux enfants. Le mariage n’est pas obligatoire.
+3. Se fiancer après un jour de couple et affection 75 : 25 sols.
+4. Célébrer le mariage sous l’arche du parc : 40 sols.
+5. Avec un partenaire vivant dans le foyer, choisir une grossesse ou une adoption et nommer le bébé : 30 sols, maximum deux enfants. Le mariage n’est pas obligatoire.
 6. Une grossesse est visible par un ventre qui évolue en trois étapes et aboutit après trois jours de jeu ; l’adoption accueille immédiatement un bébé. Le bébé est visible dans son berceau. Nourrir utilise une provision ; câliner, jouer et apaiser augmentent ses besoins.
 7. Après deux jours, le bébé devient un bambin mobile ; après quatre jours, il devient un enfant qui marche dans la maison et conserve ses interactions. Faim, réconfort et jeu diminuent avec le temps.
 
@@ -64,13 +78,13 @@ Cette première simulation familiale n’inclut pas de génétique, d’école, 
 
 Le bouton **Ma vie** réunit les ambiances de maison, objectifs, destinations d’activités, sons facultatifs et conseils. Une humeur est calculée à partir des besoins ; elle renseigne le joueur sans multiplicateur caché.
 
-- Trois ambiances gratuites : terracotta, sauge et lilas, appliquées aux murs, canapé et tapis. Composition florale à 25 pièces et guirlande à 35 pièces achetables à l’épicerie, aux emplacements prévus. Éclairage chaud simulé dans la maison et près des lampadaires le soir.
+- Trois ambiances gratuites : terracotta, sauge et lilas, appliquées aux murs, canapé et tapis. Composition florale à 25 sols et guirlande à 35 sols achetables à l’épicerie, aux emplacements prévus. Éclairage chaud simulé dans la maison et près des lampadaires le soir.
 - Trois recettes : assiette maison (1 provision/1 portion), brunch (niveau 2, 2 provisions/3 portions), repas familial (niveau 5, 3 provisions/5 portions). Cuisine et quantités sont réellement enregistrées.
-- Potager dans le jardin : semer coûte 5 pièces, récolter à partir du lendemain donne 3 provisions. Une récolte ne peut pas être prise deux fois. Compétence de jardinage.
+- Potager dans le jardin : semer coûte 5 sols, récolter à partir du lendemain donne 3 provisions. Une récolte ne peut pas être prise deux fois. Compétence de jardinage.
 - Table créative sur la terrasse : confectionner un bouquet consomme une provision ; offrir le bouquet augmente amitié et affection. Compétence créative. Dessiner restaure les loisirs, sans album d’images générées.
-- Livraison à pied : prendre la commande au café, marcher jusqu’à la maison de Noah, la remettre pour 40 pièces. Une livraison par jour ; commande non livrée expirée le lendemain.
+- Livraison à pied : prendre la commande au café, marcher jusqu’à la maison de Noah, la remettre pour 40 sols. Une livraison par jour ; commande non livrée expirée le lendemain.
 - Cinq objectifs vérifiés (repas, livraison, amitié, bouquets, enfant), avec récompenses à réclamer une seule fois.
-- Rendez-vous au café : faire venir physiquement le partenaire, puis partager la pause à 12 pièces ; un rendez-vous renforce l’affection. Les plans de rendez-vous sont sauvegardés. Le mariage attend désormais le partenaire sous l’arche.
+- Rendez-vous au café : faire venir physiquement le partenaire, puis partager la pause à 12 sols ; un rendez-vous renforce l’affection. Les plans de rendez-vous sont sauvegardés. Le mariage attend désormais le partenaire sous l’arche.
 - Sortie familiale : les enfants mobiles suivent par les chemins et reviennent à pied à la maison. Le pique-nique consomme une portion et exige un enfant arrivé au parc ; les bébés restent au berceau. Les positions des enfants sont sauvegardées.
 - Sons brefs originaux synthétisés lors des activités, désactivés au départ et activables par choix. Aucun fichier audio ni musique en continu.
 
@@ -81,6 +95,9 @@ La décoration propose des palettes et ajouts fixes, pas un mode construction av
 Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-plan, manuelle et export/import JSON validé. La V2 utilise `monmonde3d_v2` et reprend automatiquement `monmonde3d_v1`, puis les anciennes V0.2/V0.1, sans effacer ces clés. Les sauvegardes ne sont jamais envoyées au dépôt. Elles restent propres au navigateur et à l’appareil ; exporter permet de les transférer ou les conserver avant de vider Safari.
 
 - `src/core.js` : règles pures, validation, économie, relations et cycle familial.
+- `src/daily.js` : métiers, tâches, messages et nouveaux achats, règles pures.
+- `src/phone.js` : téléphone, compte, emplois, contacts et agenda.
+- `src/everyday.js` : activités visibles, accessoires, travail sur place et télévision.
 - `src/navigation.js` : recherche de chemins et déplacement avec collisions.
 - `src/engine.js` : WebGL, matrices, géométries.
 - `src/controls.js` : calibration et lissage des entrées.
@@ -95,6 +112,6 @@ Sauvegarde locale automatique toutes les six secondes et à la mise en arrière-
 
 ## Validation et publication
 
-`node tests/simulation.test.cjs` : 43 tests de règles et d’intégration DOM/WebGL simulée. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 613 objets regroupés en 149 lots statiques, 220 872 sommets statiques. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS.
+`node tests/simulation.test.cjs` : 55 tests de règles et d’intégration DOM/WebGL simulée. `node tests/daily.test.cjs` : 7 tests supplémentaires d’économie, métiers et téléphone. Voir `TEST_RESULTS.md` pour les détails et les vérifications Safari restantes. 646 objets regroupés en 159 lots statiques, 224 388 sommets statiques ; 17 819 positions atteignables sur la grille de test. Résolution réglable 1, 1.35 ou 1.7 pixel par pixel CSS. Ces chiffres ne constituent pas une mesure de FPS. Les motifs TV et accessoires utilisent les maillages déjà chargés ; les ajouts ne nécessitent ni nouveau modèle 3D, ni texture, ni dépendance externe.
 
-Branche de travail : `develop/v2.2`. La V2.1 est publiée sur `main`. Elle reste préservée jusqu’à un nouvel accord de publication de la V2.2. Les candidates précédentes sont conservées sur leurs branches. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. L’archive V0.2 est conservée dans `archive/v0.2`. Aucun transfert manuel de HTML n’est nécessaire.
+Branche de travail : `develop/v2.3`. La V2.1 est publiée sur `main`. Elle reste préservée jusqu’à un nouvel accord de publication. La V2.2 et les candidates précédentes restent conservées sur leurs branches. Une fusion sur `main` déclenchera le déploiement GitHub Pages existant. Aucun transfert manuel de HTML n’est nécessaire. Les scripts portent une version d’URL pour renouveler leur cache après cette mise à jour.

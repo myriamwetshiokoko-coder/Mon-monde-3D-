@@ -13,7 +13,7 @@ function human(x,z,dir,teint,tenue,phase,moving,hair=0,face=0,pose='',style=0,ha
  const sk=skins[teint],cloth=outfits[tenue],hc=hairColors[hairColor],swing=Math.sin(phase)*.55*moving,bob=moving?Math.abs(Math.sin(phase))*.022:Math.sin(phase*.3)*.007;
  const base=modelMatrix(x,pose==='sleep'?.90:lift,z,scale*(appearance.width||1),scale*(appearance.height||1),scale,dir);const transform=pose==='sleep'?mul(base,[1,0,0,0,0,0,1,0,0,-1,0,0,0,0,-.90,1]):base;
  function part(shape,color,px,y,pz,sx,sy,sz,tilt=0){drawOne(shapes[shape],hex(color),mul(transform,jointMatrix(px,y+bob,pz,sx,sy,sz,0,tilt)))}
- const seated=['sit','eat','read','cuddle'].includes(pose),cook=pose==='cook',shower=pose==='shower',wave=pose==='talk';const waist=seated?.5:.78;
+ const seated=['sit','eat','read','cuddle','watch'].includes(pose),cook=pose==='cook',shower=pose==='shower',wave=pose==='talk';const waist=seated?.5:.78;
  part(style===1?'dress':'torso',cloth,0,style===1?waist-.22:waist,0,1,1,1);
  part('cyl',sk,0,waist+.61,0,.053,.15,.053);part('head',sk,0,waist+.83,.012,1+face*.07,1,1);
  part('sphere',hc,0,waist+.99,-.017,.147,.082,.126);
@@ -30,10 +30,12 @@ function human(x,z,dir,teint,tenue,phase,moving,hair=0,face=0,pose='',style=0,ha
   part('limb',style===2?sk:'#4e4750',hip[0],hip[1],hip[2],1,-1,1,leg);part('sphere',style===2?sk:'#4e4750',...knee,.047,.052,.047);
   const bend=seated?0:Math.max(0,-swing*side)*.9;part('limb',style===2?sk:'#4e4750',knee[0],knee[1],knee[2],.8,-.95,.85,bend);
   part('sphere','#f3e6d3',knee[0],knee[1]-.36*Math.cos(bend),knee[2]-.36*Math.sin(bend)+.07,.085,.054,.14);
-  let arm=-swing*side*.75;if(cook||shower||pose==='eat'||pose==='cuddle')arm=-.85+Math.sin(phase)*.15;if(wave&&side===1)arm=-1.25+Math.sin(phase)*.2;
+  let arm=-swing*side*.75;if(cook||shower||['eat','cuddle','read','readStand','phone','carry','serve','stock','clean'].includes(pose))arm=-.85+Math.sin(phase)*.15;if(wave&&side===1)arm=-1.25+Math.sin(phase)*.2;
   const shoulder=[side*.225,waist+.48,0],elbow=[side*.245,shoulder[1]-.27*Math.cos(arm),-.27*Math.sin(arm)];part('limb',cloth,...shoulder,.9,-.7,.9,arm);part('limb',sk,...elbow,.68,-.65,.7,arm*.6);part('sphere',sk,elbow[0],elbow[1]-.24*Math.cos(arm*.6),elbow[2]-.24*Math.sin(arm*.6),.042,.06,.038);
  }
  if(['cook','eat'].includes(pose)){part('sphere','#efcea4',0,waist+.16,.37,.14,.038,.14);part('sphere','#a16c44',.04,waist+.20,.36,.06,.022,.04)}
- if(pose==='read'){part('cube','#eee0c4',0,waist+.25,.33,.28,.02,.18)}
+ if(['read','readStand'].includes(pose)){part('cube','#eee0c4',0,waist+.25,.33,.28,.02,.18)}
+ if(pose==='phone')part('cube','#4f464e',.15,waist+.42,.27,.085,.15,.014);
+ if(['carry','stock'].includes(pose))part('cube','#c39a70',0,waist+.23,.33,.32,.22,.26);
 }
 function drawBaby(c,index){const x=3.9+index*1.2,z=-.5;dynamic('sphere',outfits[outfit],x,.82,z,.19,.07,.3);dynamic('sphere',skins[c.skin],x,.88,z+.22,.11,.1,.1);for(const side of [-1,1])dynamic('sphere','#473531',x+side*.035,.955,z+.26,.01,.01,.01)}
