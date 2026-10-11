@@ -35,6 +35,26 @@ for(let xx of [-1.20,1.48]){box('#ad8d78',xx,.48,.5,.40,.16,.58);box('#ad8d78',x
 for(let x of [-5.25,5.25])for(let z of [-4.6,4.5])cyl('#b3c5a9',x,.1,z,.24,.15,.24);flower(5.6,.8);flower(-5.5,4.1);
 for(let z=-11;z<12;z+=2.2){ball('#87b88a',-10,.8,z,1,1.7,1);ball('#91be93',10,.75,z,1,1.5,1)}
 
+// Refined home surfaces stay within the original collision volumes.
+for(const o of scene){const c=o.color.map(v=>Math.round(v*255).toString(16).padStart(2,'0')).join('');if(o.shape==='cube'&&['f0e7d9','ddb4a6','f7e1d2','fef8ee'].includes(c)){o.shape='sphere';for(let k=0;k<12;k++)o.m[k]*=.5;}}
+// Parquet joints, cabinet fronts and hardware add scale without new obstacles.
+for(let x=-5.7;x<=5.7;x+=.45)box('#e4d2bd',x,.036,0,.012,.002,9.9);
+for(let x=-5.35;x<-1.2;x+=.78){box('#d1a795',x,.48,-3.512,.014,.74,.012);box('#987b63',x+.22,.73,-3.50,.19,.018,.027);}
+for(let x of [-4.35,-3.55,-2.75,-2.05]){box('#c3a48a',x,1.8,-4.858,.012,.68,.013);box('#92745b',x+.17,1.78,-4.845,.025,.12,.027);}
+// Rounded sofa feet and layered bedding; no change to the navigable floor plan.
+for(let x of [-4.8,-3.1])for(let z of [2.25,3.12])cyl('#7d6556',x,.15,z,.045,.24,.045);
+for(let z of [-3.65,-3.3,-2.95])box('#e8bda6',3.15,.916,z,2,.016,.026);
+for(let x of [2.6,3.52])ball('#e8d7bd',x,.945,-4.40,.32,.055,.17);
+// Kitchen tools and a correctly sized hob, kept on the worktop.
+for(const o of scene)if(o.shape==='cyl'&&o.m[13]===1.05&&o.m[14]===-3.95){o.m[0]*=.43;o.m[10]*=.43;}
+cyl('#4c4e50',-2.75,1.1,-3.95,.17,.10,.17);box('#4c4e50',-2.42,1.13,-3.95,.35,.035,.045);
+cyl('#d2b68e',-3.3,1.09,-3.86,.16,.10,.16);box('#c49568',-3.3,1.055,-3.66,.45,.025,.32);
+for(let x of [-3.43,-3.33,-3.23])ball('#d88853',x,1.09,-3.66,.04,.025,.03);
+cyl('#8d9b95',-4.35,1.22,-4.10,.022,.28,.022);box('#8d9b95',-4.35,1.36,-3.99,.045,.035,.24);
+// Small framed artwork, table runner and a woven rug pattern.
+box('#a98d72',-5.84,1.74,2.0,.06,.92,.72);box('#c7d6c0',-5.80,1.74,2.0,.013,.77,.57);
+box('#ceaca0',.18,.874,.53,.33,.012,1.24);for(let z=.8;z<=3.6;z+=.14)box('#e2b8a6',-3.2,.073,z,4.2,.003,.015);
+
 // Retain the original house meshes; the two new homes share its proven interior.
 const houseTemplate=scene.filter(o=>Math.abs(o.m[12])<6.4&&Math.abs(o.m[14])<5.4&&Math.abs(o.m[0])<13&&Math.abs(o.m[10])<11);
 for(const o of houseTemplate)o.homeId='soleil';

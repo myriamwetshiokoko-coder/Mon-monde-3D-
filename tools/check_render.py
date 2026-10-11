@@ -55,8 +55,8 @@ for name,a,result in frame['commands']:
         if locations[a[0]]>=0:gf('glVertexAttribPointer',None,[u,i,u,C.c_ubyte,i,ptr])(locations[a[0]],*a[1:5],ptr(a[5]))
     elif name=='uniformMatrix4fv':
         data=floats(a[2]);gf('glUniformMatrix4fv',None,[i,i,C.c_ubyte,ptr])(obj(a[0]),len(data)//16,a[1],data.ctypes.data)
-    elif name=='uniform3fv':
-        data=floats(a[1]);gf('glUniform3fv',None,[i,i,ptr])(obj(a[0]),len(data)//3,data.ctypes.data)
+    elif name in ('uniform3fv','uniform4fv'):
+        data=floats(a[1]);gf('glUniform4fv' if name=='uniform4fv' else 'glUniform3fv',None,[i,i,ptr])(obj(a[0]),len(data)//(4 if name=='uniform4fv' else 3),data.ctypes.data)
     elif name=='uniform1f':gf('glUniform1f',None,[i,f])(obj(a[0]),a[1])
     elif name in ('enable','disable','depthFunc','clear'):gf('gl'+name[0].upper()+name[1:],None,[u])(*a)
     elif name=='depthMask':gf('glDepthMask',None,[C.c_ubyte])(*a)

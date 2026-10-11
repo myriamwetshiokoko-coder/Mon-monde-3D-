@@ -1,8 +1,22 @@
-# Mon Monde 3D — V3.0.0
+# Mon Monde 3D — V4.0.0 · refonte à valider
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
 **Publication V3.0.0 autorisée par la propriétaire le 11 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v3-foyer` conserve le développement validé. La grande refonte sera développée séparément.**
+
+## Refonte V4 préparée
+
+Développement sur `develop/refonte-personnages`. La V3.0 reste publiée ; **pas de remplacement sans nouvel accord**. La base humaine articulée CC0 est conservée et enrichie. Cette version reste stylisée, sans modèle photoréaliste ni expressions faciales complètes.
+
+- **Studio 3D isolé** : le décor et les habitants sont masqués pour inspecter le personnage. Tourner à gauche/droite par pas de 45°, glisser sur le rendu, cadrage visage ou silhouette, poses de repos, discussion, lecture, repas et cuisine. Les animations du studio utilisent leur propre horloge, sans faire avancer la partie. Le personnage est présenté de face à l’ouverture ; l’ancienne caméra revient à la sortie.
+- **Visage personnel** : mâchoire et nez modifient réellement les sommets du visage ; lèvres, sourcils et intensité du maquillage modifient ses détails visibles. Boucles dorées, collier ou les deux ; clignements périodiques et petite animation de la bouche en discussion. Détails limités aux personnages proches pour limiter les dessins. Les réglages se sauvegardent par membre du foyer ; les anciennes parties reçoivent des réglages neutres.
+- **Gestes adaptés** : les bras ont un placement analytique à deux segments, avec limites de portée. Les mains rejoignent des cibles différentes pour lire, manger, utiliser le téléphone, cuisiner, discuter et manipuler une livraison. La cuillère monte vers le visage, le livre ouvert est incliné et tenu entre les mains. Les animations restent procédurales, sans capture de mouvement ni doigts articulés.
+- **Cuisine en quatre gestes** : préparer, découper avec un couteau, mélanger puis servir avec l’assiette. Annuler reste gratuit en provisions ; validation une seule fois. Casserole, planche, ingrédients et robinet ajoutés au plan de travail. Les métiers existants bénéficient des nouveaux gestes pour leurs poses déjà utilisées ; leurs règles et décisions sont conservées.
+- **Huit tenues** : cardigan à manches longues et robe longue articulée ajoutés aux six styles existants. Silhouette féminine adoucie, calotte des coiffures ajoutées arrondie ; cheveux longs reculés pour éviter de traverser le haut, peau masquée sous les manches du cardigan.
+- **Intérieurs** : coussins/oreillers arrondis, pieds du canapé, couches de literie, parquet et tapis détaillés, façades/poignées de cuisine, plaque redimensionnée, petite décoration encadrée et chemin de table. Les trois maisons héritent des détails sans modifier leurs volumes de collision.
+- **Huit meubles supplémentaires au catalogue** : bibliothèque ouverte (80 sols), banquette capitonnée (70) et console avec miroir décoratif (55), en plus des cinq précédents. Achat, placement tactile, rotation, quatre finitions, déplacement et rangement restent communs. Bibliothèque et banquette proposent la lecture ; le miroir est décoratif. Dix meubles supplémentaires maximum. Les meubles d’origine et les murs restent fixes.
+
+Validation : **155 tests** (143 conservés + 12 nouveaux), syntaxe et structure HTML. Rendus des personnages de face, de profil et de dos, gros plans, studio réel et intérieurs dans EGL/OpenGL ES ; détails dans `TEST_RESULTS.md`. Pas encore de validation CSS/Safari/tactile/FPS sur iPhone.
 
 ## Foyer jouable V3
 
@@ -32,7 +46,7 @@ Aucun nouveau modèle humain ni refonte graphique complète dans cette étape : 
 ## Fonctionnalités conservées
 
 - Marche orientée vers le déplacement. Conversations face à face, personnes espacées et caméra cadrant le duo. Les habitants quittent leur siège pour discuter. Portes, montants et meubles masquant les acteurs rejoignent le rendu en coupe ou la transparence.
-- Deux corps humains articulés, six styles vestimentaires, six teints, huit couleurs de haut, huit coiffures et cinq couleurs de cheveux. Chemise/pantalon, blouse/jupe, T-shirt/short, polo/jean, pull à manches longues, tenue de sport. Couleurs indépendantes du pantalon et des chaussures. Sexe, âge de départ, morphologie, silhouette, taille, visage, yeux et lunettes restent réglables.
+- Deux corps humains articulés, huit styles vestimentaires, six teints, huit couleurs de haut, huit coiffures et cinq couleurs de cheveux. Chemise/pantalon, blouse/jupe, T-shirt/short, polo/jean, pull à manches longues, tenue de sport. Couleurs indépendantes du pantalon et des chaussures. Sexe, âge de départ, morphologie, silhouette, taille, visage, yeux et lunettes restent réglables.
 - Huit habitants : Lina, Noah, Emma, Adam, Inès, Sami, Jade et Hugo. Chacun conserve sa position, ses besoins, son emploi éventuel et sa progression de service. Ils mangent, lisent, se reposent, se rendent au travail et engagent des discussions entre eux.
 - Trois métiers sur place : café, épicerie et jardinage. Quatre tâches visibles puis retour au poste de départ pour recevoir le salaire. Gestes et accessoires : assiette, commandes, provisions, arrosoir et balai. Les habitants employés suivent également ces postes physiquement.
 - Le conjoint cohabitant a un métier choisi dans **Menu → Mon foyer → Métier et journée**. Son salaire rejoint le compte du foyer après son service complet, une fois par jour. Celui du joueur s’y ajoute. Le conjoint peut cuisiner deux repas avec une provision, manger un repas du foyer, se rafraîchir, se détendre, dormir et aider les enfants lorsque cette option est activée.
@@ -79,7 +93,7 @@ Sauvegarde automatique locale toutes les six secondes de jeu et à l’arrière-
 
 ## Vérifications et architecture
 
-143 tests locaux passent : 73 de simulation/intégration, 7 d’économie/métiers, 28 du quartier/foyer, 15 de révision V2.5 et 20 du foyer jouable. Les gestionnaires d’interface sont exécutés avec DOM et WebGL simulés. Des rendus EGL/OpenGL ES compilent les shaders et dessinent les scènes réelles hors navigateur ; détails dans `TEST_RESULTS.md`.
+155 tests locaux passent : 73 de simulation/intégration, 7 d’économie/métiers, 28 du quartier/foyer, 15 de révision V2.5 20 du foyer jouable et 12 de refonte. Les gestionnaires d’interface sont exécutés avec DOM et WebGL simulés. Des rendus EGL/OpenGL ES compilent les shaders et dessinent les scènes réelles hors navigateur ; détails dans `TEST_RESULTS.md`.
 
 ```sh
 node tests/simulation.test.cjs
@@ -87,16 +101,17 @@ node tests/daily.test.cjs
 node tests/neighbourhood.test.cjs
 node tests/revision.test.cjs
 node tests/home-control.test.cjs
+node tests/refonte.test.cjs
 ```
 
 Le workflow **Vérifications du jeu** exécute ces suites sur `main`, `develop/**` et les pull requests. Il ne publie pas le jeu. La mise en ligne conserve le dépôt et la configuration GitHub Pages existants après accord, sans remplacement manuel du HTML.
 
-Modules : `town.js` pour identités/logements/catalogues ; `core.js` et `daily.js` pour simulation/transactions ; `household.js` pour habitants/revenus ; `home-control.js` pour les identités personnelles et la sauvegarde du foyer ; `home-play.js` pour le contrôle et l’interface du foyer ; `housing.js` pour placement/migration ; `navigation.js` et `traffic.js` pour déplacements ; modules de rendu et d’interface pour le monde et les commandes. Aucun paquet à installer pour jouer ou exécuter les tests Node.js.
+Modules : `town.js` pour identités/logements/catalogues ; `core.js` et `daily.js` pour simulation/transactions ; `household.js` pour habitants/revenus ; `home-control.js` pour les identités personnelles et la sauvegarde du foyer ; `home-play.js` pour le contrôle et l’interface du foyer ; `motion-rig.js` pour le placement des bras, `face-design.js` pour les valeurs personnelles et `studio.js` pour le studio ; `housing.js` pour placement/migration ; `navigation.js` et `traffic.js` pour déplacements ; modules de rendu et d’interface pour le monde et les commandes. Aucun paquet à installer pour jouer ou exécuter les tests Node.js.
 
 ## Limites actuelles
 
 CSS Safari, tactile natif et FPS sur iPhone 16 restent à valider sur appareil. Le rendu est stylisé, les animations procédurales et les réponses de dialogue prédéfinies. Pas de simulation physique du tissu ni d’expressions faciales détaillées.
 
-Les voitures circulent mais ne sont pas conduisibles. Les trois logements partagent un plan ; les meubles d’origine restent fixes. Seuls les cinq types supplémentaires se déplacent. Pas encore d’éditeur de murs/étages, de commerce géré par le joueur ou de loyer.
+Les voitures circulent mais ne sont pas conduisibles. Les trois logements partagent un plan ; les meubles d’origine restent fixes. Seuls les huit types supplémentaires se déplacent. Pas encore d’éditeur de murs/étages, de commerce géré par le joueur ou de loyer.
 
 Le projet de bébé utilise un moment de couple habillé et un calendrier fictif. Deux enfants au maximum ; bambin après deux jours, enfant après quatre. L’âge choisi pour le joueur reste fixe ; enfants et aînés n’ont pas de corps dédiés. Pas de multijoueur, connexion de compte ni synchronisation entre appareils.
