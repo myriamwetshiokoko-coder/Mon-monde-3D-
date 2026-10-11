@@ -1,8 +1,8 @@
-# Mon Monde 3D — V3.0.0 · candidat
+# Mon Monde 3D — V3.0.0
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
-**La V2.5.0 reste publiée sur `main`. Cette V3.0.0 est préparée sur `develop/v3-foyer` et attend un nouvel accord avant publication.**
+**Publication V3.0.0 autorisée par la propriétaire le 11 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v3-foyer` conserve le développement validé. La grande refonte sera développée séparément.**
 
 ## Foyer jouable V3
 

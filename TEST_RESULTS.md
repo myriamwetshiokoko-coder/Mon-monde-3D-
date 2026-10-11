@@ -1,6 +1,6 @@
-# Vérifications — V3.0.0 · candidat
+# Vérifications — V3.0.0
 
-Vérifications locales effectuées le 11 octobre 2026 sur `develop/v3-foyer`. La V2.5 reste publiée ; aucune publication V3 autorisée à cette étape.
+Vérifications locales effectuées le 11 octobre 2026 sur `develop/v3-foyer`. Publication V3 autorisée par la propriétaire le 11 octobre 2026. Les vérifications GitHub du code validé ont également réussi.
 
 | Suite | Réussis |
 | --- | ---: |
