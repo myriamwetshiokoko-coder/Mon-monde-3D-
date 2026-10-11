@@ -37,3 +37,5 @@ jobs:
         run: node tests/revision.test.cjs
       - name: Deux membres dans le même foyer V3
         run: node tests/home-control.test.cjs
+      - name: Studio, poses et apparence V4
+        run: node tests/refonte.test.cjs

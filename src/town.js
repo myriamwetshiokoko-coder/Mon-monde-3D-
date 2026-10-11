@@ -12,8 +12,9 @@ const Town=(()=>{
  ];
  const ids=people.map(p=>p.id),byId=Object.fromEntries(people.map(p=>[p.id,p]));
  const houses={soleil:{name:'Maison Soleil',x:0,z:0,price:0,theme:0},sauge:{name:'Maison Sauge',x:-17.2,z:0,price:280,theme:1},rose:{name:'Maison Roseraie',x:17.2,z:0,price:420,theme:2}};
- const styles=[{name:'Chemise et pantalon',bottom:0},{name:'Blouse et jupe',bottom:1},{name:'T-shirt et short',bottom:2},{name:'Polo et jean',bottom:0},{name:'Pull et pantalon',bottom:0},{name:'Tenue de sport',bottom:2}];
- const furniture={armchair:{name:'Fauteuil de lecture',price:45,w:.9,d:.9,color:'#bca083'},plant:{name:'Grande plante',price:20,w:.55,d:.55,color:'#6e987a'},lamp:{name:'Lampadaire',price:30,w:.45,d:.45,color:'#e1c8a4'},desk:{name:'Bureau',price:65,w:1.25,d:.65,color:'#b98f71'},rug:{name:'Tapis',price:25,w:1.7,d:1.1,color:'#c5baa4'}};
+ for(const [i,p] of people.entries())p.features={jaw:(i%3-1)*.25,nose:(i%4-1.5)*.2,lips:p.sex==='female'?.3:0,brows:(i%3-1)*.25,makeup:p.sex==='female'?.2:0,accessory:p.sex==='female'&&i%2===0?1:0};
+ const styles=[{name:'Chemise et pantalon',bottom:0},{name:'Blouse et jupe',bottom:1},{name:'T-shirt et short',bottom:2},{name:'Polo et jean',bottom:0},{name:'Pull et pantalon',bottom:0},{name:'Tenue de sport',bottom:2},{name:'Cardigan et pantalon',bottom:0},{name:'Robe longue',bottom:1}];
+ const furniture={armchair:{name:'Fauteuil de lecture',price:45,w:.9,d:.9,color:'#bca083'},plant:{name:'Grande plante',price:20,w:.55,d:.55,color:'#6e987a'},lamp:{name:'Lampadaire',price:30,w:.45,d:.45,color:'#e1c8a4'},desk:{name:'Bureau',price:65,w:1.25,d:.65,color:'#b98f71'},rug:{name:'Tapis',price:25,w:1.7,d:1.1,color:'#c5baa4'},shelf:{name:'Bibliothèque ouverte',price:80,w:1.05,d:.38,color:'#b98f71'},bench:{name:'Banquette capitonnée',price:70,w:1.2,d:.65,color:'#b18c9b'},console:{name:'Console et miroir',price:55,w:.85,d:.35,color:'#c7ab91'}};
  const home=s=>houses[s.home.residence]||houses.soleil;
  const point=(s,x,z)=>[home(s).x+x,home(s).z+z];
  const inside=(s,x=s.x,z=s.z)=>Math.abs(x-home(s).x)<5.75&&z-home(s).z>-4.7&&z-home(s).z<4.75;

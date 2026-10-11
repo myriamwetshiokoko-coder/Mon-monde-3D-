@@ -35,3 +35,6 @@
 
 /* Clear story controls remain usable on portrait phones. */
 .utility>#saveStatus{display:block;font-size:9px;flex-basis:100%}.utility>#storiesBtn,.utility>#saveBtn{display:block}#privateMoment{position:fixed;inset:0;background:linear-gradient(160deg,#665572e8,#b98d83e8);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;color:#fff9ec;text-align:center}#privateMoment span{font-size:24px}#privateMoment small{font-size:12px}.panel.show,.controls,.hint{z-index:3}
+
+/* Character studio keeps controls below a clear rotatable portrait. */
+.studio-toolbar{display:flex;flex-wrap:wrap;gap:6px;position:sticky;bottom:0;background:#fffaf4;padding:8px 0;margin-top:10px}.studio-toolbar button{min-height:44px;padding:8px 12px;border:1px solid #dac7bb;border-radius:12px;background:#f3e6da;color:#614c45}.editing .editor{max-height:40dvh}.editor input[type=range]{padding:0;min-height:32px;accent-color:#a77465}@media(max-height:500px){.editing .editor{left:auto;width:42%;max-height:85dvh;border-radius:20px 0 0 20px;top:8%;}.editor #appearance{grid-template-columns:1fr}.studio-toolbar{position:static}}

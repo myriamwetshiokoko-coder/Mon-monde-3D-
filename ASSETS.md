@@ -25,3 +25,7 @@ V2.4 : les six styles réutilisent ces vêtements, avec un pull à manches longu
 ## Ajouts V2.5
 
 Trois coiffures supplémentaires (carré, longue ondulée, tresses relevées), ajustements de proportions dans le shader, ustensile de cuisine et fauteuil à coussins/pieds : géométrie et code procéduraux originaux, générés localement. Aucune image privée ni ressource téléchargée ajoutée. Les droits CC0 des modèles Quaternius existants restent identiques.
+
+## Refonte V4
+
+Aucun asset externe supplémentaire. Visages paramétrés, accessoires, robe longue, placement analytique des bras, détails d’intérieurs et nouveaux meubles sont du code original ou des adaptations procédurales des modèles CC0 déjà attribués ci-dessus. Les modèles sources Quaternius restent inclus et inchangés. Les rendus de vérification utilisent uniquement des parties synthétiques.

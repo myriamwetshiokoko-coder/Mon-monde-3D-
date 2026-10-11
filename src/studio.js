@@ -1,0 +1,26 @@
+/* Live character studio, rotatable on touch or desktop; it never advances a life activity. */
+let studioPose='',studioAngle=0;
+const studioFields=['jaw','nose','lips','brows','makeup','accessory'];
+function syncStudio(){for(const k of studioFields)$(k).value=state.appearance[k]??0;}
+const studioSync=syncAppearance;syncAppearance=function(){studioSync();syncStudio();};syncStudio();
+for(const k of studioFields)$(k).oninput=e=>{state.appearance[k]=FaceDesign.normalize({[k]:e.target.value})[k];};
+const toolbar=document.createElement('div');toolbar.className='studio-toolbar';
+for(const [label,action]of [['↶ Tourner',()=>{camYaw-=Math.PI/4;smoothEye=null;}],['Tourner ↷',()=>{camYaw+=Math.PI/4;smoothEye=null;}],['Visage',()=>{camZoom=1.35;camPitch=.03;studioAngle=1;smoothEye=null;}],['Silhouette',()=>{camZoom=3.5;camPitch=.18;studioAngle=0;smoothEye=null;}]]){const b=document.createElement('button');b.textContent=label;b.onclick=action;toolbar.append(b);}
+for(const [label,pose]of [['Repos',''],['Discussion','talk'],['Lecture','readStand'],['Repas','eat'],['Cuisine','cook']]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>studioPose=pose;toolbar.append(b);}
+$('editor').append(toolbar);
+const studioOpen=$('previewBtn').onclick;$('previewBtn').onclick=()=>{studioPose='';studioAngle=0;studioOpen();};
+const studioClose=$('finishEditor').onclick;$('finishEditor').onclick=()=>{studioPose='';studioAngle=0;studioClose();save();};
+const studioAvatar=avatar;avatar=function(t){if(!editorMode){studioAvatar(t);return;}human(state.x,state.z,0,skin,outfit,performance.now()*.005,0,state.hair,state.face,studioPose,state.style,state.hairColor,Life.avatarScale(state),0,state.appearance);};
+// The studio uses a steady portrait framing, and orbit controls reset camera smoothing.
+const studioEye=cameraEye;cameraEye=function(target,distance,yaw,pitch){if(editorMode&&studioAngle){target[1]=1.63*Life.avatarScale(state)*(state.appearance.height||1);distance=1.35;}return studioEye(target,distance,yaw,pitch);};
+function drawFaceDetails(actor,model,palette,appearance,pose,phase){if(!editorMode&&Math.hypot(actor[12]-state.x,actor[14]-state.z)>8)return;const a=FaceDesign.normalize(appearance),head=mul(actor,palette[6]),h=model.bones[6].pivot,exp=FaceDesign.expression(pose,phase);
+ const part=(color,x,y,z,sx,sy,sz)=>drawOne(shapes.sphere,typeof color==='string'?hex(color):color,mul(head,modelMatrix(x,y,z,sx,sy,sz,0)));
+ const lip=hex(a.makeup>.05?'#b26070':'#987069');const mouthY=h[1]+.042,z=h[2]+.102;
+ part(lip,0,mouthY+.004,z,.026*(1+a.lips*.25),.004+a.makeup*.002,.004);
+ part(lip,0,mouthY-.004-exp.speech*.004,z,.026*(1+a.lips*.25),.004,.004);
+ if(exp.speech>.4)part('#684c4b',0,mouthY-exp.speech*.002,z+.001,.018,.002+exp.speech*.004,.003);
+ for(const side of [-1,1]){part('#51413b',side*.038,h[1]+.128,h[2]+.087,.028,.0035*(1+a.brows*.5),.003);if(a.accessory===1||a.accessory===3){part('#c49a52',side*.094,h[1]+.056,h[2]+.005,.009,.017,.008);}}
+ if(a.accessory>=2){const neck=mul(actor,palette[5]);for(let i=0;i<9;i++){const theta=Math.PI*.1+i/8*Math.PI*.8;drawOne(shapes.sphere,hex('#c49a52'),mul(neck,modelMatrix(Math.cos(theta)*.075,h[1]-.075,h[2]+Math.sin(theta)*.057,.006,.004,.006,0)));}drawOne(shapes.sphere,hex('#e2bc65'),mul(neck,modelMatrix(0,h[1]-.10,h[2]+.058,.008,.014,.005,0)));}
+}
+
+function drawStudioStage(){gl.clearColor(.86,.90,.86,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.uniform3fv(uLight,[1,1,1]);dynamic('cyl','#d6d5ca',state.x,-.015,state.z,.7,.025,.7);if(studioPose==='eat'){dynamic('cube','#c7ab91',state.x,.36,state.z,.6,.08,.55);for(const side of [-1,1])dynamic('cube','#8d735d',state.x+side*.23,.16,state.z,.055,.32,.44);}}

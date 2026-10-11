@@ -1,3 +1,23 @@
+# Vérifications — V4.0.0
+
+Vérifications locales du 11 octobre 2026, branche `develop/refonte-personnages`. Publication V4 autorisée par la propriétaire le 11 octobre 2026 ; code validé inchangé depuis les tests.
+
+**155 tests passent** : simulation 73, économie 7, quartier 28, révision 15, foyer partagé 20, refonte 12. Les six suites sont intégrées au workflow GitHub, sans déploiement. Syntaxe JS/CJS, identifiants HTML uniques, 28 scripts locaux et cache 4.0.0 uniforme ; diff propre.
+
+Nouveaux tests : migration neutre et valeurs corrompues bornées ; visage/tenues conservés après changement de membre et export ; clignement/parole ; conservation de la longueur des bras et limite de portée, cas de cible confondue avec l’épaule ; mains réelles du squelette masculin/féminin sur 12 gestes et quatre phases ; cuillère vers le visage ; géométrie/poids de la robe et rendu des deux tenues ; vrais boutons de rotation/gros plan/poses du studio avec partie figée ; horloge séparée et orientation initiale du studio ; sliders et reprise ; achat/rotation/rendu/reprise des trois nouveaux meubles ; quatre gestes de cuisine et protection d’une double fin d’activité.
+
+Inspection hors navigateur : 15 cas distincts EGL/GLES (face/dos robe en marche, profil cardigan avec lecture, repas, cuisine, deux gros plans, conversation du foyer, ameublement, maison Sauge, studio isolé, nouveaux meubles, préparation/découpe/mélange). Deux vues ont été rejouées après correction des cheveux traversant le dos et de la peau traversant la manche. Aucun échec de shader ni erreur GL sur les rendus exécutés. Les images ont été inspectées sous plusieurs angles ; aucun fichier privé utilisé. L’outil de replay gère maintenant aussi les uniformes vec4.
+
+Les vues de travail ont permis de corriger des cibles hors de portée, le cas analytique où la cible coïncidait avec l’épaule, la face initiale du studio, le gel de ses animations en pause et un appel de fin d’activité déjà terminée. Tests de régression ajoutés.
+
+La base testée contient environ 1 381 objets, 414 lots statiques et 399 648 sommets avant filtrage, contre 1 120 / 363 / 359 940 en V2.5. Les décorations utilisent les lots statiques existants ; traits/accessoires de visage seulement dans un rayon de huit mètres. Les bras utilisent une solution analytique, pas une recherche itérative par image. Ces chiffres ne mesurent pas les FPS et ne garantissent pas la fluidité sur iPhone.
+
+À vérifier sur appareil : studio portrait/paysage, glissement et commandes de rotation, gros plan, sliders, tenues sur les deux corps, reprise de deux adultes avec visages distincts, cuisine et repas, nouveaux meubles, circulation et confort des trois résolutions. Aucun contrôle natif Safari, CSS ou tactile mesuré par les tests simulés.
+
+Limites : même base de modèles humains CC0, style encore stylisé ; pas de doigts articulés, tissu physique ou expressions complètes ; meubles d’origine fixes, pas d’éditeur de murs ; couple et grossesse attachés au principal, deux adultes contrôlables ; aucune conduite ou nouvelle ville dans cette révision. Les anciens systèmes restent jouables.
+
+---
+
 # Vérifications — V3.0.0
 
 Vérifications locales effectuées le 11 octobre 2026 sur `develop/v3-foyer`. Publication V3 autorisée par la propriétaire le 11 octobre 2026. Les vérifications GitHub du code validé ont également réussi.
