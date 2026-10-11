@@ -39,3 +39,5 @@ jobs:
         run: node tests/home-control.test.cjs
       - name: Studio, poses et apparence V4
         run: node tests/refonte.test.cjs
+      - name: Lumière, matières et activités V5
+        run: node tests/immersion.test.cjs

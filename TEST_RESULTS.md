@@ -1,3 +1,21 @@
+# Vérifications — V5.0.0 · candidate
+
+Vérifications locales du 11 octobre 2026 sur `develop/v5-immersion`, à partir du commit V4 publié `a444eef118225759d9f943e0f42caa088dae6aeb`. Publication V5 non autorisée à cette étape ; V4 conservée en ligne.
+
+**167 tests** dans sept suites : simulation 73, économie 7, quartier 28, révision 15, foyer 20, refonte 12, immersion 12. Syntaxe JS/CJS, cache 5.0.0, 32 scripts locaux et identifiants HTML uniques vérifiés. Sept suites inscrites au workflow GitHub sans déploiement.
+
+Nouveaux tests : cycle lumineux fini/borné sur 72 heures, répétition à minuit, variations jour/crépuscule/nuit et studio indépendant de l’heure ; lumière des lampes sur les personnages ; géométrie/matières bornées ; indices et poids des cols/tabliers ; vraie activité observée/rotation et préservation de position, provisions et réglages caméra ; annulation/fin/import et transaction unique ; isolement du studio ; placement des postes et séparation des collègues ; looks restaurés après export ; alertes de besoins ; vrais gestionnaires de glissement et zoom en vue d’activité, puis retour à la caméra normale.
+
+Inspection graphique hors navigateur : 14 scènes distinctes capturées depuis les commandes réelles du jeu et rejouées en Mesa EGL/OpenGL ES. Quartier en journée/crépuscule/nuit, maison Roseraie, lecture et discussion en vue d’activité, studio réel, portraits féminin de face/masculin de profil, robe en marche vue de dos, cardigan en lecture de profil, mobilier et cuisine/travail observés. Le rendu teste la compilation des programmes et les commandes GPU, pas les performances d’un iPhone. Personnages et parties synthétiques uniquement.
+
+Défauts corrigés pendant l’inspection : implantation et grosses mèches latérales, motifs de matière trop contrastés, cadrage derrière le réfrigérateur, rayons d’occultation trop étroits, placement au travail trop loin du comptoir, bandes fines de parquet scintillantes, nuit trop sombre et précision différente d’un uniforme partagé entre shaders. Les ombres ajoutées sont des ombres de contact stylisées, pas un moteur d’ombres en temps réel.
+
+Géométrie statique avant filtrage : environ **1 533 objets / 457 lots / 492 060 sommets**, contre 1 381 / 414 / 399 648 en V4. Frustum, filtrage des maisons éloignées et regroupement par matériau conservés ; ciel en un dessin et ombres de contact en trois dessins. Le coût en sommets a augmenté d’environ 23 %. Ces valeurs ne sont pas des FPS. Aucun test natif Safari, CSS, tactile ou batterie effectué ; la qualité Économie reste disponible.
+
+Limites : même base humaine CC0 ; rendu stylisé, sans cheveux/tissu physiques, doigts articulés, vraie réflexion du miroir ou ombres projetées ; pas de nouvelle ville ni conduite ; deux adultes contrôlables ; couple/grossesse toujours rattachés au personnage principal ; meubles initiaux fixes. Les commandes CSS portrait/paysage et le confort de la V5 doivent être vérifiés sur appareil après publication autorisée.
+
+---
+
 # Vérifications — V4.0.0
 
 Vérifications locales du 11 octobre 2026, branche `develop/refonte-personnages`. Publication V4 autorisée par la propriétaire le 11 octobre 2026 ; code validé inchangé depuis les tests.

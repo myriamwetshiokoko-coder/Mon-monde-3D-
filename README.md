@@ -1,8 +1,22 @@
-# Mon Monde 3D — V4.0.0 · refonte des personnages
+# Mon Monde 3D — V5.0.0 · immersion à valider
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
 **Publication V3.0.0 autorisée par la propriétaire le 11 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v3-foyer` conserve le développement validé. La grande refonte sera développée séparément.**
+
+## Immersion V5 préparée
+
+Branche `develop/v5-immersion`, issue de la V4 publiée. **La V4 reste en ligne ; la publication V5 attend l’accord de la propriétaire.** Les sauvegardes et les activités existantes sont conservées.
+
+- **Éclairage du monde et des personnages** : lumière directionnelle, ambiance du ciel, aube/crépuscule, nuit plus lisible, ciel en dégradé et étoiles. La brume dépend de la distance à la caméra. Les lampes éclairent aussi les personnages proches. Ombres de contact et de végétation stylisées, regroupées en trois dessins ; pas de calcul de vraies ombres projetées en temps réel.
+- **Matières et paysage** : bois, tissu, herbe, trottoirs, métal, eau et vitrage reçoivent un traitement distinct. Parquet dessiné par le matériau, sans bandes fines qui scintillent à distance. Haies abaissées, couronnes d’arbres irrégulières, feuillage doucement animé, plantes d’intérieur et lampadaires de salon. Les obstacles et passages restent ceux déjà testés.
+- **Personnages** : cinq coiffures originales retravaillées avec une implantation suivant le crâne et des volumes à l’arrière, éclairage de la peau/chevelure, haut féminin mieux ajusté aux épaules. Col réellement articulé sur chemise/polo et tablier sur les tenues du café et de l’épicerie. Huit looks prédéfinis au lieu de cinq, utilisant aussi les vrais réglages du visage et les accessoires. Le style reste stylisé et les modèles de base CC0 sont conservés.
+- **Mobilier** : canapé, literie, coussins et fauteuil/banquette du catalogue ont des contours arrondis ; leurs volumes de collision sont conservés. Les meubles du catalogue gardent achat, placement, rotation et finitions. Les meubles d’origine et les murs restent fixes.
+- **Activités mieux visibles** : bouton **Observer** dans une activité, rotation par les flèches ou glissement tactile, zoom par pincement/molette et retour **Vue libre**. Le cadrage est de face/oblique et montre les deux participants d’une conversation. Il ne remplace pas les réglages de caméra de déplacement. Fin, annulation ou restauration rétablissent la vue libre.
+- **Gestes situés** : cuisine rapprochée du plan de travail ; personnes du café et de l’épicerie placées près du poste utilisé, sans regrouper les collègues sur le même point. Outils et casserole visibles, pages mobiles du livre et détails d’écran du téléphone. Les participants d’une conversation alternent le mouvement visible de la bouche. Les transactions, recettes et métiers sont ceux déjà jouables, sans nouvel argent fictivement promis.
+- **Interface de jeu** : quatre commandes principales visibles (Téléphone, Menu, Style, Sauver), solde et état de sauvegarde ; personnages/foyer accessibles dans Menu. Besoins faibles signalés en rouge. Panneaux et commandes adaptés en CSS au portrait/paysage, à vérifier sur iPhone.
+
+Validation : **167 tests** dans sept suites ; compilation et replay de 14 scènes avec EGL/OpenGL ES, en journée/nuit, plusieurs angles, lecture/cuisine/travail/conversation. Aucun nouveau téléchargement, compte ou envoi de sauvegarde. `TEST_RESULTS.md` précise ce qui a été mesuré et les limites.
 
 ## Refonte V4
 
