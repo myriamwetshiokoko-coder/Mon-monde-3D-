@@ -1,12 +1,12 @@
-# Mon Monde 3D — V4.0.0 · refonte à valider
+# Mon Monde 3D — V4.0.0 · refonte des personnages
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
 **Publication V3.0.0 autorisée par la propriétaire le 11 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v3-foyer` conserve le développement validé. La grande refonte sera développée séparément.**
 
-## Refonte V4 préparée
+## Refonte V4
 
-Développement sur `develop/refonte-personnages`. La V3.0 reste publiée ; **pas de remplacement sans nouvel accord**. La base humaine articulée CC0 est conservée et enrichie. Cette version reste stylisée, sans modèle photoréaliste ni expressions faciales complètes.
+**Publication V4.0.0 autorisée par la propriétaire le 11 octobre 2026 sur `main` et GitHub Pages.** Développement validé conservé sur `develop/refonte-personnages`. La base humaine articulée CC0 est conservée et enrichie. Cette version reste stylisée, sans modèle photoréaliste ni expressions faciales complètes.
 
 - **Studio 3D isolé** : le décor et les habitants sont masqués pour inspecter le personnage. Tourner à gauche/droite par pas de 45°, glisser sur le rendu, cadrage visage ou silhouette, poses de repos, discussion, lecture, repas et cuisine. Les animations du studio utilisent leur propre horloge, sans faire avancer la partie. Le personnage est présenté de face à l’ouverture ; l’ancienne caméra revient à la sortie.
 - **Visage personnel** : mâchoire et nez modifient réellement les sommets du visage ; lèvres, sourcils et intensité du maquillage modifient ses détails visibles. Boucles dorées, collier ou les deux ; clignements périodiques et petite animation de la bouche en discussion. Détails limités aux personnages proches pour limiter les dessins. Les réglages se sauvegardent par membre du foyer ; les anciennes parties reçoivent des réglages neutres.

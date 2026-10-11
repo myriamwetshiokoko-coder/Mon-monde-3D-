@@ -1,6 +1,6 @@
-# Vérifications — V4.0.0 · candidate
+# Vérifications — V4.0.0
 
-Vérifications locales du 11 octobre 2026, branche `develop/refonte-personnages`. V3.0 publiée et conservée. Aucune publication V4 autorisée à cette étape.
+Vérifications locales du 11 octobre 2026, branche `develop/refonte-personnages`. Publication V4 autorisée par la propriétaire le 11 octobre 2026 ; code validé inchangé depuis les tests.
 
 **155 tests passent** : simulation 73, économie 7, quartier 28, révision 15, foyer partagé 20, refonte 12. Les six suites sont intégrées au workflow GitHub, sans déploiement. Syntaxe JS/CJS, identifiants HTML uniques, 28 scripts locaux et cache 4.0.0 uniforme ; diff propre.
 
@@ -12,7 +12,7 @@ Les vues de travail ont permis de corriger des cibles hors de portée, le cas an
 
 La base testée contient environ 1 381 objets, 414 lots statiques et 399 648 sommets avant filtrage, contre 1 120 / 363 / 359 940 en V2.5. Les décorations utilisent les lots statiques existants ; traits/accessoires de visage seulement dans un rayon de huit mètres. Les bras utilisent une solution analytique, pas une recherche itérative par image. Ces chiffres ne mesurent pas les FPS et ne garantissent pas la fluidité sur iPhone.
 
-À vérifier sur appareil après accord : studio portrait/paysage, glissement et commandes de rotation, gros plan, sliders, tenues sur les deux corps, reprise de deux adultes avec visages distincts, cuisine et repas, nouveaux meubles, circulation et confort des trois résolutions. Aucun contrôle natif Safari, CSS ou tactile mesuré par les tests simulés.
+À vérifier sur appareil : studio portrait/paysage, glissement et commandes de rotation, gros plan, sliders, tenues sur les deux corps, reprise de deux adultes avec visages distincts, cuisine et repas, nouveaux meubles, circulation et confort des trois résolutions. Aucun contrôle natif Safari, CSS ou tactile mesuré par les tests simulés.
 
 Limites : même base de modèles humains CC0, style encore stylisé ; pas de doigts articulés, tissu physique ou expressions complètes ; meubles d’origine fixes, pas d’éditeur de murs ; couple et grossesse attachés au principal, deux adultes contrôlables ; aucune conduite ou nouvelle ville dans cette révision. Les anciens systèmes restent jouables.
 
