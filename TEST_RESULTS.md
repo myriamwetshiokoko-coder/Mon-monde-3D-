@@ -1,3 +1,28 @@
+# Vérifications — V3.0.0
+
+Vérifications locales effectuées le 11 octobre 2026 sur `develop/v3-foyer`. Publication V3 autorisée par la propriétaire le 11 octobre 2026. Les vérifications GitHub du code validé ont également réussi.
+
+| Suite | Réussis |
+| --- | ---: |
+| Simulation/intégration | 73 |
+| Métiers/économie | 7 |
+| Quartier/foyer | 28 |
+| Révision V2.5 | 15 |
+| Foyer jouable V3 | 20 |
+| **Total** | **143** |
+
+Les cinq suites passent. Syntaxe de tous les fichiers JS/CJS et `git diff --check` valides. Le workflow GitHub inclut les cinq suites et ne déploie rien.
+
+Les 20 nouveaux tests couvrent : anciennes parties/familles conservées, création sans remise à zéro, identités personnelles distinctes, budget/horloge/meubles communs sans duplication, export/import, données corrompues bornées, limites adultes/service, salaire autonome unique, grossesse attachée au personnage principal, absence de corps dupliqué après plusieurs reprises, vraie personnalisation, activité en cours et quota de stockage, cuisine/repas autonomes, conversation, isolation des histoires, routes réelles du travail et reprise sans double salaire, téléphone/rendez-vous/délai de conversation persistants, naissance avec la bonne identité familiale et contrôle d’âge réel.
+
+Rendu supplémentaire `foyer` : scène réelle d’une conversation entre le personnage principal et le nouvel adulte, 109 appels de dessin rejoués dans EGL/OpenGL ES Mesa. Zéro erreur de shader et GL ; image inspectée : personnages distincts, espacés et face à face. Ce contrôle ne mesure pas Safari, la disposition CSS, les gestes tactiles ou les FPS sur iPhone 16.
+
+Recette sur appareil après accord de publication : ouvrir **Mon foyer jouable**, créer/personnaliser le second adulte, changer plusieurs fois de contrôle, vérifier besoins/tenues et compte commun ; lui choisir un métier puis contrôler l’autre et laisser les menus fermés ; observer son départ/service/salaire/retour ; vérifier les repas puis fermer et reprendre Safari ; exporter le foyer. Tester portrait/paysage et confort du HUD plus rempli.
+
+Limites connues : deux adultes contrôlables ; famille romantique du personnage principal seulement ; enfants et conjoint historique non contrôlables ; routines simplifiées, téléphone partagé ; graphismes V2.5 conservés, voitures non conduisibles et meubles d’origine fixes. Aucun fichier privé, enregistrement ou sauvegarde de la propriétaire inclus.
+
+---
+
 # Vérifications — V2.5.0
 
 Préparée et validée le 10 octobre 2026 sur `develop/v2.5`. Publication autorisée par la propriétaire le même jour.
@@ -75,7 +100,7 @@ Ce contrôle ne valide **ni CSS et HUD réel, ni Safari/WebKit, ni gestes tactil
 
 ## Vérifications automatiques
 
-`.github/workflows/validate.yml` exécute syntaxe et trois suites Node.js sur `main`, `develop/**` et les pull requests. Actions officielles fixées à leurs commits vérifiés, accès au dépôt en lecture. Aucune étape de déploiement.
+`.github/workflows/validate.yml` exécute syntaxe et cinq suites Node.js sur `main`, `develop/**` et les pull requests. Actions officielles fixées à leurs commits vérifiés, accès au dépôt en lecture. Aucune étape de déploiement.
 
 ## Recette restante sur iPhone
 

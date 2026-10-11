@@ -1,13 +1,28 @@
-# Mon Monde 3D — V2.5.0
+# Mon Monde 3D — V3.0.0
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
-**Publication V2.5.0 autorisée par la propriétaire le 10 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v2.5` conserve le développement.**
+**Publication V3.0.0 autorisée par la propriétaire le 11 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v3-foyer` conserve le développement validé. La grande refonte sera développée séparément.**
+
+## Foyer jouable V3
+
+Objectif de référence : liberté de déplacement de One State et quotidien/foyer des Sims 4. Cette étape ajoute un foyer partagé à la base existante ; elle ne prétend pas reproduire ces jeux entiers.
+
+- **Mon foyer jouable** est visible pendant la partie et dans Menu. Ajouter un homme ou une femme adulte crée un second membre dans la **même histoire**. Son apparence se règle avec le vrai écran Style existant.
+- Deux adultes contrôlables alternativement. Chacun conserve nom, âge, sexe, morphologie, coiffure, tenue, besoins, amitiés, compétences, métier et service. Maison, horloge, argent, provisions, repas, mobilier et enfants restent communs.
+- Le membre non contrôlé est présent dans le monde : trajets au travail, gestes aux postes, salaire sur le compte commun, cuisine avec les provisions du foyer, repas, toilette, télévision et sommeil. Les routines sont simplifiées et le temps doit avancer, menus fermés.
+- Les deux membres peuvent discuter face à face ou s’écrire/proposer un rendez-vous via le téléphone. Les messages sont prédéfinis. L’emploi se choisit avec le membre concerné : **Mon foyer jouable → Travail → Emplois**.
+- Sauver, reprise automatique et export/import conservent tout le foyer, y compris l’adulte inactif. Changer de membre est refusé pendant une activité, un service actif, l’aménagement ou avec le téléphone ouvert. Un échec de stockage bloque le changement.
+- **Mes parties** conserve les six histoires indépendantes de V2.5. Le bouton est distinct du foyer partagé ; une nouvelle histoire ne supprime pas les autres.
+
+Première limite explicite : deux adultes jouables maximum. Le nouveau membre est un colocataire, sans couple automatique. Le couple, le conjoint existant et le projet de bébé restent attachés au personnage principal ; ils ne changent pas d’identité lorsque l’autre membre est contrôlé. Les enfants et le conjoint existant ne deviennent pas contrôlables. Le téléphone et son agenda restent communs. Aucun revenu hors ligne.
+
+Aucun nouveau modèle humain ni refonte graphique complète dans cette étape : les modèles articulés, tenues et coiffures V2.5 sont conservés. Conduite, éditeur de murs, expressions détaillées et simulation professionnelle avancée restent à développer.
 
 ## Correctifs et ajouts V2.5
 
 - Les rendez-vous sont terminés après une discussion réussie. Les échanges annulés conservent leur invitation.
-- **Sauver** et **Personnages** restent visibles pendant le jeu. Six parties indépendantes peuvent être créées, avec un personnage, un foyer et une économie propres. Ces personnages ne vivent pas tous ensemble dans le même quartier : chaque partie est une histoire séparée. Le personnage existant devient la première histoire sans remise à zéro. Export/import concerne la partie active.
+- **Sauver** et **Mes parties** restent visibles pendant le jeu. Six parties indépendantes peuvent être créées, avec un personnage, un foyer et une économie propres. Ces personnages ne vivent pas tous ensemble dans le même quartier : chaque partie est une histoire séparée. Le personnage existant devient la première histoire sans remise à zéro. Export/import concerne la partie active.
 - Carré, cheveux longs ondulés et tresses relevées ajoutés aux cinq coiffures. Le modèle féminin a des proportions adoucies au visage, aux épaules, à la taille et aux hanches. Les deux morphologies restent personnalisables ; aucun nouveau modèle photoréaliste n’est annoncé.
 - Le projet de famille utilise un moment privé suggéré, un test le lendemain et une confirmation distincte. Le projet et son porteur restent sauvegardés. Les anciennes grossesses continuent normalement. Il s’agit d’une simulation simplifiée, sans animation sexuelle ou système médical réaliste.
 - La cuisine montre quatre étapes sur 24 secondes : ingrédients, découpe/mélange, cuisson, dressage. Ustensile et assiette sont visibles. Les provisions et portions sont appliquées une seule fois à la fin ; annuler ne consomme rien.
@@ -64,17 +79,19 @@ Sauvegarde automatique locale toutes les six secondes de jeu et à l’arrière-
 
 ## Vérifications et architecture
 
-108 tests locaux passent : 73 de simulation/intégration, 7 d’économie/métiers, 28 du quartier/foyer. Les gestionnaires d’interface sont exécutés avec DOM et WebGL simulés. Des rendus EGL/OpenGL ES compilent les shaders et dessinent les scènes réelles hors navigateur ; détails dans `TEST_RESULTS.md`.
+143 tests locaux passent : 73 de simulation/intégration, 7 d’économie/métiers, 28 du quartier/foyer, 15 de révision V2.5 et 20 du foyer jouable. Les gestionnaires d’interface sont exécutés avec DOM et WebGL simulés. Des rendus EGL/OpenGL ES compilent les shaders et dessinent les scènes réelles hors navigateur ; détails dans `TEST_RESULTS.md`.
 
 ```sh
 node tests/simulation.test.cjs
 node tests/daily.test.cjs
 node tests/neighbourhood.test.cjs
+node tests/revision.test.cjs
+node tests/home-control.test.cjs
 ```
 
 Le workflow **Vérifications du jeu** exécute ces suites sur `main`, `develop/**` et les pull requests. Il ne publie pas le jeu. La mise en ligne conserve le dépôt et la configuration GitHub Pages existants après accord, sans remplacement manuel du HTML.
 
-Modules : `town.js` pour identités/logements/catalogues ; `core.js` et `daily.js` pour simulation/transactions ; `household.js` pour habitants/revenus ; `housing.js` pour placement/migration ; `navigation.js` et `traffic.js` pour déplacements ; modules de rendu et d’interface pour le monde et les commandes. Aucun paquet à installer pour jouer ou exécuter les tests Node.js.
+Modules : `town.js` pour identités/logements/catalogues ; `core.js` et `daily.js` pour simulation/transactions ; `household.js` pour habitants/revenus ; `home-control.js` pour les identités personnelles et la sauvegarde du foyer ; `home-play.js` pour le contrôle et l’interface du foyer ; `housing.js` pour placement/migration ; `navigation.js` et `traffic.js` pour déplacements ; modules de rendu et d’interface pour le monde et les commandes. Aucun paquet à installer pour jouer ou exécuter les tests Node.js.
 
 ## Limites actuelles
 

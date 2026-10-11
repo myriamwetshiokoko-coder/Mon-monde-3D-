@@ -1,6 +1,7 @@
 /* Versioned simulation, transactions and family lifecycle. No network or private data. */
 const Life = (() => {
  const town=typeof module!=='undefined'?require('./town.js'):Town,housing=typeof module!=='undefined'?require('./housing.js'):Housing;
+ const control=typeof module!=='undefined'?require('./home-control.js'):HomeControl;
  const needs=['hunger','energy','hygiene','fun','social'],ids=town.ids;
  const defaults={version:2,x:0,z:3,time:9,day:1,hunger:75,energy:82,hygiene:88,fun:72,social:65,name:'Mon personnage',sex:'female',age:24,skin:2,outfit:0,hair:0,face:0,style:0,hairColor:0,money:120,groceries:3,meals:0,relationships:Object.fromEntries(ids.map(id=>[id,0])),romance:Object.fromEntries(ids.map(id=>[id,0])),lastTalk:{},visits:{},appointments:{},family:{partnerId:null,status:'single',sinceDay:0,movedIn:false,pregnancy:null,children:[],outing:false,autoCare:false},workDay:0,skill:0,journal:[],settings:{quality:1.35,zoom:5.2,follow:false,sound:false,deadZone:.18,sensitivity:.7},appearance:{body:'female',height:1,width:1,eyes:0,glasses:false,bottomColor:0,shoeColor:0},citizens:{},home:{theme:0,flowers:false,lights:false,tvOn:false,tvChannel:0,residence:'soleil',owned:['soleil'],furnishings:[],nextFurniture:1},skills:{garden:0,creative:0},garden:{plantedDay:0,harvestDay:0},inventory:{bouquets:0,books:{novel:true,cookbook:false,garden:false}},career:{job:null,completed:0,shift:null},bank:{entries:[],earned:0,spent:0},phone:{messages:[],lastMessage:{},unread:0},daily:{reading:0,tv:0,meals:0},delivery:null,deliveryDay:0,achievements:[],lastCare:0};
  const recipes={simple:{name:'Assiette maison',provisions:1,portions:1,level:0},brunch:{name:'Brunch gourmand',provisions:2,portions:3,level:2},feast:{name:'Repas de famille',provisions:3,portions:5,level:5}};
@@ -30,7 +31,8 @@ const Life = (() => {
  const shift=raw.career?.shift;if(shift&&['cafe','shop','gardener'].includes(shift.job)&&shift.job===s.career.job&&Number.isFinite(shift.day)&&shift.day<=s.day&&Number.isFinite(shift.step)&&shift.step>=0&&shift.step<=4&&s.age>=18)s.career.shift={job:shift.job,day:clamp(Math.floor(shift.day),1,s.day),step:Math.floor(shift.step)};
  s.bank.entries=Array.isArray(raw.bank?.entries)?raw.bank.entries.filter(e=>e&&Number.isFinite(e.day)&&Number.isFinite(e.amount)&&Number.isFinite(e.balance)&&typeof e.label==='string').slice(-40).map(e=>({day:clamp(Math.floor(e.day),1,s.day),amount:clamp(Math.round(e.amount),-1e6,1e6),balance:clamp(Math.round(e.balance),0,1e6),label:e.label.slice(0,65)})):[];
  for(const key of ['earned','spent'])s.bank[key]=clamp(Math.floor(Number(raw.bank?.[key])||0),0,1e9);
- s.phone.messages=Array.isArray(raw.phone?.messages)?raw.phone.messages.filter(m=>m&&['me',...ids,'cafe','shop','gardener','quartier'].includes(m.from)&&typeof m.text==='string').slice(-30).map(m=>({from:m.from,to:ids.includes(m.to)?m.to:'me',text:m.text.slice(0,180),day:clamp(Math.floor(Number(m.day)||1),1,s.day),time:clamp(Number(m.time)||0,0,24)})):[];
+ const contacts=[...ids,...(['player','housemate'].includes(raw.control?.active)&&raw.control?.inactive?['player','housemate']:[])];
+ s.phone.messages=Array.isArray(raw.phone?.messages)?raw.phone.messages.filter(m=>m&&['me',...contacts,'cafe','shop','gardener','quartier'].includes(m.from)&&typeof m.text==='string').slice(-30).map(m=>({from:m.from,to:contacts.includes(m.to)?m.to:'me',text:m.text.slice(0,180),day:clamp(Math.floor(Number(m.day)||1),1,s.day),time:clamp(Number(m.time)||0,0,24)})):[];
  for(const id of ids)if(Number.isFinite(raw.phone?.lastMessage?.[id]))s.phone.lastMessage[id]=raw.phone.lastMessage[id];s.phone.unread=clamp(Math.floor(Number(raw.phone?.unread)||0),0,30);
  for(const key of ['reading','tv','meals'])s.daily[key]=clamp(Math.floor(Number(raw.daily?.[key])||0),0,1e6);
  s.inventory.bouquets=clamp(Math.floor(Number(raw.inventory?.bouquets)||0),0,99);
@@ -38,18 +40,18 @@ const Life = (() => {
  s.achievements=Array.isArray(raw.achievements)?[...new Set(raw.achievements.filter(v=>['meal','explorer','friend','artist','family'].includes(v)))]:[];
  s.family.outing=!!f?.outing;s.family.autoCare=!!f?.autoCare;for(let i=0;i<s.family.children.length;i++){const c=s.family.children[i],old=f.children[i];c.learning=clamp(Math.floor(Number(old?.learning)||0),0,1000);c.sex=old?.sex==='male'?'male':'female';c.hair=clamp(Math.floor(Number(old?.hair)||0),0,4);}
  for(let i=0;i<s.family.children.length;i++){const c=f.children[i];if(Number.isFinite(c.x)&&Number.isFinite(c.z)){s.family.children[i].x=c.x;s.family.children[i].z=c.z}}
- if(raw.settings){s.settings.quality=[1,1.35,1.7].includes(raw.settings.quality)?raw.settings.quality:1.35;s.settings.zoom=clamp(Number(raw.settings.zoom)||5.2,3.5,11);s.settings.follow=!!raw.settings.follow;s.settings.sound=!!raw.settings.sound;s.settings.deadZone=clamp(Number(raw.settings.deadZone)||.18,.1,.3);s.settings.sensitivity=clamp(Number(raw.settings.sensitivity)||.7,.4,1.2)}Life.household?.restore(s,raw);return s;
+ if(raw.settings){s.settings.quality=[1,1.35,1.7].includes(raw.settings.quality)?raw.settings.quality:1.35;s.settings.zoom=clamp(Number(raw.settings.zoom)||5.2,3.5,11);s.settings.follow=!!raw.settings.follow;s.settings.sound=!!raw.settings.sound;s.settings.deadZone=clamp(Number(raw.settings.deadZone)||.18,.1,.3);s.settings.sensitivity=clamp(Number(raw.settings.sensitivity)||.7,.4,1.2)}Life.household?.restore(s,raw);control.restore(s,raw,Life);return s;
  }
  function valid(x,z,barriers,door=1){if(!Number.isFinite(x)||!Number.isFinite(z)||x< -31.5||x>31.5||z< -4.48||z>45.5)return false;for(const b of barriers){if(x<b[0]-.28||x>b[1]+.28||z<b[2]-.28||z>b[3]+.28)continue;const xx=clamp(x,b[0],b[1]),zz=clamp(z,b[2],b[3]);if((x-xx)**2+(z-zz)**2<.28**2)return false}for(const [id,h]of Object.entries(town.houses)){const amount=typeof door==='object'?(door[id]??1):id==='soleil'?door:1;if(amount<.56&&Math.abs(x-h.x)<1.08&&Math.abs(z-h.z-5.05)<.24)return false}return true}
  function record(s,text){s.journal.push({day:s.day,text});if(s.journal.length>30)s.journal.shift()}
  function advance(s,hours,simulate=false){if(simulate)decay(s,hours*45);s.time+=hours;while(s.time>=24){s.time-=24;s.day++;if(s.delivery&&s.delivery.day<s.day)s.delivery=null;record(s,'Une nouvelle journée au quartier Soleil.')}const p=s.family.pregnancy;if(p&&s.day>=p.dueDay&&s.family.children.length<2){addChild(s,p.name);s.family.pregnancy=null;record(s,'La famille accueille un bébé !')}}
- function addChild(s,name){const partner=town.byId[s.family.partnerId],index=s.family.children.length;s.family.children.push({id:'child'+s.family.children.length,name:String(name||'Soleil').trim().slice(0,18)||'Soleil',bornDay:s.day,hunger:80,comfort:85,fun:75,skin:partner?(index%2?s.skin:partner.skin):s.skin,learning:0,sex:index%2?'male':'female',hair:partner?.hair||s.hair||0})}
+ function addChild(s,name){const primary=control.main(s),partner=town.byId[s.family.partnerId],index=s.family.children.length;s.family.children.push({id:'child'+s.family.children.length,name:String(name||'Soleil').trim().slice(0,18)||'Soleil',bornDay:s.day,hunger:80,comfort:85,fun:75,skin:partner?(index%2?primary.skin:partner.skin):primary.skin,learning:0,sex:index%2?'male':'female',hair:partner?.hair||primary.hair||0})}
  function stage(s,c){return s.day-c.bornDay>=4?'child':s.day-c.bornDay>=2?'toddler':'baby'}
  function isAdult(s){return s.age>=18}
  function ageStage(s){return s.age<13?'Enfant':s.age<18?'Adolescent':s.age<65?'Adulte':'Aîné'}
  function avatarScale(s){return s.age<13?.65+(s.age-6)*.025:s.age<18?.85+(s.age-13)*.025:1}
  function transfer(s,amount,label){const before=s.money;s.money=clamp(s.money+amount,0,1e6);const delta=s.money-before;if(!delta)return;s.bank.entries.push({day:s.day,amount:delta,balance:s.money,label:String(label||'Activité').slice(0,65)});if(s.bank.entries.length>40)s.bank.entries.shift();s.bank[delta>0?'earned':'spent']+=Math.abs(delta)}
- function can(s,a){const f=s.family,id=a.npc;
+ function can(s,a){const f=s.family,id=a.npc,memberError=control.can(s,a);if(memberError)return memberError;
  if(a.cost!==undefined&&(!Number.isFinite(a.cost)||a.cost<0||!Number.isInteger(a.cost)))return 'Prix invalide.';
  const dailyError=Life.daily?.can(s,a);if(dailyError)return dailyError;
  if(a.work&&s.career.shift)return 'Termine ou quitte ton service en cours.';
@@ -69,7 +71,7 @@ const Life = (() => {
  if(a.picnic&&s.meals<1)return 'Prépare un repas à partager.';
  if(a.picnic&&(!f.outing||Math.hypot(s.x,s.z-36)>4))return 'Active la sortie familiale puis retrouve ta famille au parc.';
  if(a.cost&&s.money<a.cost)return 'Pas assez de sols.';if(a.cook&&s.groceries<1)return 'Achète des provisions à l’épicerie.';if(a.eat&&s.meals<1)return 'Prépare un repas dans la cuisine.';if(a.work&&s.workDay===s.day)return 'Tu as déjà travaillé aujourd’hui.';
- if(a.socialAction&&!ids.includes(id))return 'Habitant introuvable.';
+ if(a.socialAction&&!ids.includes(id)&&!(['player','housemate'].includes(id)&&s.control&&id===control.other(s)))return 'Habitant introuvable.';
  if(a.socialAction&&['chat','interest','joke','flirt','gift','date'].includes(a.socialAction)&&stamp(s)-(s.lastTalk[id]??-100)<.16)return 'Laissons un peu de temps entre deux conversations.';
  if(['flirt','couple'].includes(a.socialAction)&&f.partnerId&&f.partnerId!==id)return 'Tu es déjà en couple. Une séparation se décide dans le carnet.';
  if(a.socialAction==='flirt'&&s.relationships[id]<35)return 'Apprenez d’abord à vous connaître (amitié 35).';

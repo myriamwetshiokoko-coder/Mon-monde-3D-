@@ -35,3 +35,5 @@ jobs:
         run: node tests/neighbourhood.test.cjs
       - name: Personnages, sauvegardes et activités V2.5
         run: node tests/revision.test.cjs
+      - name: Deux membres dans le même foyer V3
+        run: node tests/home-control.test.cjs
