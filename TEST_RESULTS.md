@@ -1,6 +1,6 @@
-# Vérifications — V6.0.0 · candidate
+# Vérifications — V6.0.0
 
-Développement du 12 octobre 2026 sur `develop/v6-vie-de-foyer`, à partir de la V5 publiée `03789f851837e95da7e80ebaa9625474b685a439`. Publication V6 non autorisée à cette étape ; V5 conservée en ligne.
+Développement du 12 octobre 2026 sur `develop/v6-vie-de-foyer`, à partir de la V5 publiée `03789f851837e95da7e80ebaa9625474b685a439`. Publication V6 et mises à jour suivantes autorisées par la propriétaire le 12 octobre 2026, sans nouvelle confirmation. Le code testé reste inchangé ; seuls les documents de publication ont été actualisés.
 
 **193 tests** dans huit suites : simulation 73, économie 7, quartier 28, révision 15, foyer 20, refonte 12, immersion 12, vie familiale 26. Tests de version/catalogue actualisés pour les 35 scripts, dix coiffures et douze tenues ; les anciennes vérifications de déplacements, animation, transactions, collisions et sauvegardes restent actives. Syntaxe JS/CJS, identifiants HTML uniques, cache 6.0.0 et manifeste autonome vérifiés.
 

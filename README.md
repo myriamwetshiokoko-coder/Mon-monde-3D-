@@ -1,12 +1,16 @@
-# Mon Monde 3D — V6.0.0 · vie de foyer à valider
+# Mon Monde 3D — V6.0.0 · vie de foyer
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
-**Publication V5.0.0 autorisée par la propriétaire le 12 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v5-immersion` conserve le développement validé.**
+**Publication V6.0.0 autorisée par la propriétaire le 12 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v6-vie-de-foyer` conserve le développement validé.**
 
-## Vie de foyer V6 préparée
+## Autorisation de publication
 
-Branche `develop/v6-vie-de-foyer`, issue de la V5 publiée. **La V5 reste en ligne ; cette V6 ne sera publiée qu’après l’accord de la propriétaire.** Les sauvegardes restent locales ; aucun compte, paiement réel ou donnée personnelle n’a été ajouté au dépôt.
+Le 12 octobre 2026, la propriétaire a autorisé la publication de la V6 et des mises à jour suivantes de Mon Monde 3D sans nouvelle demande de confirmation. Cette autorisation remplace la consigne précédente demandant son accord avant chaque publication. Développer sur une branche distincte, vérifier les changements et les sauvegardes, puis publier les versions validées et rendre compte du résultat. Les sauvegardes privées restent locales et ne doivent pas être ajoutées au dépôt. Cette autorisation concerne ce jeu ; elle ne crée pas de développement exécuté en arrière-plan ou de tâche planifiée.
+
+## Vie de foyer V6
+
+Branche `develop/v6-vie-de-foyer`, issue de la V5 publiée. La V6 remplace la V5 après validation technique et autorisation de la propriétaire. Les sauvegardes restent locales ; aucun compte, paiement réel ou donnée personnelle n’a été ajouté au dépôt.
 
 - **Personnages** : dix coiffures ajustées, avec une calotte découpée à partir de la surface du crâne CC0 plutôt qu’une grosse sphère. Deux coupes supplémentaires : pixie et chignon bas. Épaules, manches et volumes des hauts resserrés. Douze tenues au total, dont débardeur à bretelles/jupe, veste à col/pantalon, tunique/pantalon et sweat à col doux. Les réglages restent conservés pour les deux adultes et les parties indépendantes.
 - **Initiatives sociales** : le partenaire qui vit à la maison, ou l’autre adulte jouable, peut venir proposer une discussion. Il emprunte un trajet réel et se tourne vers le personnage. Répondre ou remettre à plus tard reste libre ; aucune activité ne saisit les commandes. Ces propositions respectent le travail, le sommeil, les repas, les besoins faibles, les rendez-vous et un délai après les conversations. On peut les désactiver dans Vie de foyer.
