@@ -9,7 +9,7 @@ function beginAction(a){if(activity){inform('Termine ou annule ton activité en 
  const error=Life.can(state,a);if(error){inform(error);return false}
  if(a.npc&&a.pose!=='eat'&&!a.familyStart){const placementError=alignConversation(a);if(placementError){inform(placementError);return false}}
  if(a.socialAction==='date'&&participant){const pairs=[[[-14.5,28,0,0],[-14.5,30,PI,0]],[[-9.5,28,0,0],[-9.5,30,PI,0]],[[-18.2,26.5,0,0],[-18.2,28.5,PI,0]]],pair=pairs.find(pair=>!residents.some(n=>n!==participant&&pair.some(p=>Math.hypot(n.x-p[0],n.z-p[1])<.7)));if(!pair){inform('Attends qu’une table se libère pour votre rendez-vous.');return false}a.anchor=pair[0];a.partnerAnchor=pair[1];}
- if(a.shiftTask!==undefined){const task=Daily.currentTask(state);if(task)a.anchor=[...task.point,task.dir||0,0];}
+ if(a.shiftTask!==undefined){const task=Daily.currentTask(state);if(task&&!a.anchor)a.anchor=[...task.point,task.dir||0,0];}
  closeMenu();activity={seconds:4,effect:{},...a,anchor:a.anchor||(a.name==='Café Fleur'&&a.pose==='eat'?freeCafeSeat():null),t:0};$('activityTitle').textContent=a.verb;$('activityText').textContent=activityDescription(a);$('activityProgress').style.width='0%';$('activity').classList.add('show');return true}
 function openConversation(id){const n=residents.find(n=>n.id===id),info=npcInfo[id],f=state.family,rel=state.relationships[id],aff=state.romance[id];if(!n)return;
  const text=`${n.name} : « ${info.about} »\n\nAmitié ${Math.round(rel)}/100 · Affection ${Math.round(aff)}/100\n${f.partnerId===id?{couple:'En couple',engaged:'Fiancés',married:'Mariés'}[f.status]+' · '+(f.movedIn?'Vie commune':'Foyers séparés'):n.label||'Dans le quartier'}`;
@@ -45,10 +45,11 @@ function updateMiniMap(){const map=$('mapPlayer');map.setAttribute('cx',String((
 // All camera controls are user settings retained across saves.
 $('zoom').value=state.settings.zoom;$('zoom').oninput=e=>{camZoom=Number(e.target.value);state.settings.zoom=camZoom};
 $('follow').checked=state.settings.follow;$('follow').onchange=e=>state.settings.follow=e.target.checked;
-canvas.addEventListener('wheel',e=>{e.preventDefault();camZoom=Life.clamp(camZoom+e.deltaY*.005,3.5,11);state.settings.zoom=camZoom;$('zoom').value=camZoom},{passive:false});
+function changeCameraZoom(amount){if(typeof observedActivity!=='undefined'&&activity&&observedActivity===activity){activityViewDistance=Life.clamp(activityViewDistance+amount,2.8,7);return;}camZoom=Life.clamp(camZoom+amount,3.5,11);state.settings.zoom=camZoom;$('zoom').value=camZoom;}
+canvas.addEventListener('wheel',e=>{e.preventDefault();changeCameraZoom(e.deltaY*.005)},{passive:false});
 let pinchPoints=new Map(),pinchDistance=0;
 canvas.addEventListener('pointerdown',e=>{pinchPoints.set(e.pointerId,[e.clientX,e.clientY]);if(pinchPoints.size===2){const p=[...pinchPoints.values()];pinchDistance=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);dragPointer=null}});
-canvas.addEventListener('pointermove',e=>{if(!pinchPoints.has(e.pointerId))return;pinchPoints.set(e.pointerId,[e.clientX,e.clientY]);if(pinchPoints.size===2){const p=[...pinchPoints.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);camZoom=Life.clamp(camZoom+(pinchDistance-d)*.025,3.5,11);state.settings.zoom=camZoom;pinchDistance=d}});
+canvas.addEventListener('pointermove',e=>{if(!pinchPoints.has(e.pointerId))return;pinchPoints.set(e.pointerId,[e.clientX,e.clientY]);if(pinchPoints.size===2){const p=[...pinchPoints.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);changeCameraZoom((pinchDistance-d)*.025);pinchDistance=d}});
 for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,e=>{pinchPoints.delete(e.pointerId);pinchDistance=0});
 for(const [id,key]of [['style','style'],['hairColor','hairColor']]){$(id).value=state[key];$(id).onchange=e=>state[key]=Number(e.target.value)}
 $('previewBtn').onclick=()=>{releaseControls();oldCamera={camYaw,camPitch,camZoom};editorMode=true;document.body.classList.add('editing');paused=true;$('welcome').style.display='none';$('editor').hidden=false;$('editor').append($('appearance'));camZoom=3.5;camPitch=.18;camYaw=0;};

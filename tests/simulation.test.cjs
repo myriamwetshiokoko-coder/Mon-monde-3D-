@@ -97,7 +97,7 @@ test('Talking residents stand off their seats and dinner uses actual sofas',()=>
 test('Occluding counters fade while collisions and depth rendering remain intact',()=>{
  run("restoreGame(null);state.x=-12;state.z=31.8;var cameraTest=[-12,2,33.6],actorTest=[-12,31.8,0,0]");assert.ok(run("foregroundOccluders(cameraTest,actorTest).has('cafe-counter')"));assert.equal(run('Life.valid(-12,32.7,barriers)'),false);
  assert.equal(run("rayHitsFixture([-12,5,33.6],[-12,4,31.8],foregroundFixtures.find(f=>f.id==='cafe-counter').bounds)"),false);
- run("var opacityValues=[],depthValues=[],oldOpacity=gl.uniform1f,oldDepth=gl.depthMask;gl.uniform1f=(u,v)=>opacityValues.push(v);gl.depthMask=v=>depthValues.push(v);drawScene(cameraTest,actorTest);var fadedCount=fadedBatches.length;drawForeground();gl.uniform1f=oldOpacity;gl.depthMask=oldDepth");assert.ok(run('fadedCount')>0);assert.deepEqual(Array.from(run('opacityValues')),[1,.16,1]);assert.deepEqual(Array.from(run('depthValues')),[false,true]);
+ run("var opacityValues=[],depthValues=[],oldOpacity=gl.uniform1f,oldDepth=gl.depthMask;gl.uniform1f=(u,v)=>{if(u===uOpacity)opacityValues.push(v)};gl.depthMask=v=>depthValues.push(v);drawScene(cameraTest,actorTest);var fadedCount=fadedBatches.length;drawForeground();gl.uniform1f=oldOpacity;gl.depthMask=oldDepth");assert.ok(run('fadedCount')>0);assert.deepEqual(Array.from(run('opacityValues')),[1,.16,1]);assert.deepEqual(Array.from(run('depthValues')),[false,true]);
  run('state.x=0;state.z=25');assert.equal(run('foregroundOccluders(cameraTest,actorTest).size'),0);run('restoreGame(null)');
 });
 test('World labels avoid buttons, HUD rectangles, one another and paused menus',()=>{
@@ -110,7 +110,7 @@ test('World labels avoid buttons, HUD rectangles, one another and paused menus',
  for(const id of Object.keys(hud))els[id].getBoundingClientRect=original[id];run('paused=false;restoreGame(null);labelBoundsDirty=true');
 });
 test('The displayed release and every script use the same new cache version',()=>{
- const html=fs.readFileSync('index.html','utf8'),scripts=[...html.matchAll(/<script src="([^"]+)"/g)];assert.equal(scripts.length,28);assert.ok(scripts.every(m=>m[1].endsWith('?v=4.0.0')));assert.ok(html.includes('MAISON SOLEIL · V4.0.0'));assert.ok(html.includes('Version 4.0.0 · Un quartier, une famille, un chez-toi'));
+ const html=fs.readFileSync('index.html','utf8'),scripts=[...html.matchAll(/<script src="([^"]+)"/g)];assert.equal(scripts.length,32);assert.ok(scripts.every(m=>m[1].endsWith('?v=5.0.0')));assert.ok(html.includes('MAISON SOLEIL · V5.0.0'));assert.ok(html.includes('Version 5.0.0 · Un quartier, une famille, un chez-toi'));
 });
 
 test('Both models face the movement direction and retain real eye and eyebrow materials',()=>{

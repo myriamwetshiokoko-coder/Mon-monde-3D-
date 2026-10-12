@@ -38,3 +38,27 @@
 
 /* Character studio keeps controls below a clear rotatable portrait. */
 .studio-toolbar{display:flex;flex-wrap:wrap;gap:6px;position:sticky;bottom:0;background:#fffaf4;padding:8px 0;margin-top:10px}.studio-toolbar button{min-height:44px;padding:8px 12px;border:1px solid #dac7bb;border-radius:12px;background:#f3e6da;color:#614c45}.editing .editor{max-height:40dvh}.editor input[type=range]{padding:0;min-height:32px;accent-color:#a77465}@media(max-height:500px){.editing .editor{left:auto;width:42%;max-height:85dvh;border-radius:20px 0 0 20px;top:8%;}.editor #appearance{grid-template-columns:1fr}.studio-toolbar{position:static}}
+
+/* V5: a restrained play HUD with a clear view of the character. */
+:root{--ink:#443c36;--accent:#966c56;--paper:rgba(255,252,245,.88);--shadow:0 5px 20px #302b2420}
+.brand,.clock,.need,.utility button,.mini-map{border:1px solid #fff9;box-shadow:0 4px 16px #302b2414}
+.brand small{letter-spacing:1.15px;color:#876955}.brand strong{font-size:14px;font-weight:750}.clock{font-variant-numeric:tabular-nums}
+.need{background:#fffaf1e6;padding:7px 6px;border-radius:11px}.need .lab{font-size:9px!important}.bar{height:4px;background:#dbd3c780}.need .bar i{transition:width .4s,background .4s}.needs.urgent{outline:1px solid #b9665860;outline-offset:3px;border-radius:13px}
+.utility{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));right:100px;gap:5px;max-width:430px;align-items:start}
+.utility button{font-size:10px;min-height:44px;padding:7px 4px;border-radius:13px;background:#fffaf0e6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.utility #phoneBtn{background:#88695be8;color:#fff8e8}.utility>#storiesBtn,.utility>#membersBtn{display:none}
+.utility #wallet{grid-column:1 / 4;grid-row:2;background:#fff9ecce;padding:4px 8px;font-size:10px;line-height:1.5;border-radius:8px}
+.utility>#saveStatus{grid-column:4 / 5;grid-row:2;align-self:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#4c5147;font-size:8px;text-shadow:0 1px 4px #fff}
+.mini-map{background:#fffaf0d9}.mini-map svg{border-radius:9px}
+.joy{background:#fffbf02e;box-shadow:inset 0 0 24px #fffbf018,0 5px 18px #35302815;border:1px solid #fff9}.stick{background:#fffaf0ed;font-size:15px;color:#8c7563;box-shadow:0 4px 12px #43352929}
+.action-area .act{border:1px solid #fff5;border-radius:19px;background:#725c4fed;color:#fff8e7;box-shadow:0 7px 22px #493b2e25;font-size:12px;line-height:1.3}
+.action-area .subact{border:1px solid #fff9;background:#fff8e9d9;border-radius:14px;color:#615348}
+.scene-label{background:#5e5148b8;max-width:80%;overflow:hidden;text-overflow:ellipsis;backdrop-filter:blur(6px);border:1px solid #fff3}
+.panel{border:1px solid #fff9;background:#fffaf1ed;border-radius:22px;box-shadow:0 12px 36px #34291e24;padding:15px;max-width:min(320px,calc(100vw - 32px))}
+.panel h3{font-size:14px;line-height:1.45}.panel p{font-size:12px;line-height:1.5}.panel #activityProgress{background:#a77e62}
+.activity-camera{display:flex;align-items:center;gap:5px;margin:8px 0}.activity-camera button{min-height:44px;min-width:44px;padding:8px 11px;border:1px solid #d7c6b6;background:#f4e9d9;color:#695644;border-radius:13px;font-size:11px}.activity-camera #observeActivity{flex:1}.activity-camera span{display:flex;gap:5px}
+.choice{background:#fffaf0;border-color:#dfd0bd;color:#524338;line-height:1.45}.choice:disabled{opacity:.55}.modal h1{letter-spacing:-.7px}.modal p{line-height:1.65}.modal{box-shadow:0 25px 90px #33291d35}.modal .eyebrow{color:#946d50}
+.editor{background:#fffbf2f5;box-shadow:0 -12px 40px #40352616}.editor label{color:#6b5949}.studio-toolbar{background:#fffbf2f7}.studio-toolbar button:active{background:#ddc6ab}
+@media(max-width:380px)and(min-height:501px){.utility{right:91px}.utility button{font-size:9px}.mini-map{width:70px}.brand strong{font-size:12px}.clock{font-size:9px}}
+@media(max-height:500px){.utility{right:auto;width:310px;grid-template-columns:repeat(4,minmax(0,1fr))}.mini-map{top:55px}.activity-camera{margin:3px 0}.panel{bottom:132px;max-width:290px;padding:10px}.panel h3{margin:0 0 4px}.panel p{margin:3px 0}.activity-camera button{min-height:44px}.utility>#saveStatus{display:none}}
+@media(min-width:800px)and(min-height:501px){.utility{right:auto;width:430px;top:104px}.panel{bottom:160px}.mini-map{top:70px}}

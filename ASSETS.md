@@ -29,3 +29,7 @@ Trois coiffures supplémentaires (carré, longue ondulée, tresses relevées), a
 ## Refonte V4
 
 Aucun asset externe supplémentaire. Visages paramétrés, accessoires, robe longue, placement analytique des bras, détails d’intérieurs et nouveaux meubles sont du code original ou des adaptations procédurales des modèles CC0 déjà attribués ci-dessus. Les modèles sources Quaternius restent inclus et inchangés. Les rendus de vérification utilisent uniquement des parties synthétiques.
+
+## Ajouts originaux V5
+
+Éclairage/ciel/matières procédurales, géométrie du mobilier arrondi et feuillage, cinq coiffures retravaillées, cols et tabliers : code et géométrie produits dans ce dépôt, sans nouveau modèle ou texture téléchargé. Les humains CC0 ci-dessus restent la base. Aucun fichier de sauvegarde personnelle ni capture privée n’est inclus.

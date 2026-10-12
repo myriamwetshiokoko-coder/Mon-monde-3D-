@@ -4,11 +4,32 @@
 const canvas=document.getElementById('world');
 const gl=canvas.getContext('webgl',{antialias:true,premultipliedAlpha:false,alpha:false})||canvas.getContext('experimental-webgl');
 if(!gl){document.getElementById('welcome').querySelector('.modal').innerHTML='<h1>WebGL indisponible</h1><p>Le navigateur n’a pas activé l’affichage 3D. Ouvre cette démo dans un navigateur moderne prenant en charge WebGL.</p>';throw new Error('WebGL indisponible');}
-const VS=`attribute vec3 position;attribute vec3 normal;uniform mat4 model,viewProjection;varying vec3 N;varying vec3 P;void main(){vec4 world=model*vec4(position,1.0);P=world.xyz;vec3 scales=vec3(dot(model[0].xyz,model[0].xyz),dot(model[1].xyz,model[1].xyz),dot(model[2].xyz,model[2].xyz));N=mat3(model)*(normal/scales);gl_Position=viewProjection*world;}`;
-const FS=`precision mediump float;varying vec3 N;varying vec3 P;uniform vec3 tint,lightColor;uniform float opacity;void main(){vec3 n=normalize(N);float diffuse=max(dot(n,normalize(vec3(-0.35,0.87,0.55))),0.0);float night=clamp((.9-lightColor.r)*2.0,0.0,1.0);float homeLamp=max(max(0.0,1.0-length(P-vec3(0.0,2.7,0.0))/8.0),max(max(0.0,1.0-length(P-vec3(-17.2,2.7,0.0))/8.0),max(0.0,1.0-length(P-vec3(17.2,2.7,0.0))/8.0)));float streetLamp=max(max(0.0,1.0-length(P-vec3(-12.7,3.13,17.0))/5.0),max(0.0,1.0-length(P-vec3(12.7,3.13,17.0))/5.0));vec3 col=tint*((0.59+0.42*diffuse)*lightColor+vec3(1.0,.75,.48)*max(homeLamp,streetLamp)*night*.4);float haze=clamp((length(P.xz)-13.0)/24.0,0.0,0.20);col=mix(col,vec3(0.72,0.80,0.79),haze);gl_FragColor=vec4(col,opacity);}`;
+const VS=`attribute vec3 position;attribute vec3 normal;uniform mat4 model,viewProjection;uniform mediump float surfaceKind;uniform float worldTime;varying vec3 N;varying vec3 P;void main(){vec4 world=model*vec4(position,1.0);if(surfaceKind>5.5&&surfaceKind<6.5){float bend=clamp(world.y-.5,0.0,1.0);world.x+=sin(worldTime*.9+world.z*.8+world.y)*.035*bend;world.z+=cos(worldTime*.7+world.x)*.025*bend;}P=world.xyz;vec3 scales=vec3(dot(model[0].xyz,model[0].xyz),dot(model[1].xyz,model[1].xyz),dot(model[2].xyz,model[2].xyz));N=mat3(model)*(normal/scales);gl_Position=viewProjection*world;}`;
+const FS=`precision mediump float;
+varying vec3 N,P;uniform vec3 tint,lightColor,sunDirection,sunColor,ambientColor,eyePosition,fogColor;
+uniform float opacity,surfaceKind,nightAmount;
+float grain(vec2 p){return sin(p.x*47.0+sin(p.y*7.0)*1.4)*sin(p.y*23.0)*.5+.5;}
+void main(){vec3 n=normalize(N),base=tint;vec2 coord=abs(n.y)>.7?P.xz:(abs(n.x)>.7?P.zy:P.xy);
+ float detail=1.0;if(surfaceKind>.5&&surfaceKind<1.5){detail=.97+.025*sin(coord.x*32.0+sin(coord.y*3.0)*1.8);if(abs(n.y)>.7){vec2 plank=vec2(P.x*2.4,P.z*.55+mod(floor(P.x*2.4),2.0)*.5);vec2 seam=abs(fract(plank)-.5);detail*=1.0-.075*smoothstep(.485,.499,max(seam.x,seam.y));}}
+ else if(surfaceKind>1.5&&surfaceKind<2.5){detail=.995+.005*sin(coord.x*42.0)*sin(coord.y*42.0);}
+ else if(surfaceKind>2.5&&surfaceKind<3.5){detail=.96+.035*grain(P.xz*.09);}
+ else if(surfaceKind>3.5&&surfaceKind<4.5){detail=.98+.018*grain(coord*.16);if(tint.r>.6){vec2 seam=abs(fract(coord*.68)-.5);detail*=1.0-.08*smoothstep(.474,.499,max(seam.x,seam.y));}}
+ else if(surfaceKind>5.5&&surfaceKind<6.5){detail=.9+.1*grain(coord*.3);base=mix(base,base*vec3(.89,1.04,.88),max(n.y,0.0)*.45);}
+ else if(surfaceKind>6.5&&surfaceKind<7.5){n=normalize(n+vec3(sin(P.x*5.0)*.13,0.0,cos(P.z*6.0)*.13));detail=.97+.03*sin(P.x*8.0+P.z*3.0);}
+ float diffuse=max(dot(n,sunDirection),0.0);vec3 hemisphere=mix(ambientColor*.64,ambientColor,clamp(n.y*.5+.5,0.0,1.0));
+ vec3 col=base*detail*(hemisphere+sunColor*diffuse);
+ float homeLamp=max(max(0.0,1.0-length(P-vec3(-3.8,2.2,2.7))/5.2),max(max(0.0,1.0-length(P-vec3(-21.0,2.2,2.7))/5.2),max(0.0,1.0-length(P-vec3(13.4,2.2,2.7))/5.2)));
+ float streetLamp=max(max(0.0,1.0-length(P-vec3(-12.7,3.13,17.0))/5.0),max(0.0,1.0-length(P-vec3(12.7,3.13,17.0))/5.0));
+ col+=base*vec3(1.0,.73,.40)*max(homeLamp,streetLamp)*nightAmount*.52;
+ if((surfaceKind>4.5&&surfaceKind<5.5)||(surfaceKind>6.5&&surfaceKind<8.5)){vec3 halfVector=normalize(sunDirection+normalize(eyePosition-P));float spec=pow(max(dot(n,halfVector),0.0),surfaceKind>7.5?34.0:18.0);col+=sunColor*spec*.22;}
+ if(surfaceKind>8.5&&surfaceKind<9.5)col=mix(col,base*1.08,nightAmount*.85);
+ float fog=1.0-exp(-max(0.0,length(P-eyePosition)-12.0)*.009);col=mix(col,fogColor,min(.42,fog));
+ gl_FragColor=vec4(clamp(col,0.0,1.0),opacity);}`;
 function shader(type,src){let s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
 const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,VS));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,FS));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
 const attrPosition=gl.getAttribLocation(program,'position'),attrNormal=gl.getAttribLocation(program,'normal');const uModel=gl.getUniformLocation(program,'model'),uVP=gl.getUniformLocation(program,'viewProjection'),uTint=gl.getUniformLocation(program,'tint'),uLight=gl.getUniformLocation(program,'lightColor'),uOpacity=gl.getUniformLocation(program,'opacity');
+const environmentUniforms=Object.fromEntries(['sunDirection','sunColor','ambientColor','eyePosition','fogColor','surfaceKind','nightAmount','worldTime'].map(k=>[k,gl.getUniformLocation(program,k)]));
+function setEnvironment(eye,studio=false){const a=Atmosphere.frame(state.time,studio);for(const [key,value]of [['sunDirection',a.sun],['sunColor',a.sunColor],['ambientColor',a.ambient],['eyePosition',eye],['fogColor',a.fog]])gl.uniform3fv(environmentUniforms[key],value);gl.uniform1f(environmentUniforms.nightAmount,a.night);gl.uniform1f(environmentUniforms.worldTime,typeof elapsed==='number'?elapsed:0);return a;}
 const PI=Math.PI;
 function hex(v){let s=v.replace('#','');return [parseInt(s.slice(0,2),16)/255,parseInt(s.slice(2,4),16)/255,parseInt(s.slice(4,6),16)/255]}
 function mIdentity(){return [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}
