@@ -2,6 +2,7 @@
 const HomeControl=(()=>{
  const fields=['x','z','name','sex','age','skin','outfit','hair','face','style','hairColor','appearance','hunger','energy','hygiene','fun','social','career','workDay','skill','skills','daily','relationships','romance','lastTalk'];
  const copy=x=>JSON.parse(JSON.stringify(x));
+ function normalizeHomeLife(r,stamp,ids){return {enabled:r?.enabled!==false,last:Object.fromEntries(Object.entries(r?.last||{}).filter(([k,v])=>[...ids,'player','housemate'].includes(k)&&Number.isFinite(v)).map(([k,v])=>[k,Math.max(-100,Math.min(stamp,v))])),moments:Math.max(0,Math.min(10000,Math.floor(Number(r?.moments)||0))),strolling:!!r?.strolling};}
  const other=s=>s.control?.active==='housemate'?'player':'housemate';
  const main=s=>s.control?.active==='housemate'?s.control.inactive:s;
  const capture=s=>Object.fromEntries(fields.map(k=>[k,copy(s[k])]));
@@ -17,7 +18,7 @@ const HomeControl=(()=>{
   s.control={active:'player',inactive:capture(a),earned:0,progress:0,lastMeal:-100};s.relationships.housemate=25;s.romance.housemate=0;s.control.inactive.relationships.player=25;s.control.inactive.romance.player=0;addCitizen(s,life);return null;
  }
  function switchMember(s,life){if(!s.control)return 'Ajoute d’abord un second adulte au foyer.';if(s.career.shift)return 'Termine ou quitte ton service avant de passer le contrôle.';sync(s);const active=s.control.active,incoming=copy(s.control.inactive),outgoing=capture(s);delete s.citizens[other(s)];s.control.active=active==='player'?'housemate':'player';s.control.inactive=outgoing;s.control.earned=0;s.control.progress=0;s.control.lastMeal=-100;for(const k of fields)s[k]=incoming[k];addCitizen(s,life);return null;}
- function can(s,a){const secondary=s.control?.active==='housemate';if(secondary&&(a.wedding||a.planBaby||a.adopt||a.familyStart||a.confirmProject||['flirt','couple','moveIn','propose','date'].includes(a.socialAction)))return 'Les projets de couple et de bébé se gèrent avec le personnage principal pour cette première version du foyer.';if(['player','housemate'].includes(a.npc)&&!['chat','interest','joke','invite'].includes(a.socialAction))return 'Cette personne partage ton foyer. Choisis une discussion.';return null;}
- return {fields,capture,other,main,person,restore,create,switchMember,sync,can};
+ function can(s,a){const secondary=s.control?.active==='housemate';if(secondary&&(a.wedding||a.planBaby||a.adopt||a.familyStart||a.confirmProject||['flirt','couple','moveIn','propose','date'].includes(a.socialAction)))return 'Les projets de couple et de bébé se gèrent avec le personnage principal pour cette première version du foyer.';if(['player','housemate'].includes(a.npc)&&!a.homeMoment&&!['chat','interest','joke','invite'].includes(a.socialAction))return 'Cette personne partage ton foyer. Choisis une discussion.';return null;}
+ return {normalizeHomeLife,fields,capture,other,main,person,restore,create,switchMember,sync,can};
 })();
 if(typeof module!=='undefined')module.exports=HomeControl;

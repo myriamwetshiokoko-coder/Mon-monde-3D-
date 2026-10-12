@@ -1,8 +1,26 @@
-# Mon Monde 3D — V5.0.0 · immersion
+# Mon Monde 3D — V6.0.0 · vie de foyer à valider
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
 **Publication V5.0.0 autorisée par la propriétaire le 12 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v5-immersion` conserve le développement validé.**
+
+## Vie de foyer V6 préparée
+
+Branche `develop/v6-vie-de-foyer`, issue de la V5 publiée. **La V5 reste en ligne ; cette V6 ne sera publiée qu’après l’accord de la propriétaire.** Les sauvegardes restent locales ; aucun compte, paiement réel ou donnée personnelle n’a été ajouté au dépôt.
+
+- **Personnages** : dix coiffures ajustées, avec une calotte découpée à partir de la surface du crâne CC0 plutôt qu’une grosse sphère. Deux coupes supplémentaires : pixie et chignon bas. Épaules, manches et volumes des hauts resserrés. Douze tenues au total, dont débardeur à bretelles/jupe, veste à col/pantalon, tunique/pantalon et sweat à col doux. Les réglages restent conservés pour les deux adultes et les parties indépendantes.
+- **Initiatives sociales** : le partenaire qui vit à la maison, ou l’autre adulte jouable, peut venir proposer une discussion. Il emprunte un trajet réel et se tourne vers le personnage. Répondre ou remettre à plus tard reste libre ; aucune activité ne saisit les commandes. Ces propositions respectent le travail, le sommeil, les repas, les besoins faibles, les rendez-vous et un délai après les conversations. On peut les désactiver dans Vie de foyer.
+- **Moments partagés** : raconter la journée, échanger des mots tendres avec le partenaire, parler des projets, dîner à deux ou regarder une émission ensemble. Le repas utilise **deux portions** et nourrit les deux personnes ; la télévision améliore les loisirs des deux ; discussion, lien et souvenirs évoluent. Annuler ne consomme pas le repas. Les textes sont écrits et prédéfinis, pas produits par une IA.
+- **Logements** : bouton **Logement** visible. Maison Soleil ouverte ; Maison Sauge avec bureau ; Maison Roseraie avec chambre double et chambre des enfants séparées par des cloisons et des ouvertures praticables. Les trois maisons gardent le même terrain intérieur de base. Visite à pied, puis déménagement payé une seule fois. Les adultes du foyer, enfants et affaires suivent. Les meubles incompatibles sont rangés dans l’inventaire. On termine les services de travail avant de déménager.
+- **Quotidien du partenaire** : nourriture à domicile prise en compte dans la journée, pas uniquement le soir ; repas prioritaire en cas de forte faim. Deux positions de sommeil distinctes dans le lit double. Le travail et les salaires existants sont conservés.
+- **Enfants** : berceau remplacé visuellement par un petit lit quand l’enfant grandit ; trajet nocturne vers son lit. Les soins, besoins et étapes de croissance déjà présents continuent. Mila, enfant de Noah, et Lou, enfant d’Emma, sont deux personnages secondaires prédéfinis, avec petits lits et trajets maison/parc ; les parents ont une conversation sur leur famille. Ils ne rejoignent pas le foyer du joueur et leurs positions se réinitialisent au chargement.
+- **Poussette et jouets** : poussette à acheter/placer pour 60 sols, coffre à jouets pour 35 sols. Une sortie en poussette montre un bébé du foyer et une pose de mains près de la poignée ; on accède aux soins pendant la sortie. La promenade se termine à la maison et reprend après fermeture/réouverture de la partie. La poussette suit le personnage avec un placement simplifié ; ce n’est pas une simulation physique de roues ou de véhicule. Un seul bébé accompagne cette sortie.
+- **Caméra et meubles** : cadrage de repas ajusté à la largeur des écrans portrait, deux personnes visibles au salon ; la télévision devient transparente si elle les masque, sans supprimer sa collision. Éclairage de table plus chaleureux. Mobilier du catalogue toujours achetable, orientable et rangeable ; murs et meubles d’origine restent fixes. Dix meubles supplémentaires maximum, dix types au catalogue.
+- **iPhone** : disposition portrait conservée, disposition paysage revue, boutons tactiles et barre du studio repositionnée. Un manifeste et les métadonnées iOS permettent de demander une ouverture autonome depuis l’écran d’accueil. Dans Safari : partager → Ajouter à l’écran d’accueil, puis lancer cette icône. Rotation selon l’appareil ; pas de verrouillage forcé ni de mode hors ligne annoncé. La présentation native iOS doit encore être vérifiée sur l’appareil.
+
+Validation : **193 tests automatisés** dans huit suites, dont les anciens déplacements, salaires, collisions et sauvegardes. Treize scènes distinctes compilées et rendues hors navigateur avec EGL/OpenGL ES, de face/profil/dos et en paysage. Détails et limites dans `TEST_RESULTS.md`.
+
+Cette étape conserve les modèles de base stylisés CC0 et les animations procédurales. Elle n’est pas un remplacement par des humains photoréalistes. Deux adultes contrôlables ; le second reste un membre indépendant et les projets de couple/grossesse restent attachés au principal. Les enfants utilisent des silhouettes simplifiées et une croissance en jours fictifs ; pas de nouvelle simulation médicale, de création illimitée de familles ou d’éditeur de murs.
 
 ## Immersion V5
 
