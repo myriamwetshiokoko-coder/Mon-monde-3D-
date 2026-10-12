@@ -51,3 +51,7 @@ jobs:
         run: node tests/maternity.test.cjs
       - name: Naissances annoncées et sauvegardées V8.0.2
         run: node tests/family-events.test.cjs
+      - name: Personnages et studio V9
+        run: node tests/characters-v9.test.cjs
+      - name: Rituels et promenades V9
+        run: node tests/domestic.test.cjs
