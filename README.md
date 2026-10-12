@@ -1,4 +1,9 @@
-# Mon Monde 3D — V8.0.0 · quotidien vivant
+# Mon Monde 3D — V8.0.1
+
+Correctif du rendu observé dans l’enregistrement iPhone : le ventre de grossesse n’est plus une sphère indépendante. Le corps et les vêtements se déforment ensemble, avec les mêmes articulations, une amplitude bornée et un éclairage adapté. Les calendriers familiaux, tenues et sauvegardes restent compatibles. Les coiffures et les personnages restent stylisés.
+
+L’interface de l’enregistrement apparaît réduite. Le fichier contient déjà un viewport mobile correct ; ce correctif ne prétend pas résoudre une éventuelle mise à l’échelle de Safari sans mesure sur l’appareil.
+
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
