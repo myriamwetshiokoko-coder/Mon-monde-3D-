@@ -1,3 +1,13 @@
+# Vérifications — V8.0.2
+
+Correctif depuis main `858af0db63f815771fdeba68bd782b634b881a88`, branche `develop/v8-2-naissance-visible`, 12 octobre 2026. Aucun fichier utilisateur ni sauvegarde privée inclus. Publication selon l’autorisation permanente.
+
+**284 tests dans douze suites** : les 261 vérifications V8.0.1 conservées, puis 23 de cycle familial visible. Les anciens tests de naissance sont adaptés au choix explicite de l’accueil. Les scénarios vérifient l’échéance traversée en dormant ou par grand saut de temps, un seul message, menus/activités non interrompus, choix différé et rappel, reprise des anciennes grossesses, prénom et coût nul, annulation et rechargement sans enfant fantôme, annonce après naissance unique, fermeture avant lecture, anciens enfants révélés sans modification, accès aux soins, rejet avant échéance et après naissance, identité du porteur et génétique avec un second adulte, copie du dialogue et historique sauvegardé.
+
+Le scénario synthétique `birth-arrival` exécute l’interface de prénom et la transition sur le jeu réel, puis rejoue ses commandes sous Mesa EGL/GLES : 111 dessins, zéro erreur de shader et de GL. Pose au lit inspectée. Ce rendu ne valide pas les modales CSS dans Safari ni les performances sur l’iPhone. Le DOM simulé vérifie les boutons, les textes et la pause du temps.
+
+Syntaxe JS/CJS, identifiants HTML uniques, présence des fichiers et cache commun 8.0.2 pour 40 scripts vérifiés. Les dates des enfants anciens sont conservées ; le rappel de reprise évite d’inventer une nouvelle naissance. L’accueil reste une transition de jeu, sans simulation médicale détaillée.
+
 # Vérifications — V8.0.1
 
 Correctif préparé depuis main `61f9d903cbeed0ecb940acbea727331b9148ea5a`, branche `develop/v8-1-grossesse`. Aucun fichier utilisateur ni sauvegarde privée inclus.
