@@ -1,11 +1,11 @@
 /* V2.1: daily activities, curated home styles and family routines. */
 for(const key of ['sensitivity','deadZone']){$(key).value=state.settings[key];$(key).oninput=e=>{state.settings[key]=Number(e.target.value)}}
 $('bodyType').value=state.appearance.body;$('bodyType').onchange=e=>state.appearance.body=e.target.value;
-function syncAppearance(){$('sex').value=state.sex;$('startAge').value=state.age;$('ageStage').textContent=Life.ageStage(state)+' · '+state.age+' ans';$('bodyType').value=state.appearance.body;for(const key of ['sensitivity','deadZone'])$(key).value=state.settings[key];for(const [id,key]of [['bodyHeight','height'],['bodyWidth','width'],['eyeColor','eyes'],['bottomColor','bottomColor'],['shoeColor','shoeColor']])$(id).value=state.appearance[key];$('glasses').checked=state.appearance.glasses}
+function syncAppearance(){$('sex').value=state.sex;$('startAge').value=state.age;$('ageStage').textContent=Life.ageStage(state)+' · '+state.age+' ans';$('bodyType').value=state.appearance.body;for(const key of ['sensitivity','deadZone'])$(key).value=state.settings[key];for(const [id,key]of [['fabricPattern','pattern'],['bodyHeight','height'],['bodyWidth','width'],['eyeColor','eyes'],['bottomColor','bottomColor'],['shoeColor','shoeColor']])$(id).value=state.appearance[key];$('glasses').checked=state.appearance.glasses}
 syncAppearance();
 $('sex').onchange=e=>{state.sex=e.target.value==='male'?'male':'female';state.appearance.body=state.sex;syncAppearance();save()};
 $('startAge').onchange=e=>{const value=Number(e.target.value);if(e.target.value.trim()===''||!Number.isFinite(value)){syncAppearance();return}const age=Life.clamp(Math.floor(value),6,90);if(age<18&&state.career.shift){inform('Termine ou quitte ton service avant de modifier cet âge.');syncAppearance();return}if(age<18&&(state.control||state.family.partnerId||state.family.pregnancy||state.family.children.length)){inform('Ce foyer a déjà une histoire adulte. Son âge doit rester au moins 18 ans.');syncAppearance();return}state.age=age;if(!Life.isAdult(state))for(const id of Object.keys(state.romance))state.romance[id]=0;smoothEye=null;smoothTarget=null;syncAppearance();save()};
-for(const [id,key]of [['bodyHeight','height'],['bodyWidth','width'],['eyeColor','eyes'],['bottomColor','bottomColor'],['shoeColor','shoeColor']])$(id).oninput=e=>state.appearance[key]=Number(e.target.value);
+for(const [id,key]of [['fabricPattern','pattern'],['bodyHeight','height'],['bodyWidth','width'],['eyeColor','eyes'],['bottomColor','bottomColor'],['shoeColor','shoeColor']])$(id).oninput=e=>state.appearance[key]=Number(e.target.value);
 $('glasses').onchange=e=>state.appearance.glasses=e.target.checked;
 $('lookPreset').onchange=e=>{const male=state.appearance.body==='male',looks=[
  {outfit:male?4:0,style:male?0:1,hair:male?0:5,hairColor:1,bottomColor:2,jaw:male?.2:-.2,lips:male?0:.3,makeup:male?0:.2,accessory:male?0:1},
@@ -15,10 +15,14 @@ $('lookPreset').onchange=e=>{const male=state.appearance.body==='male',looks=[
  {outfit:7,style:4,hair:0,hairColor:1,bottomColor:2},
  {outfit:male?6:4,style:male?6:7,hair:male?0:6,hairColor:0,bottomColor:4,accessory:male?2:3,makeup:male?0:.3},
  {outfit:5,style:6,hair:male?0:7,hairColor:1,bottomColor:2,accessory:0,makeup:0},
- {outfit:7,style:male?3:2,hair:male?3:5,hairColor:3,bottomColor:1,accessory:1}
+ {outfit:7,style:male?3:2,hair:male?3:5,hairColor:3,bottomColor:1,accessory:1},
+ {outfit:4,style:17,hair:male?0:9,hairColor:1,bottomColor:2,pattern:0},
+ {outfit:6,style:19,hair:male?8:5,hairColor:3,bottomColor:1,pattern:0},
+ {outfit:0,style:21,hair:male?3:6,hairColor:0,bottomColor:2,pattern:2},
+ {outfit:1,style:18,hair:male?0:4,hairColor:1,bottomColor:1,pattern:1}
  ],look=looks[Number(e.target.value)];if(e.target.value===''||!look)return;
  for(const k of ['outfit','style','hair','hairColor'])state[k]=look[k];state.appearance.bottomColor=look.bottomColor;
- for(const k of ['jaw','lips','makeup','accessory'])if(look[k]!==undefined)state.appearance[k]=look[k];outfit=state.outfit;
+ for(const k of ['jaw','lips','makeup','accessory','pattern'])if(look[k]!==undefined)state.appearance[k]=look[k];outfit=state.outfit;
  for(const k of ['hair','hairColor','style'])$(k).value=state[k];syncAppearance();setupSwatches('clothes',outfits,()=>outfit,v=>outfit=v);
 };
 function locationIs(x,z,r=3){return Math.hypot(state.x-x,state.z-z)<=r}

@@ -1,3 +1,17 @@
+# Vérifications — V9.0.0
+
+Depuis main `612e194f7acf70c8849790e6df26396f8bee5c1e`, branche `develop/v9-personnages-vie`, 12 octobre 2026. Publication selon l’autorisation permanente de la propriétaire conservée dans README.
+
+**332 tests dans quatorze suites** : simulation 73, économie 7, quartier 28, révision 15, foyer 20, refonte 12, immersion 12, famille 26, aménagement 24, quotidien 39, grossesse 5, naissances 24, personnages V9 16, rituels/proménades V9 31. Les quatre assertions de taille de catalogue/cache sont actualisées à 22 tenues et 42 scripts ; les anciens scénarios ne sont pas retirés.
+
+Les nouveaux essais vérifient vingt coiffures propres à leur morphologie, indices/poids/hauteurs bornés, lissage conservant toutes les positions et articulations, vêtements et jupe midi, rendu des 22 styles × 10 coiffures × 2 morphologies sous stub, motifs réinitialisés entre personnages et masqués au travail, sauvegardes indépendantes et deux adultes, quatre looks, cinq sections du studio, quatre bases de traits, poses/grossesse finies et réutilisation du cache de sourcils.
+
+Côté foyer : plans par défaut/personnalisés/en pause, imports bornés, préparation physique du dîner puis trajet à table, attente sans consommation, achèvement unique, annulation/refus/absence, rechargement sans débit fantôme, manque de repas, priorités du travail et des soins, point d’approche stable et message unique, télévision allumée dès le début, nouveau jour et boutons accessibles. Promenade libre sans prise des commandes, départ conditionné, itinéraire réel depuis chacune des trois maisons, positions valides et déplacement du compagnon limité à sa vitesse, trafic, arrivée seule sans gain, arrêt/échéance sans bonus, reprise au même repère, changement de membre sans auto-accompagnement, activité interrompant la promenade, récompense quotidienne unique et douze souvenirs bornés.
+
+**Rendu GPU réel** : 17 scènes (portraits, six tenues, rayures/fleurs/carreaux, cheveux vus de dos, grossesse, repos, repas, TV, discussion et promenade) puis quatre contrôles finaux (sourcils, dîner, TV et cadrage de la promenade). Les shaders sont compilés sous Mesa EGL/GLES/llvmpipe, sans erreur de shader/GL. Les images sont inspectées, mais il ne s’agit ni d’un Safari iPhone ni d’une mesure de FPS. Les données sont des parties synthétiques, sans sauvegarde privée.
+
+42 scripts locaux et cache 9.0.0, fichiers présents, identifiants HTML uniques, manifeste, syntaxe JS/CJS et différences sans erreurs d’espaces vérifiés. Les anciennes histoires et l’annonce de naissance restent compatibles. Les tenues/couleurs/visages changent réellement le rendu ; les descriptifs de goûts restent narratifs. Le moteur, les modèles de base CC0 et les limites médicales/sociales existantes restent explicitement décrits.
+
 # Vérifications — V8.0.2
 
 Correctif depuis main `858af0db63f815771fdeba68bd782b634b881a88`, branche `develop/v8-2-naissance-visible`, 12 octobre 2026. Aucun fichier utilisateur ni sauvegarde privée inclus. Publication selon l’autorisation permanente.

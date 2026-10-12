@@ -1,3 +1,31 @@
+# Mon Monde 3D — V9.0.0 · visages et vie de foyer
+
+Cette mise à jour conserve le quartier, les logements, les métiers, les familles et les sauvegardes. Elle reprend le rendu des personnages et ajoute des activités partagées réellement jouables.
+
+## Personnages et studio
+
+- Dix coiffures reconstruites séparément sur les têtes féminine et masculine : calotte ajustée, raccords des longueurs repris, queues/chignons et boucles de taille contenue. Les indices des anciennes coiffures sont conservés.
+- Normales du corps et des vêtements adoucies ; silhouette féminine moins accentuée. Iris et pupilles placés selon la géométrie du visage, y compris sur le modèle masculin dont les anciennes UV ne convenaient pas. Sourcils courbes légers, cils atténués et lèvres plus discrètes. La base humaine reste le modèle CC0 stylisé existant.
+- Six tenues supplémentaires, soit **22** : robe midi, chemisier en lin/pantalon, pull fin/jean, veste superposée/jean, ensemble décontracté et blouse/jupe midi. Maillages dédiés au lin, à la maille, à la veste et à la jupe midi ; les articulations et la grossesse restent compatibles.
+- Quatre motifs de tissu : uni, rayures, petites fleurs et carreaux. Ils s’appliquent aux hauts et aux jupes, avec les couleurs existantes. Quatre looks prêts à porter ajoutés. Les habitants ont des combinaisons de vêtements et motifs plus variées.
+- Studio en cinq sections **Visage / Cheveux / Tenue / Corps / Gestes**, avec cadrage du visage adapté à chaque morphologie. Quatre bases de traits éditables ; tourner, changer de coiffure, de motif ou de corps reste possible en direct. La création ne fait pas avancer la journée.
+
+## Une vie de foyer à partager
+
+**Un rendez-vous quotidien pour parler de la journée est prévu par défaut à 20 h** lorsqu’un membre partage le foyer. Depuis **Logement → Rituels et vie du foyer** ou **Nos moments → Rituels, promenades et souvenirs**, choisir un dîner à 19 h, une émission à 20 h 30 ou une discussion à 7 h/20 h ; la mise en pause reste disponible.
+
+À l’heure choisie, l’autre adulte se déplace vers le lieu du rendez-vous. Pour le dîner, il cuisine réellement deux portions en quatre étapes lorsqu’il reste une provision et qu’il manque deux repas. Il vient à table, attend et propose de partager. L’invitation n’impose aucune activité ; rejoindre, accepter ou remettre à plus tard est possible. Le repas partagé consomme deux portions seulement à son achèvement. Annuler ne consomme pas de repas. Travail, repos, hygiène, rendez-vous déjà pris et soins urgents restent prioritaires. Une invitation ignorée libère la personne ; le message du rituel n’est envoyé qu’une fois par journée.
+
+**Promenade à deux** : se retrouver à la maison, puis choisir le départ dans Vie de foyer. Le joueur marche librement avec ses commandes habituelles ; l’autre adulte le suit par les chemins du quartier. Trois repères passent du jardin à la rue, au quartier, puis au parc. Chaque repère est validé lorsque les deux personnes sont proches ; atteindre seul le parc n’accorde rien. Attendre son compagnon est parfois nécessaire, notamment en courant. Arrêt manuel, activité, service, nuit ou échéance de quatre heures fictives interrompent la promenade. Elle peut reprendre après un rechargement au même repère. Une balade terminée augmente loisirs/lien une fois par journée, sans argent gratuit ni bonus partiel.
+
+Douze souvenirs récents de rituels/proménades sont conservés, avec le personnage et le jour. Ils apparaissent dans **Notre quotidien** et certains échanges spontanés les évoquent. Les profils des huit habitants donnent accès à leur intérêt et à une conversation jouable autour de celui-ci ; ce sont des descriptions écrites, pas une simulation psychologique complète. Une émission partagée allume désormais la télévision dès son début.
+
+## Vérification de cette version
+
+**332 tests dans quatorze suites** : 285 vérifications précédentes conservées, 31 pour les rituels/proménades/reprises et 16 pour les personnages/studio. Les trajets à deux ont été parcourus depuis les trois maisons avec les collisions et le trafic, sans téléportation. Dix-sept scènes différentes, plus quatre contrôles du rendu final, ont été dessinées sous EGL/GLES sans erreur. Les tests d’interface utilisent un DOM simulé ; CSS, gestes Safari natifs et FPS sur iPhone ne sont pas mesurés. Les sourcils utilisent un maillage courbe mis en cache afin d’éviter dix dessins séparés par visage.
+
+Le rendu reste stylisé, les dialogues écrits et l’accueil du bébé simplifié. Cette étape ne remplace pas les personnages par des humains photoréalistes et ne transforme pas le projet en un équivalent complet des Sims ou de One State. Les naissances annoncées V8.0.2 et le choix explicite d’accueil sont conservés. Aucune sauvegarde privée n’est incluse dans le dépôt.
+
 # Mon Monde 3D — V8.0.2 · naissances visibles
 
 Une grossesse arrivée à son échéance ne crée plus d’enfant automatiquement. Un écran met le jeu en pause et propose de préparer l’accueil, rentrer à la maison ou attendre. Le rappel **Bébé attendu** reste dans l’interface. **Mon foyer** affiche la progression et explique que dormir avance les trois jours fictifs.

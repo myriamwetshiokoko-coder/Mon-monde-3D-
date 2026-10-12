@@ -86,3 +86,15 @@ html,body{overscroll-behavior:none}#world{width:100%;height:100%;touch-action:no
 /* The family reminder persists after dismissing its announcement. */
 .utility #familyStatus{grid-column:1 / 5;grid-row:3;min-height:44px;font-size:11px;padding:9px 8px;white-space:normal;line-height:1.3;background:#f2dfd9f2;color:#674b59;border-color:#d8b6b8}
 .utility #familyStatus[hidden]{display:none!important}
+
+/* Daily household invitations leave walking controls available. */
+.domestic-prompt{position:fixed;z-index:5;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 166px);max-width:410px;margin:auto;padding:12px;border-radius:18px;background:#fffaf1f2;border:1px solid #dbc8b3;box-shadow:0 10px 35px #3a2f2828;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.domestic-prompt[hidden]{display:none!important}.domestic-prompt p{grid-column:1 / 3;margin:0;font-size:12px;line-height:1.5;white-space:pre-line}.domestic-prompt button{min-height:44px;border:1px solid #d3bda5;border-radius:11px;background:#f0e3cf;color:#5c493d;font-size:12px}.domestic-prompt #domesticLater{grid-column:1 / 3}
+.utility #domesticStatus{grid-column:1 / 5;grid-row:3;min-height:44px;padding:9px 8px;font-size:11px;white-space:normal;background:#e1e8d9ed;color:#4e6553}.utility #familyStatus:not([hidden])~#domesticStatus{grid-row:4}.utility #domesticStatus[hidden]{display:none!important}
+@media(max-height:500px){.domestic-prompt{left:auto;right:16px;max-width:310px;bottom:130px}.utility #domesticStatus{min-height:40px}}
+
+/* A focused character studio: fields stay live when changing sections. */
+.studio-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;order:-2;position:sticky;top:0;background:#fffbf2;z-index:2;padding:5px 0;margin-bottom:7px}
+.studio-tabs button{min-height:44px;border-radius:11px;border:1px solid #dac7bb;background:#f2e8da;color:#6b5949;font-size:11px;padding:5px 2px}.studio-tabs button.selected{background:#8d6c5e;color:#fff8ed;border-color:#8d6c5e}
+.editor .studio-toolbar{position:static}.editor .studio-toolbar button:nth-child(n+5){display:none}.editor[data-style-section="gestures"] .studio-toolbar button:nth-child(n+5){display:block}
+.editor[data-style-section="face"] .style-hair,.editor[data-style-section="face"] .style-clothes,.editor[data-style-section="face"] .style-body,.editor[data-style-section="hair"] .style-face,.editor[data-style-section="hair"] .style-clothes,.editor[data-style-section="hair"] .style-body,.editor[data-style-section="clothes"] .style-face,.editor[data-style-section="clothes"] .style-hair,.editor[data-style-section="clothes"] .style-body,.editor[data-style-section="body"] .style-face,.editor[data-style-section="body"] .style-hair,.editor[data-style-section="body"] .style-clothes,.editor[data-style-section="gestures"] #appearance{display:none}

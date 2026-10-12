@@ -29,6 +29,6 @@ const roleRestoreGame=restoreGame;restoreGame=function(raw){endInvitation();role
 // start from in front of both people instead of lining one up behind the other.
 const sharedCamera=cameraEye;cameraEye=function(target,distance,yaw,pitch){if(editorMode||!activity?.homeMoment||observedActivity!==activity)return sharedCamera(target,distance,yaw,pitch);
  const a=activity,p=avatarLocation(),b=a.partnerAnchor||[state.citizens[a.npc].x,state.citizens[a.npc].z],separation=Math.hypot(p[0]-b[0],p[1]-b[1]),aspect=(canvas.width||innerWidth)/(canvas.height||innerHeight),fit=(separation+1.1)/(2*Math.tan(PI/7.2)*aspect),view=Math.max(activityViewDistance,fit);
- target[1]=a.homeMoment==='talk'?1.12:.98;const angle=a.homeMoment==='tv'?p[2]+.22:a.homeMoment==='meal'?p[2]+PI/2:p[2]+PI/2;
+ target[1]=a.homeMoment==='talk'?1.12:.98;const angle=a.homeMoment==='tv'?p[2]+.65:a.homeMoment==='meal'?p[2]+PI/2:p[2]+PI/2;
  return immersiveCameraEye(target,view,angle+activityViewAngle,activityViewPitch);
 };
