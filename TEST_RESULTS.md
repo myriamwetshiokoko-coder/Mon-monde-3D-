@@ -1,6 +1,6 @@
-# Vérifications — V5.0.0 · candidate
+# Vérifications — V5.0.0
 
-Vérifications locales du 11 octobre 2026 sur `develop/v5-immersion`, à partir du commit V4 publié `a444eef118225759d9f943e0f42caa088dae6aeb`. Publication V5 non autorisée à cette étape ; V4 conservée en ligne.
+Vérifications locales du 11 octobre 2026 sur `develop/v5-immersion`, à partir du commit V4 publié `a444eef118225759d9f943e0f42caa088dae6aeb`. Contrôles GitHub réussis sur le code V5 `b0b16cd96fed6ef93b086759a0aadf1e049abd7e`. Publication V5 autorisée par la propriétaire le 12 octobre 2026 ; seuls ces documents ont été actualisés après les tests, sans modification du code validé.
 
 **167 tests** dans sept suites : simulation 73, économie 7, quartier 28, révision 15, foyer 20, refonte 12, immersion 12. Syntaxe JS/CJS, cache 5.0.0, 32 scripts locaux et identifiants HTML uniques vérifiés. Sept suites inscrites au workflow GitHub sans déploiement.
 
