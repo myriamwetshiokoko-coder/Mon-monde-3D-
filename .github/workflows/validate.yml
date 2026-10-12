@@ -45,3 +45,5 @@ jobs:
         run: node tests/family-life.test.cjs
       - name: Aménagement, trajets et sauvegardes V7
         run: node tests/arrangement.test.cjs
+      - name: Initiatives, partage et personnages V8
+        run: node tests/living.test.cjs

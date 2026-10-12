@@ -1,12 +1,26 @@
-# Mon Monde 3D — V7.0.0 · aménager sa maison
+# Mon Monde 3D — V8.0.0 · quotidien vivant
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
-**V7.0.0 préparée sur `develop/v7-amenagement`, selon l’autorisation permanente de publication donnée le 12 octobre 2026.**
+**V8.0.0 préparée sur `develop/v8-quotidien-vivant`, selon l’autorisation permanente de publication donnée le 12 octobre 2026.**
 
 ## Autorisation de publication
 
 Le 12 octobre 2026, la propriétaire a autorisé la publication de la V6 et des mises à jour suivantes de Mon Monde 3D sans nouvelle demande de confirmation. Cette autorisation remplace la consigne précédente demandant son accord avant chaque publication. Développer sur une branche distincte, vérifier les changements et les sauvegardes, puis publier les versions validées et rendre compte du résultat. Les sauvegardes privées restent locales et ne doivent pas être ajoutées au dépôt. Cette autorisation concerne ce jeu ; elle ne crée pas de développement exécuté en arrière-plan ou de tâche planifiée.
+
+## Quotidien vivant V8
+
+Depuis la V7 publiée (`6f15898dce0d7bca8876472831e768e065a17c43`), avec les parties, logements, meubles et identités conservés.
+
+- **Conversations spontanées** : le conjoint ou l’autre adulte du foyer vient à pied. Après une courte pause immobile à la maison, quatre répliques prédéfinies alternent entre les personnages, avec gestes, orientation face à face et cadrage des deux silhouettes. Marcher, ouvrir un menu/téléphone ou choisir Plus tard interrompt librement. Les besoins sociaux et le lien évoluent uniquement à la fin des huit secondes ; les propositions respectent un délai. Poursuivre ouvre les vraies activités de foyer.
+- **Journées moins uniformes** : lecture avec livre, téléphone, émission au salon et pause au jardin de Soleil (devant la maison dans les deux autres logements). Ces routines changent selon l’heure. Travail, sommeil, faim, hygiène, soins et rendez-vous restent prioritaires.
+- **Moments côte à côte** : un adulte libre peut rejoindre spontanément une lecture au canapé, une émission ou un repas du joueur à table. Il marche jusqu’à sa place, y reste réellement quelques secondes, puis bénéficie du moment seulement si l’activité se termine. Le repas utilise une portion par personne ; pas de débit du second repas sur annulation, départ du conjoint ou faute de nourriture. Les activités explicites Dîner à deux restent disponibles.
+- **Cuisine et enfants** : le conjoint prépare, découpe, surveille et dresse deux portions en vingt secondes, en consommant une provision, puis envoie un message dans le téléphone du jeu. L’aide aux enfants, lorsqu’elle est activée dans Foyer, fait marcher le parent vers l’enfant ; elle ne nourrit plus un bébé depuis l’autre côté de la pièce. Travail et activité manuelle avec ce parent interrompent cette aide.
+- **Apparence** : quatre nouvelles tenues (blouse légère/jupe, T-shirt ajusté/jean, chemise à manches retroussées, pyjama doux), soit **seize** au total. Les nouveaux hauts suivent la surface et les articulations du corps CC0, avec leurs propres maillages ; chaussons du pyjama. Les sommets identiques des vêtements sont regroupés au chargement. Lèvres au repos moins marquées selon le teint, sourcils allégés et sourire discret en conversation.
+- **Positions corrigées** : les personnes sont assises devant le dossier du canapé, avec les jambes visibles. Observer cadre les deux participants lorsqu’ils partagent une activité. Deux emplacements distincts pour dormir dans le lit double, pyjama affiché sans perdre le vêtement choisi. Si un troisième adulte partage ce foyer (autre adulte jouable et conjoint du personnage principal), il se repose sur le canapé. Les échanges du second adulte ne lui inventent pas une relation amoureuse avec le conjoint du principal.
+- **Réglages et reprise** : Logement → Habitudes du foyer permet d’activer/arrêter les initiatives, les conversations/loisirs et les moments partagés. Les choix et le nombre de repas partagés sont sauvegardés. Les anciennes initiatives mises en pause restent en pause ; ce menu permet de les réactiver. Les scènes inachevées ne redémarrent pas après rechargement et ne produisent aucun gain fantôme.
+
+Validation : **256 tests dans dix suites**, dont 39 nouvelles vérifications, et dix-sept scènes rendues en EGL/OpenGL ES sans erreur. Le navigateur Chrome de test ne fournit pas WebGL : aucune validation native Safari, CSS/tactile iPhone ou FPS n’est annoncée. Le rendu reste stylisé ; dialogues écrits, soins et cuisine simplifiés, grossesse de la version précédente conservée. Détails dans `TEST_RESULTS.md`.
 
 ## Aménagement V7
 

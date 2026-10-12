@@ -10,7 +10,7 @@ const Life = (() => {
  function restore(raw){const s=JSON.parse(JSON.stringify(defaults));if(!raw||typeof raw!=='object'){Life.household?.restore(s,null);return s;}
  for(const k of ['deliveryDay','lastCare','x','z','time','day',...needs,'skin','outfit','hair','face','style','hairColor','money','groceries','meals','workDay','skill'])if(Number.isFinite(raw[k]))s[k]=raw[k];
  for(const k of needs)s[k]=clamp(s[k],0,100);for(const k of ['money','groceries','meals','skill','workDay','deliveryDay'])s[k]=clamp(Math.floor(s[k]),0,1e6);
- for(const [k,max]of [['skin',5],['outfit',7],['hairColor',4],['hair',9],['face',2],['style',11]])s[k]=clamp(Math.floor(s[k]),0,max);
+ for(const [k,max]of [['skin',5],['outfit',7],['hairColor',4],['hair',9],['face',2],['style',15]])s[k]=clamp(Math.floor(s[k]),0,max);
  s.sex=['female','male'].includes(raw.sex)?raw.sex:(raw.appearance?.body==='male'?'male':'female');s.age=Number.isFinite(raw.age)?clamp(Math.floor(raw.age),6,90):24;
  s.time=((s.time%24)+24)%24;s.day=clamp(Math.floor(s.day),1,1e6);s.name=typeof raw.name==='string'?raw.name.slice(0,18):s.name;
  for(const id of ids){s.relationships[id]=clamp(Number(raw.relationships?.[id])||0,0,100);s.romance[id]=clamp(Number(raw.romance?.[id])||0,0,100);if(Number.isFinite(raw.lastTalk?.[id]))s.lastTalk[id]=raw.lastTalk[id];if(Number.isFinite(raw.visits?.[id]))s.visits[id]=raw.visits[id]}
