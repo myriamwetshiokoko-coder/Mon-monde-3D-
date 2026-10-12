@@ -1,12 +1,25 @@
-# Mon Monde 3D — V6.0.0 · vie de foyer
+# Mon Monde 3D — V7.0.0 · aménager sa maison
 
 Jeu personnel de simulation de vie en 3D, pour Safari sur iPhone et les navigateurs d’ordinateur. Cette version reprend le projet existant, sa maison, son jardin, ses activités et ses sauvegardes. Le quartier reste continu. Les modèles humains CC0 sont inclus localement ; le jeu ne télécharge aucune ressource externe.
 
-**Publication V6.0.0 autorisée par la propriétaire le 12 octobre 2026 sur `main` et GitHub Pages. La branche `develop/v6-vie-de-foyer` conserve le développement validé.**
+**V7.0.0 préparée sur `develop/v7-amenagement`, selon l’autorisation permanente de publication donnée le 12 octobre 2026.**
 
 ## Autorisation de publication
 
 Le 12 octobre 2026, la propriétaire a autorisé la publication de la V6 et des mises à jour suivantes de Mon Monde 3D sans nouvelle demande de confirmation. Cette autorisation remplace la consigne précédente demandant son accord avant chaque publication. Développer sur une branche distincte, vérifier les changements et les sauvegardes, puis publier les versions validées et rendre compte du résultat. Les sauvegardes privées restent locales et ne doivent pas être ajoutées au dépôt. Cette autorisation concerne ce jeu ; elle ne crée pas de développement exécuté en arrière-plan ou de tâche planifiée.
+
+## Aménagement V7
+
+À partir de la V6 publiée (`305dcc2b85544357754bbd2a368009cdc79093dc`), sans remplacer les familles, identités ni les parties enregistrées.
+
+- **Lit, canapé, table et chaises** : Logement → Réorganiser lit, canapé et table. Touche le plan, ajuste par pas de 25 cm, tourne par quarts de tour, puis valide. Déplacement gratuit ; annulation sans effet. Les murs, cuisine, salle de bain, télévision, table basse et lampes restent fixes.
+- **Un meuble réellement déplacé** : le modèle 3D, les collisions, les ombres de contact, les points d’interaction, les places pour dormir/lire/manger et les destinations du partenaire suivent ensemble. Les places réservées au mobilier acheté suivent aussi les sièges. Aucun nouveau mesh de mobilier construit à chaque image ; les modèles existants sont réutilisés.
+- **Passages protégés** : refus près des murs, d’un meuble ou d’un personnage, et vérification des trajets vers cuisine, chambre, salon, table, salle de bain, lits d’enfants et sortie. La petite boucle de déplacement des enfants reste libre. L’espace disponible dépend de la maison et des autres meubles : déplacer la table peut libérer de la place pour le lit.
+- **Conservation** : chaque maison garde son aménagement dans la sauvegarde locale. Reprise après fermeture, changement de personnage et déménagement conservent ces données. Un placement enregistré invalide est écarté ; un meuble acheté gênant est rangé sans être perdu.
+- **Retour au plan initial** : option Rétablir les emplacements d’origine dans le même menu. Tous les meubles achetés sont alors rangés, prêts à être replacés. Les autres maisons gardent leur plan.
+- **Retouches visuelles** : pieds des chaises, coussins placés au dossier et hauteur de sommeil corrigée pour ne plus enfouir le personnage dans le matelas. Le rendu reste stylisé ; les vêtements et cheveux ne disposent pas d’une simulation physique.
+
+Validation V7 : **217 tests** dans neuf suites et huit scènes rendues hors navigateur avec EGL/OpenGL ES. Les tests de la V6 restent actifs. Safari/iPhone natif, CSS et FPS ne sont pas mesurés dans cet environnement. Détails dans `TEST_RESULTS.md`.
 
 ## Vie de foyer V6
 
@@ -148,6 +161,6 @@ Modules : `town.js` pour identités/logements/catalogues ; `core.js` et `daily.j
 
 CSS Safari, tactile natif et FPS sur iPhone 16 restent à valider sur appareil. Le rendu est stylisé, les animations procédurales et les réponses de dialogue prédéfinies. Pas de simulation physique du tissu ni d’expressions faciales détaillées.
 
-Les voitures circulent mais ne sont pas conduisibles. Les trois logements partagent un plan ; les meubles d’origine restent fixes. Seuls les huit types supplémentaires se déplacent. Pas encore d’éditeur de murs/étages, de commerce géré par le joueur ou de loyer.
+Les voitures circulent mais ne sont pas conduisibles. Les trois logements partagent la même emprise de base. Lit, canapé et table/chaises se déplacent désormais ; murs, cuisine, salle de bain et certains équipements restent fixes. Les dix types du catalogue restent plaçables. Pas encore d’éditeur de murs/étages, de commerce géré par le joueur ou de loyer.
 
 Le projet de bébé utilise un moment de couple habillé et un calendrier fictif. Deux enfants au maximum ; bambin après deux jours, enfant après quatre. L’âge choisi pour le joueur reste fixe ; enfants et aînés n’ont pas de corps dédiés. Pas de multijoueur, connexion de compte ni synchronisation entre appareils.

@@ -43,3 +43,5 @@ jobs:
         run: node tests/immersion.test.cjs
       - name: Vie de foyer, logements et personnages V6
         run: node tests/family-life.test.cjs
+      - name: Aménagement, trajets et sauvegardes V7
+        run: node tests/arrangement.test.cjs

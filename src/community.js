@@ -1,15 +1,15 @@
 // Each resident keeps an independent route, needs, activity and paid workday.
 const npcInfo=Town.byId,npcNames=Object.fromEntries(Town.people.map(p=>[p.id,p.name]));
-function targetFor(n){const f=state.family,h=state.time,c=state.citizens[n.id],info=npcInfo[n.id],at=(x,z)=>Town.point(state,x,z),meet=state.appointments[n.id];
+function targetFor(n){const f=state.family,h=state.time,c=state.citizens[n.id],info=npcInfo[n.id],at=(x,z,key=null)=>Town.point(state,x,z,key),meet=state.appointments[n.id];
  if(meet?.until>Life.stamp(state))return {key:'meeting'+meet.until,point:meet.point,pose:'',label:'Votre rendez-vous'};
  if(state.visits[n.id]>Life.stamp(state))return {key:'visit',point:at(-1,3),pose:'talk',label:'En visite chez toi'};
  const together=Household.partner(state,n.id);
- if(together&&(h>=22||h<6)&&c.needs.hunger>=20)return {key:'shared-sleep',point:at(2.6,-1.85),pose:'sleep',anchor:[...at(3.65,-3.55),0,0],label:'Au repos à la maison',rest:true};
+ if(together&&(h>=22||h<6)&&c.needs.hunger>=20)return {key:'shared-sleep',point:at(2.6,-1.85,'bed'),pose:'sleep',anchor:Town.anchor(state,3.65,-3.55,0,0,'bed'),label:'Au repos à la maison',rest:true};
  const work=Household.workTarget(state,n.id);if(work)return work;
  if(together){
-  if(c.needs.hunger<65&&Life.stamp(state)-c.lastMeal>2){if(state.meals>0)return {key:'family-eat',point:at(-1.2,1.2),pose:'eat',anchor:[...at(-1.2,.5),PI/2,0],label:'Mange un repas à la maison',meal:true};if(state.groceries>0)return {key:'family-cook',point:at(-3.3,-3.05),pose:'cook',dir:PI,label:'Prépare le dîner du foyer',cook:true};}
+  if(c.needs.hunger<65&&Life.stamp(state)-c.lastMeal>2){if(state.meals>0)return {key:'family-eat',point:at(-1.5,1,'dining'),pose:'eat',anchor:Town.anchor(state,-1.2,.5,PI/2,0,'dining'),label:'Mange un repas à la maison',meal:true};if(state.groceries>0)return {key:'family-cook',point:at(-3.3,-3.05),pose:'cook',dir:PI,label:'Prépare le dîner du foyer',cook:true};}
   if(c.needs.hygiene<55)return {key:'family-wash',point:at(3.55,2.5),pose:'shower',label:'Se rafraîchit à la maison',wash:true};
-  return {key:f.autoCare?'home-care':'home-together',point:at(f.autoCare?2.5:-3.8,f.autoCare?1:1.4),pose:f.autoCare?'':'watch',anchor:f.autoCare?null:[...at(-4.4,2.65),PI,.18],label:'À la maison',leisure:true};
+  return {key:f.autoCare?'home-care':'home-together',point:at(f.autoCare?2.5:-3.8,f.autoCare?1:1.4,f.autoCare?null:'sofa'),pose:f.autoCare?'':'watch',anchor:f.autoCare?null:Town.anchor(state,-4.4,2.65,PI,.18,'sofa'),label:'À la maison',leisure:true};
  }
  const house=n.id==='noah'?27:-27,seat=info.seat;
  if(h<6||h>=22)return {key:'home',point:info.home,pose:['noah','emma'].includes(n.id)?'sleep':n.id==='lina'?'sit':'readStand',anchor:n.id==='lina'?seat:['noah','emma'].includes(n.id)?[house-1.8,7,0,0]:null,label:'Chez soi',rest:true};

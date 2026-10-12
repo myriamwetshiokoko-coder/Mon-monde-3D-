@@ -1,0 +1,5 @@
+/* Retain original geometry; classify it before the existing static batch builder. */
+const coreFurnitureColors={bed:new Set(['bd958f','ece2d7','f4d3c0','fef8ee','9f766a','e8bda6','e8d7bd']),sofa:new Set(['cda88f','e2c6b6','f7e1d2','f0e7d9','ddb4a6','7d6556']),dining:new Set(['e2c3a9','a58373','ad8d78','e8c5a1','d89279','ceaca0'])};
+for(const o of scene){if(!o.homeId)continue;const h=Town.houses[o.homeId],x=o.m[12]-h.x,z=o.m[14]-h.z,color=o.color.map(v=>Math.round(v*255).toString(16).padStart(2,'0')).join('');for(const [key,colors]of Object.entries(coreFurnitureColors))if(colors.has(color)&&o.m[13]>.1){const b=FurnitureCore.items[key].box;if(x>b[0]-.2&&x<b[1]+.2&&z>b[2]-.2&&z<b[3]+.2||(key==='dining'&&Math.abs(x)<1.7&&z>-.2&&z<1.35))o.builtin=key;}}
+// Original contact shadows are rebuilt below against the current positions.
+for(let i=landscapeShadows.length-1;i>=0;i--)if(Object.values(Town.houses).some(h=>Object.values(FurnitureCore.items).some(o=>Math.hypot(landscapeShadows[i].x-h.x-o.x,landscapeShadows[i].z-h.z-o.z)<.01)))landscapeShadows.splice(i,1);
