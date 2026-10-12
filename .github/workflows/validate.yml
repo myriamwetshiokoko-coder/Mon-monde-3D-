@@ -49,3 +49,5 @@ jobs:
         run: node tests/living.test.cjs
       - name: Grossesse intégrée au personnage V8.0.1
         run: node tests/maternity.test.cjs
+      - name: Naissances annoncées et sauvegardées V8.0.2
+        run: node tests/family-events.test.cjs

@@ -27,6 +27,7 @@ const ctx={console,Math,JSON,Number,Float32Array,Uint8Array,Map,Blob,URL,atob:s=
 vm.createContext(ctx);for(const m of html.matchAll(/<script src="([^"]+)"/g)){const f=m[1].split('?')[0];vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f})}
 const run=s=>vm.runInContext(s,ctx),scene=process.argv[3]||'street';
 run("started=true;paused=false;state.time=10;state.skin=skin=2;state.outfit=outfit=3;state.settings.quality=quality=1;state.x=0;state.z=18;camYaw=.8;smoothEye=null;state.name='Personnage test'");
+if(scene==='birth-arrival')run("state.day=4;state.x=0;state.z=3;state.family.pregnancy={carrierId:'player',startedDay:1,dueDay:4,name:'Test',ready:true,noticeSeen:true};chooseBirthName();$('babyConfirm').onclick();activity.t=8;$('observeActivity').onclick();camYaw=.7;paused=true;");
 if(scene==='children-night')run("state.home.residence='rose';state.home.theme=2;state.family.children=[{id:'child0',name:'Enfant test',bornDay:1,skin:1,hair:5,hunger:80,comfort:80,fun:80,sex:'female'}];state.day=6;state.time=23;state.x=18.5;state.z=1.2;syncHomeInteractions();childEntity(0).x=21.1;childEntity(0).z=.9;paused=true;camYaw=-.7;camZoom=4.5;camPitch=.35");
 if(scene==='landscape')run('innerWidth=852;innerHeight=393;state.x=0;state.z=3;camYaw=.7;camZoom=5.2');
 if(scene==='family-house')run("state.home.residence='rose';state.home.theme=2;state.x=18.5;state.z=.6;syncHomeInteractions();state.time=14;camYaw=-.6;camZoom=5.2;camPitch=.40;Life.apply(state,{adopt:true,childName:'Test'})");
