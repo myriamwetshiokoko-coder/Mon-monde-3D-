@@ -4,12 +4,12 @@ function targetFor(n){const f=state.family,h=state.time,c=state.citizens[n.id],i
  if(meet?.until>Life.stamp(state))return {key:'meeting'+meet.until,point:meet.point,pose:'',label:'Votre rendez-vous'};
  if(state.visits[n.id]>Life.stamp(state))return {key:'visit',point:at(-1,3),pose:'talk',label:'En visite chez toi'};
  const together=Household.partner(state,n.id);
- if(together&&(h>=22||h<6)&&c.needs.hunger>=20)return {key:'shared-sleep',point:at(2.6,-1.85,'bed'),pose:'sleep',anchor:Town.anchor(state,3.65,-3.55,0,0,'bed'),label:'Au repos à la maison',rest:true};
+ if(together&&(h>=22||h<6)&&c.needs.hunger>=20){if(n.id==='housemate'&&state.family.movedIn)return {key:'shared-sofa-sleep',point:at(-3.8,1.4,'sofa'),pose:'sleep',anchor:Town.anchor(state,-3.95,2.7,PI/2,0,'sofa'),bedHeight:.93,label:'Au repos sur le canapé',rest:true};return {key:'shared-sleep',point:at(2.6,-1.85,'bed'),pose:'sleep',anchor:Town.anchor(state,n.id==='player'&&state.family.movedIn?2.65:3.65,-3.55,0,0,'bed'),label:'Au repos à la maison',rest:true};}
  const work=Household.workTarget(state,n.id);if(work)return work;
  if(together){
   if(c.needs.hunger<65&&Life.stamp(state)-c.lastMeal>2){if(state.meals>0)return {key:'family-eat',point:at(-1.5,1,'dining'),pose:'eat',anchor:Town.anchor(state,-1.2,.5,PI/2,0,'dining'),label:'Mange un repas à la maison',meal:true};if(state.groceries>0)return {key:'family-cook',point:at(-3.3,-3.05),pose:'cook',dir:PI,label:'Prépare le dîner du foyer',cook:true};}
   if(c.needs.hygiene<55)return {key:'family-wash',point:at(3.55,2.5),pose:'shower',label:'Se rafraîchit à la maison',wash:true};
-  return {key:f.autoCare?'home-care':'home-together',point:at(f.autoCare?2.5:-3.8,f.autoCare?1:1.4,f.autoCare?null:'sofa'),pose:f.autoCare?'':'watch',anchor:f.autoCare?null:Town.anchor(state,-4.4,2.65,PI,.18,'sofa'),label:'À la maison',leisure:true};
+  return {key:f.autoCare?'home-care':'home-together',point:at(f.autoCare?2.5:-3.8,f.autoCare?1:1.4,f.autoCare?null:'sofa'),pose:f.autoCare?'':'watch',anchor:f.autoCare?null:Town.anchor(state,-4.4,2.2,PI,.18,'sofa'),label:'À la maison',leisure:true};
  }
  const house=n.id==='noah'?27:-27,seat=info.seat;
  if(h<6||h>=22)return {key:'home',point:info.home,pose:['noah','emma'].includes(n.id)?'sleep':n.id==='lina'?'sit':'readStand',anchor:n.id==='lina'?seat:['noah','emma'].includes(n.id)?[house-1.8,7,0,0]:null,label:'Chez soi',rest:true};
@@ -32,7 +32,7 @@ function updateResidents(dt){for(const n of residents){const c=state.citizens[n.
  const t=targetFor(n);n.label=t.label;if(n.targetKey!==t.key){n.targetKey=t.key;n.path=Navigation.path([n.x,n.z],t.point,barriers);n.pathIndex=0;n.pose='';n.routineProgress=0;n.blockedTime=0;}
  if(n.pathIndex<n.path.length){const p=n.path[n.pathIndex],d=Math.hypot(p[0]-n.x,p[1]-n.z);if(d<.06){n.pathIndex++;}else{const step=Math.min(d,dt*1.02),oldX=n.x,oldZ=n.z;const obstacles=Traffic.movementBarriers(barriers);Navigation.move(n,(p[0]-n.x)/d*step,(p[1]-n.z)/d*step,obstacles);const travelled=Math.hypot(n.x-oldX,n.z-oldZ);n.blockedTime=travelled<step*.1?(n.blockedTime||0)+dt:0;if(n.blockedTime>1){const path=Navigation.path([n.x,n.z],t.point,obstacles);if(path.length){n.path=path;n.pathIndex=0;}n.blockedTime=0;}n.dir=Math.atan2(p[0]-n.x,p[1]-n.z);n.moving=travelled>.0001?1:0;n.phase+=travelled*4.5;n.pose='';}}
  else if(Math.hypot(n.x-t.point[0],n.z-t.point[1])<.56){n.pose=t.pose;n.dir=t.anchor?.[2]??t.dir??n.dir;n.routineProgress+=dt;if(t.work){if(Household.performWork(state,n.id,dt,n.x,n.z)){n.targetKey=null;save();}}
-  else if(t.cook&&n.routineProgress>=10&&state.groceries>0){state.groceries--;state.meals+=2;n.routineProgress=0;n.targetKey=null;Life.record(state,n.name+' a préparé deux repas pour le foyer.');save();}
+  else if(t.cook&&n.routineProgress>=20&&state.groceries>0){state.groceries--;state.meals+=2;n.routineProgress=0;n.targetKey=null;Life.record(state,n.name+' a préparé deux repas pour le foyer.');Daily.message(state,n.id,'J’ai préparé deux portions à la maison. Si tu as faim, rejoins-moi à table.');save();}
   else if(t.meal&&n.routineProgress>=10&&Life.stamp(state)-c.lastMeal>2){if(t.key==='family-eat'&&state.meals>0)state.meals--;c.needs.hunger=Math.min(100,c.needs.hunger+45);c.lastMeal=Life.stamp(state);n.routineProgress=0;save();}
   else if(t.wash&&n.routineProgress>=8){c.needs.hygiene=95;n.targetKey=null;save();}
   else if(t.rest){c.needs.energy=Math.min(100,c.needs.energy+dt*.12);}

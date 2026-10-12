@@ -2,7 +2,7 @@
 const HomeControl=(()=>{
  const fields=['x','z','name','sex','age','skin','outfit','hair','face','style','hairColor','appearance','hunger','energy','hygiene','fun','social','career','workDay','skill','skills','daily','relationships','romance','lastTalk'];
  const copy=x=>JSON.parse(JSON.stringify(x));
- function normalizeHomeLife(r,stamp,ids){return {enabled:r?.enabled!==false,last:Object.fromEntries(Object.entries(r?.last||{}).filter(([k,v])=>[...ids,'player','housemate'].includes(k)&&Number.isFinite(v)).map(([k,v])=>[k,Math.max(-100,Math.min(stamp,v))])),moments:Math.max(0,Math.min(10000,Math.floor(Number(r?.moments)||0))),strolling:!!r?.strolling};}
+ function normalizeHomeLife(r,stamp,ids){return {enabled:r?.enabled!==false,last:Object.fromEntries(Object.entries(r?.last||{}).filter(([k,v])=>[...ids,'player','housemate'].includes(k)&&Number.isFinite(v)).map(([k,v])=>[k,Math.max(-100,Math.min(stamp,v))])),moments:Math.max(0,Math.min(10000,Math.floor(Number(r?.moments)||0))),strolling:!!r?.strolling,autonomy:r?.autonomy!==false,joins:r?.joins!==false,sharedMeals:Math.max(0,Math.min(10000,Math.floor(Number(r?.sharedMeals)||0)))};}
  const other=s=>s.control?.active==='housemate'?'player':'housemate';
  const main=s=>s.control?.active==='housemate'?s.control.inactive:s;
  const capture=s=>Object.fromEntries(fields.map(k=>[k,copy(s[k])]));

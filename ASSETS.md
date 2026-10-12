@@ -41,3 +41,7 @@ Calottes de coiffure dérivées de la surface du modèle Quaternius CC0 déjà i
 ## V7 — réutilisation du mobilier
 
 Aucune nouvelle ressource externe. Le lit, le canapé et la table/chaises procéduraux existants sont classés avant regroupement pour être dessinés à une autre position/orientation. Pieds de chaises et retouches de coussins originaux ; hauteur de sommeil corrigée. Licence des modèles humains inchangée.
+
+## V8 — vêtements et expressions
+
+Aucune ressource externe nouvelle. Les nouveaux hauts sont découpés et légèrement élargis depuis la surface skinnée CC0 existante ; les chaussons sont procéduraux. Sommets de vêtements quantifiés identiques regroupés sans changer les triangles, pour limiter le coût GPU. Lèvres/sourcils/sourire et cadres de scènes créés dans le moteur existant. Textes RP écrits dans le projet, sans téléchargement ni génération distante.
