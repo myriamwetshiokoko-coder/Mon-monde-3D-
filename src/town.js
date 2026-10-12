@@ -16,8 +16,9 @@ const Town=(()=>{
  const styles=[{name:'Chemise et pantalon',bottom:0},{name:'Blouse et jupe',bottom:1},{name:'T-shirt et short',bottom:2},{name:'Polo et jean',bottom:0},{name:'Pull et pantalon',bottom:0},{name:'Tenue de sport',bottom:2},{name:'Cardigan et pantalon',bottom:0},{name:'Robe longue',bottom:1},{name:'Débardeur et jupe',bottom:1},{name:'Veste et pantalon',bottom:0},{name:'Tunique et pantalon',bottom:0},{name:'Sweat à col doux',bottom:0}];
  const furniture={stroller:{name:'Poussette familiale',price:60,w:.65,d:1,color:'#b18c9b'},toybox:{name:'Coffre à jouets',price:35,w:.7,d:.45,color:'#91aaa0'},armchair:{name:'Fauteuil de lecture',price:45,w:.9,d:.9,color:'#bca083'},plant:{name:'Grande plante',price:20,w:.55,d:.55,color:'#6e987a'},lamp:{name:'Lampadaire',price:30,w:.45,d:.45,color:'#e1c8a4'},desk:{name:'Bureau',price:65,w:1.25,d:.65,color:'#b98f71'},rug:{name:'Tapis',price:25,w:1.7,d:1.1,color:'#c5baa4'},shelf:{name:'Bibliothèque ouverte',price:80,w:1.05,d:.38,color:'#b98f71'},bench:{name:'Banquette capitonnée',price:70,w:1.2,d:.65,color:'#b18c9b'},console:{name:'Console et miroir',price:55,w:.85,d:.35,color:'#c7ab91'}};
  const home=s=>houses[s.home.residence]||houses.soleil;
- const point=(s,x,z)=>[home(s).x+x,home(s).z+z];
+ const point=(s,x,z,key=null)=>{if(key){const c=typeof module!=='undefined'?require('./furniture-core.js'):FurnitureCore;[x,z]=c.map(s,key,x,z);}return [home(s).x+x,home(s).z+z];};
+ const anchor=(s,x,z,dir=0,lift=0,key=null)=>{const p=point(s,x,z,key),c=key?(typeof module!=='undefined'?require('./furniture-core.js'):FurnitureCore):null;return [...p,dir-(c?c.placement(s,key).turn*Math.PI/2:0),lift];};
  const inside=(s,x=s.x,z=s.z)=>Math.abs(x-home(s).x)<5.75&&z-home(s).z>-4.7&&z-home(s).z<4.75;
- return {people,ids,byId,houses,styles,furniture,home,point,inside};
+ return {people,ids,byId,houses,styles,furniture,home,point,anchor,inside};
 })();
 if(typeof module!=='undefined')module.exports=Town;

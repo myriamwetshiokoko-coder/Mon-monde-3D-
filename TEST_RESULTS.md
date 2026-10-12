@@ -1,3 +1,19 @@
+# Vérifications — V7.0.0
+
+12 octobre 2026, branche `develop/v7-amenagement`, depuis la V6 publiée `305dcc2b85544357754bbd2a368009cdc79093dc`. Publication couverte par l’autorisation permanente de la propriétaire, conservée dans README.
+
+**217 tests dans neuf suites** : simulation 73, économie 7, quartier 28, révision 15, foyer 20, refonte 12, immersion 12, vie familiale 26, aménagement 24. Syntaxe JS/CJS, identifiants HTML uniques, 38 scripts locaux, cache 7.0.0 et manifeste contrôlés. Les gestionnaires du jeu s’exécutent sous un DOM et WebGL simulés ; ces tests ne constituent pas un test tactile Safari.
+
+Nouvelles vérifications : menu Logement et inventaire, vrai clic sur le plan, flèches et rotation, annulation gratuite, validation gratuite avec enregistrement, refus de collisions/personnes/placements bloqués, trois plans initiaux praticables, intérieur entièrement réorganisé, collisions déplacées, transformation du rendu cohérente avec celle de la pose. Sommeil, lecture, repas à deux avec deux portions réellement consommées, télévision à deux, destinations de sommeil et repas du partenaire. Reprise dans un nouveau contexte à partir de la sauvegarde, coordonnées conservées à un emplacement auparavant occupé, aménagement distinct par maison, déménagement aller-retour, données corrompues, mobilier acheté conservé lors du retour au plan initial et compatibilité de son ancien éditeur.
+
+Huit scènes capturées depuis les commandes du jeu puis exécutées en Mesa EGL/OpenGL ES : intérieur réorganisé, sommeil, lecture, repas à deux, canapé à deux, maison Roseraie, cuisine observée, quartier en paysage. Aucun échec de shader ni erreur GL. Inspection d’images : lit et table à leurs nouvelles places, personnage reposant au-dessus du matelas, lecture et couple sur le canapé tourné. La hauteur de sommeil et les coussins ont été corrigés pendant cette inspection. Aucun rendu CSS/interface native iOS annoncé.
+
+Statique avant filtrage : **1 592 objets, 496 lots, 506 856 sommets**, contre 1 568 / 496 / 501 672 en V6 (environ +1 % de sommets, notamment pieds de chaises). Déplacements dessinés depuis les buffers existants. Les trois petits lots d’ombres de mobilier sont reconstruits uniquement si l’aménagement change, puis réutilisés ; les anciens buffers sont libérés. Vérification de navigation lors d’un changement dans le plan, pas à chaque frame. Ces mesures ne donnent pas les FPS d’un iPhone.
+
+Limites : murs/étages non éditables ; cuisine, douche, télévision, table basse et luminaires fixes, donc choisir l’orientation du canapé en fonction du téléviseur. Modèles stylisés et poses simplifiées, sans tissu/cheveux physiques. Trois logements, deux adultes jouables et mécaniques familiales de la V6 conservés. Pas de conduite, multijoueur ni synchronisation distante. Aucun test natif iPhone/Safari, batterie, vitesse du plan tactile ou FPS effectué.
+
+---
+
 # Vérifications — V6.0.0
 
 Développement du 12 octobre 2026 sur `develop/v6-vie-de-foyer`, à partir de la V5 publiée `03789f851837e95da7e80ebaa9625474b685a439`. Publication V6 et mises à jour suivantes autorisées par la propriétaire le 12 octobre 2026, sans nouvelle confirmation. Le code testé reste inchangé ; seuls les documents de publication ont été actualisés.
