@@ -6,7 +6,7 @@ Depuis la maison, l’accueil gratuit propose de confirmer le prénom, puis une 
 
 Les anciennes sauvegardes présentant des enfants sans annonce reçoivent un récapitulatif à la reprise, une fois par enfant. Aucun enfant, besoin, stade d’âge ou solde n’est effacé ou remis à zéro. Les annonces ne coupent pas les activités, le téléphone, le studio ou les autres menus.
 
-Validation : **284 tests dans douze suites**, dont 23 scénarios de naissance et de reprise. Rendu de la transition sous EGL/GLES sans erreur ; pas de mesure de FPS ni de tactile natif sur iPhone. Publication selon l’autorisation permanente ci-dessous.
+Validation : **285 tests dans douze suites**, dont 24 scénarios de naissance et de reprise. Rendu de la transition sous EGL/GLES sans erreur ; pas de mesure de FPS ni de tactile natif sur iPhone. Publication selon l’autorisation permanente ci-dessous.
 
 
 Correctif du rendu observé dans l’enregistrement iPhone : le ventre de grossesse n’est plus une sphère indépendante. Le corps et les vêtements se déforment ensemble, avec les mêmes articulations, une amplitude bornée et un éclairage adapté. Les calendriers familiaux, tenues et sauvegardes restent compatibles. Les coiffures et les personnages restent stylisés.
