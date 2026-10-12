@@ -1,3 +1,9 @@
+# Vérifications — V8.0.1
+
+Correctif préparé depuis main `61f9d903cbeed0ecb940acbea727331b9148ea5a`, branche `develop/v8-1-grossesse`. Aucun fichier utilisateur ni sauvegarde privée inclus.
+
+261 tests dans onze suites : les 256 tests V8 conservés et cinq tests de grossesse (valeurs invalides, remise à zéro entre personnages, aucune primitive détachée, matrices finies dans les seize tenues et trois poses, calendrier et sauvegarde inchangés). Shaders réels et poses de grossesse vérifiés sous EGL/GLES ; quatre scènes : grossesse de face, profil en marche, lecture assise en blouse/jupe, témoin sans grossesse. Zéro erreur de shader ou GL sous llvmpipe. Cache des 39 scripts passé à 8.0.1. Ce n’est pas une validation des performances ou du tactile sur Safari iPhone.
+
 # Vérifications — V8.0.0
 
 12 octobre 2026, branche `develop/v8-quotidien-vivant`, depuis la V7 publiée `6f15898dce0d7bca8876472831e768e065a17c43`. Publication selon l’autorisation permanente de la propriétaire conservée dans README. Aucune sauvegarde privée incluse.

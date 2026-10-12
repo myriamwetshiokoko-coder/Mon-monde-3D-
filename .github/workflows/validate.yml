@@ -47,3 +47,5 @@ jobs:
         run: node tests/arrangement.test.cjs
       - name: Initiatives, partage et personnages V8
         run: node tests/living.test.cjs
+      - name: Grossesse intégrée au personnage V8.0.1
+        run: node tests/maternity.test.cjs
