@@ -1,3 +1,21 @@
+# Vérifications — V6.0.0
+
+Développement du 12 octobre 2026 sur `develop/v6-vie-de-foyer`, à partir de la V5 publiée `03789f851837e95da7e80ebaa9625474b685a439`. Publication V6 et mises à jour suivantes autorisées par la propriétaire le 12 octobre 2026, sans nouvelle confirmation. Le code testé reste inchangé ; seuls les documents de publication ont été actualisés.
+
+**193 tests** dans huit suites : simulation 73, économie 7, quartier 28, révision 15, foyer 20, refonte 12, immersion 12, vie familiale 26. Tests de version/catalogue actualisés pour les 35 scripts, dix coiffures et douze tenues ; les anciennes vérifications de déplacements, animation, transactions, collisions et sauvegardes restent actives. Syntaxe JS/CJS, identifiants HTML uniques, cache 6.0.0 et manifeste autonome vérifiés.
+
+Les nouveaux tests exécutent les vrais gestionnaires et routines : approche spontanée sans téléportation, refus et délai enregistré, absence d’interruption au travail ou avec des besoins urgents, dîner à deux avec débit de deux portions une seule fois, annulation gratuite, besoins des deux participants, soirée télévisée, deux identités jouables et retour au foyer. Cloisons réellement solides, accès cuisine/chambre/salle de bain/nurserie/jardin, paiement unique du déménagement, transfert des adultes et conservation d’un meuble incompatible dans l’inventaire. Poussette réellement achetée, présence/soins du bébé pendant la sortie, retour requis à domicile, sortie enregistrée, arrêt lorsque le bébé grandit, poignées accessibles aux deux squelettes. Deux enfants voisins empruntent leurs trajets avec collisions ; enfant du foyer allant au lit ; nouvelle coiffure héritée/restaurée. Un **nouveau contexte du jeu initialisé à partir du stockage**, et pas seulement restoreGame, vérifie la reprise des paramètres RP et de la promenade.
+
+Défauts corrigés pendant les vérifications : crâne débordant d’une coiffure ellipsoïde sous certains angles, vêtement traversé par le pantalon au dos, compagnon ne proposant jamais une rencontre, état RP perdu à l’initialisation d’une page neuve, cadrage portrait coupant les deux convives, écran TV masquant le couple, collision manquante du meuble TV, poignées trop loin de la portée des bras, coiffure de l’enfant tronquée après chargement. Les modèles humains restent stylisés.
+
+Treize scènes distinctes exécutées en Mesa EGL/OpenGL ES : portrait féminin de face, coupe courte de profil, marche féminine vue de dos, veste masculine, tunique de profil, sweat masculin, maison familiale, dîner à deux, canapé à deux, poussette avec bébé, famille voisine, quartier en paysage (852 × 393) et enfant au lit la nuit. Aucun échec de compilation de shader ni erreur GL sur les scènes exécutées. Ce replay utilise les commandes du jeu ; **ce n’est pas Safari**, ni un rendu de l’interface HTML/CSS.
+
+Géométrie statique avant filtrage : **1 568 objets / 496 lots / 501 672 sommets**, contre 1 533 / 457 / 492 060 en V5, environ +2 % en sommets. Les coiffures ont désormais 3 412 à 5 716 sommets par mesh selon la coupe ; plusieurs coiffures sont donc plus détaillées que celles de V5. Filtrage et regroupement existants conservés. Ces mesures ne sont pas des FPS. Le mode Économie reste disponible.
+
+Limites : pas de validation native iPhone/Safari des contrôles, du CSS, de l’ouverture autonome, de la rotation, de la batterie ou des FPS. Dialogues prédéfinis, invitations à accepter/refuser ; personnages et enfants stylisés ; deux enfants voisins prédéfinis dont les positions ne sont pas sauvegardées. Poussette attachée visuellement au déplacement, sans physique de véhicule. Trois logements de même emprise ; un intérieur familial avec cloisons et lits, pas une grande ville nouvellement reconstruite. Deux adultes contrôlables ; couple/grossesse du personnage principal ; murs et mobilier initial fixes. Le manifeste ne fournit pas de cache hors ligne et ne force pas l’orientation du système.
+
+---
+
 # Vérifications — V5.0.0
 
 Vérifications locales du 11 octobre 2026 sur `develop/v5-immersion`, à partir du commit V4 publié `a444eef118225759d9f943e0f42caa088dae6aeb`. Contrôles GitHub réussis sur le code V5 `b0b16cd96fed6ef93b086759a0aadf1e049abd7e`. Publication V5 autorisée par la propriétaire le 12 octobre 2026 ; seuls ces documents ont été actualisés après les tests, sans modification du code validé.

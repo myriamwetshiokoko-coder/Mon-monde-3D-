@@ -7,6 +7,7 @@ const MotionRig=(()=>{
  function target(pose,side,phase,headY){const y=headY-1.55,beat=(1-Math.cos(phase*.65))/2;
   if(['read','readStand'].includes(pose))return [side*.125,1.16+y,.33];
   if(pose==='eat')return side===1?[.12,1.12+y,.33]:[-.025,1.13+y+beat*.37,.35-beat*.22];
+  if(pose==='push')return [side*.19,1.17+y,.35];
   if(pose==='phone')return side===1?[.09,1.33+y,.25]:[-.22,1.00+y,.06];
   if(['prepare','chop','stir'].includes(pose))return [side*.12+(pose==='stir'&&side===-1?Math.cos(phase)*.03:0),1.19+y+(pose==='chop'&&side===-1?Math.max(0,Math.sin(phase*1.3))*.05:0),.33+(pose==='stir'?Math.sin(phase)*.025:0)];
   if(pose==='cook')return [side*.12+Math.sin(phase)*.035,1.18+y+Math.cos(phase)*.025,.29+Math.sin(phase+side)*.025];

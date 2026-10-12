@@ -33,3 +33,7 @@ Aucun asset externe supplémentaire. Visages paramétrés, accessoires, robe lon
 ## Ajouts originaux V5
 
 Éclairage/ciel/matières procédurales, géométrie du mobilier arrondi et feuillage, cinq coiffures retravaillées, cols et tabliers : code et géométrie produits dans ce dépôt, sans nouveau modèle ou texture téléchargé. Les humains CC0 ci-dessus restent la base. Aucun fichier de sauvegarde personnelle ni capture privée n’est inclus.
+
+## V6 — vie de foyer
+
+Calottes de coiffure dérivées de la surface du modèle Quaternius CC0 déjà inclus, avec découpe et décalage des normales ; autres volumes de cheveux, tenues, cloisons, lits, poussette, jouets et éclairage créés en code original pour ce projet. Textes de dialogue et personnages secondaires prédéfinis originaux. Aucun asset ni service externe supplémentaire. Aucun fichier personnel, photo reçue ou sauvegarde privée ajouté au dépôt.

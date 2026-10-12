@@ -41,3 +41,5 @@ jobs:
         run: node tests/refonte.test.cjs
       - name: Lumière, matières et activités V5
         run: node tests/immersion.test.cjs
+      - name: Vie de foyer, logements et personnages V6
+        run: node tests/family-life.test.cjs

@@ -62,3 +62,23 @@
 @media(max-width:380px)and(min-height:501px){.utility{right:91px}.utility button{font-size:9px}.mini-map{width:70px}.brand strong{font-size:12px}.clock{font-size:9px}}
 @media(max-height:500px){.utility{right:auto;width:310px;grid-template-columns:repeat(4,minmax(0,1fr))}.mini-map{top:55px}.activity-camera{margin:3px 0}.panel{bottom:132px;max-width:290px;padding:10px}.panel h3{margin:0 0 4px}.panel p{margin:3px 0}.activity-camera button{min-height:44px}.utility>#saveStatus{display:none}}
 @media(min-width:800px)and(min-height:501px){.utility{right:auto;width:430px;top:104px}.panel{bottom:160px}.mini-map{top:70px}}
+
+/* V6: portrait remains native; landscape frees the middle of the scene. */
+html,body{overscroll-behavior:none}#world{width:100%;height:100%;touch-action:none}
+.utility #housingBtn{grid-column:1;grid-row:2;min-height:40px;font-size:10px;background:#e4d4bde8;color:#5a4a3c}
+.utility #wallet{grid-column:2 / 4;grid-row:2;align-self:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.utility #saveStatus{grid-column:4;grid-row:2;font-size:8px}
+.social-prompt{position:fixed;z-index:5;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 166px);max-width:410px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#fffaf1f2;border:1px solid #dbc8b3;border-radius:18px;padding:12px;box-shadow:0 10px 35px #3a2f2828}
+.social-prompt span{grid-column:1 / 3;font-size:12px;line-height:1.5;color:#584838}.social-prompt button{min-height:44px;border:1px solid #d3bda5;border-radius:11px;background:#f0e3cf;color:#5c493d;font-size:12px}
+.studio-toolbar{position:sticky;top:0;bottom:auto;order:-1;margin:0 0 9px;padding:5px 0;border-bottom:1px solid #dfcebc}.editor{display:flex;flex-direction:column}.editing .editor{padding-top:10px}.studio-toolbar button{flex:1 0 17%;font-size:11px;padding:6px;white-space:nowrap}
+@media(orientation:landscape)and(max-height:500px){
+ .top{left:calc(env(safe-area-inset-left,0px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px)}
+ .brand{max-width:170px}.brand strong{font-size:12px}.clock{font-size:10px}
+ .needs{top:54px;left:calc(env(safe-area-inset-left,0px) + 12px);max-width:285px}.need .lab{font-size:7px!important}.need{padding:5px}.bar{margin-top:3px}
+ .utility{top:91px;left:calc(env(safe-area-inset-left,0px) + 12px);width:285px;gap:4px}.utility button{min-height:38px;font-size:9px}.utility #housingBtn{min-height:34px}.utility #wallet{grid-column:2 / 5;font-size:9px}.utility #saveStatus{display:none}
+ .mini-map{top:54px;right:calc(env(safe-area-inset-right,0px) + 12px);width:65px}.controls{left:calc(env(safe-area-inset-left,0px) + 17px);right:calc(env(safe-area-inset-right,0px) + 17px);bottom:calc(env(safe-area-inset-bottom,0px) + 10px)}
+ .joy{width:104px;height:104px}.action-area{max-width:170px}.action-area .act{min-height:46px}.action-area .subact{min-height:44px}.scene-label{bottom:15px;max-width:40%}
+ .panel{right:calc(env(safe-area-inset-right,0px) + 16px);left:auto;bottom:120px;width:235px;padding:10px}.panel p{font-size:11px}.panel h3{font-size:12px}.social-prompt{left:auto;right:calc(env(safe-area-inset-right,0px) + 16px);width:245px;bottom:120px;padding:10px}.social-prompt span{font-size:11px}
+ .editing .editor{right:0;left:auto;top:0;bottom:0;width:42%;max-height:100dvh;border-radius:0;padding:10px 12px;padding-right:calc(env(safe-area-inset-right,0px) + 12px)}.studio-toolbar{flex-wrap:wrap}.studio-toolbar button{flex-basis:28%;min-height:44px}.editor #appearance{grid-template-columns:1fr}
+}
+@media(display-mode:standalone){body{height:100dvh}.top{top:calc(env(safe-area-inset-top,0px) + 9px)}}

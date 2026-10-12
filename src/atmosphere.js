@@ -22,7 +22,7 @@ const Atmosphere=(()=>{
   if(['ffe4ac','f4e2a7'].includes(c))return 9;
   return 0;
  }
- function localLight(x,z,hour,studio=false){const a=frame(hour,studio);if(studio)return a;let lamp=0;for(const cx of [0,-17.2,17.2])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-(cx-3.8),z-2.7)/5.2));for(const cx of [-12.7,12.7])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-cx,z-17)/5));a.ambient=a.ambient.map((v,i)=>v+[.34,.24,.12][i]*lamp*a.night);return a;}
+ function localLight(x,z,hour,studio=false){const a=frame(hour,studio);if(studio)return a;let lamp=0;for(const cx of [0,-17.2,17.2])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-(cx-3.8),z-2.7)/5.2));for(const cx of [0,-17.2,17.2])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-(cx+.18),z-.53)/4));for(const cx of [-12.7,12.7])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-cx,z-17)/5));a.ambient=a.ambient.map((v,i)=>v+[.34,.24,.12][i]*lamp*a.night);return a;}
  return {frame,material,localLight};
 })();
 if(typeof module!=='undefined')module.exports=Atmosphere;

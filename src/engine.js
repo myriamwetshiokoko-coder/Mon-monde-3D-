@@ -19,6 +19,7 @@ void main(){vec3 n=normalize(N),base=tint;vec2 coord=abs(n.y)>.7?P.xz:(abs(n.x)>
  float diffuse=max(dot(n,sunDirection),0.0);vec3 hemisphere=mix(ambientColor*.64,ambientColor,clamp(n.y*.5+.5,0.0,1.0));
  vec3 col=base*detail*(hemisphere+sunColor*diffuse);
  float homeLamp=max(max(0.0,1.0-length(P-vec3(-3.8,2.2,2.7))/5.2),max(max(0.0,1.0-length(P-vec3(-21.0,2.2,2.7))/5.2),max(0.0,1.0-length(P-vec3(13.4,2.2,2.7))/5.2)));
+ homeLamp=max(homeLamp,max(max(0.0,1.0-length(P-vec3(.18,2.35,.53))/4.0),max(max(0.0,1.0-length(P-vec3(-17.02,2.35,.53))/4.0),max(0.0,1.0-length(P-vec3(17.38,2.35,.53))/4.0))));
  float streetLamp=max(max(0.0,1.0-length(P-vec3(-12.7,3.13,17.0))/5.0),max(0.0,1.0-length(P-vec3(12.7,3.13,17.0))/5.0));
  col+=base*vec3(1.0,.73,.40)*max(homeLamp,streetLamp)*nightAmount*.52;
  if((surfaceKind>4.5&&surfaceKind<5.5)||(surfaceKind>6.5&&surfaceKind<8.5)){vec3 halfVector=normalize(sunDirection+normalize(eyePosition-P));float spec=pow(max(dot(n,halfVector),0.0),surfaceKind>7.5?34.0:18.0);col+=sunColor*spec*.22;}
