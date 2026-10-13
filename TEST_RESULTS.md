@@ -1,3 +1,17 @@
+# Vérifications — V11.0.0
+
+Développement sur `develop/v11-vie-ville`, depuis la V10 publiée `052a7c345e3d3940c680e00fd196e4f0f811223b`. Publication autorisée sans nouvelle confirmation. Toutes les fixtures utilisent des personnages fictifs ; aucune vidéo privée ni sauvegarde personnelle ajoutée au dépôt.
+
+**Validation : 374 tests, 17 suites.** Les 361 contrôles précédents sont conservés. Les fixtures d’âges utilisent désormais l’âge choisi pour les nouveaux bébés, et les contrôles de parc s’exécutent hors des services et du dîner. Les quantités de scripts/habitants, l’étendue et le budget de la géométrie sont adaptés à l’extension du quartier. Les tests de circulation restent stricts : aucun contact avec les véhicules. Les fixtures de trajet font avancer la circulation comme dans la boucle réelle du jeu. Les menus Ambiance, Rituels, Habitudes et Réorganiser restent accessibles.
+
+Treize contrôles V11 : migration des anciennes tenues/familles/propriétés et comptes ; achats atomiques ; caution/loyers/dettes sans double prélèvement ; achat/revente/colocation sans romance imposée ; mode créatif et protection des âges adultes ; stabilité des nouveaux bébés ; école/présence/déjeuner une fois par jour ; sept carrières ; code et vrai parcours du permis ; achats/trajets/freinage/revente automobile ; nouveaux menus avec anciens accès maintenus ; cheminements vers appartements/école/atelier ; maillages d’âge et pivots finis.
+
+**35 scènes GLES offscreen + contrôles finaux ciblés.** Compilation des shaders du jeu, vrais buffers et commandes de dessin via Mesa/EGL : aucune erreur shader ou GL. Inspection de face/profil, marche/course, jupes, repas, lecture, téléphone, sommeil, grossesse, rituels et foyer ; nouvelles morphologies enfant/aîné, bébé dans son lit, école occupée, conducteur et deux appartements. Position du conducteur et couleur des cheveux âgés corrigées après inspection.
+
+**Contrôles statiques :** 50 scripts locaux sous cache 11.0.0, syntaxe de 68 JS/CJS, manifeste valide et 139 IDs HTML uniques. Géométrie statique : 665 640 sommets, bâtiments hors champ éliminés. Asset humain : 1 635 070 octets JS ; adultes 241 188 octets binaires chacun, six bases d’âge 122 188 octets chacune. Bases/coiffures d’âge créées sur GPU au premier usage, puis réutilisées. Les données d’animation ne sont pas ajoutées aux sauvegardes.
+
+**Limites :** DOM/touch simulés, rendu GLES sur llvmpipe ; aucune mesure de FPS natifs iPhone 16 ou inspection CSS Safari. Morphologies encore semi-réalistes, doigts rigides et habits procéduraux. Appartements au rez-de-chaussée, niveaux supérieurs décoratifs. Conduite assistée avec parcours et arrêts réels, pas de volant libre ou physique automobile. École de quartier simple ; cycle de vieillissement explicite pour les nouveaux enfants.
+
 # Vérifications — V10.0.0
 
 Branche `develop/v10-personnages-naturels`, depuis main V9.0.1 `31338cd26b4203d6d4cfa36289c1130a76661b36`, 13 octobre 2026. Publication selon l’autorisation permanente de la propriétaire ; aucune sauvegarde ni capture personnelle ajoutée au dépôt.

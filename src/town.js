@@ -10,8 +10,17 @@ const Town=(()=>{
   {id:'jade',name:'Jade',sex:'female',age:42,skin:1,outfit:0,style:3,hair:4,hairColor:2,face:1,height:.96,width:1.08,eyes:1,job:'cafe',interest:'musique',about:'Je collectionne les livres. On pourrait échanger nos lectures.',start:[-3,36],home:[-27,10],seat:[-22,26.5,0,0],park:[-4,35]},
   {id:'hugo',name:'Hugo',sex:'male',age:66,skin:0,outfit:6,style:4,hair:0,hairColor:4,face:2,height:1.04,width:1.02,eyes:2,job:null,interest:'jardin',about:'J’ai le temps de lire et de profiter du quartier. Raconte-moi ta journée.',start:[7,38],home:[-27,9.5],seat:[-22,28.5,Math.PI,0],park:[4,35]}
  ];
+ people.push(
+ {id:'maya',name:'Maya',sex:'female',age:35,skin:4,outfit:4,style:17,hair:5,hairColor:1,face:1,height:1,width:1,eyes:0,job:'teacher',interest:'lecture',about:'J’enseigne à l’école Soleil. Les enfants apprennent, jouent et déjeunent ensemble.',start:[-42,29],home:[-27,10],seat:[-25.5,26.5,0,0],park:[-7,37]},
+ {id:'julien',name:'Julien',sex:'male',age:41,skin:2,outfit:6,style:14,hair:0,hairColor:1,face:0,height:1.02,width:1.06,eyes:0,job:'mechanic',interest:'jardin',about:'Je m’occupe des véhicules à l’atelier. Passe voir le garage.',start:[42,29],home:[27,10],seat:[-25.5,28.5,Math.PI,0],park:[7,37]},
+ {id:'nadia',name:'Nadia',sex:'female',age:54,skin:3,outfit:1,style:18,hair:1,hairColor:0,face:0,height:.98,width:1.03,eyes:0,job:'care',interest:'musique',about:'J’accueille les familles au centre du quartier. On prend le temps de discuter.',start:[-38,29],home:[-27,10],seat:[-28.2,26.5,0,0],park:[-4,37]},
+ {id:'colette',name:'Colette',sex:'female',age:74,skin:1,outfit:5,style:14,hair:5,hairColor:4,face:1,height:.97,width:1.04,eyes:1,job:null,interest:'jardin',about:'À la retraite, je profite des fleurs, de mes voisins et des nouvelles du quartier.',start:[-8,39],home:[-27,9],seat:[-28.2,28.5,Math.PI,0],park:[-7,38],parkSeat:[-6,40,Math.PI,.12]}
+ );
  const ids=people.map(p=>p.id),byId=Object.fromEntries(people.map(p=>[p.id,p]));
  const houses={soleil:{name:'Maison Soleil',x:0,z:0,price:0,theme:0,rooms:1,description:'Maison ouverte : chambre double, cuisine et salon.'},sauge:{name:'Maison Sauge',x:-17.2,z:0,price:280,theme:1,rooms:1,description:'Maison avec bureau et jardin aménagé.'},rose:{name:'Maison Roseraie',x:17.2,z:0,price:420,theme:2,rooms:2,description:'Maison familiale : chambre double et chambre des enfants séparées.'}};
+ Object.assign(houses,{studio:{name:'Appartement des Terrasses',x:-42,z:0,price:320,rent:12,deposit:24,theme:1,rooms:1,type:'apartment',description:'Appartement au rez-de-chaussée : chambre, cuisine ouverte et séjour. Location ou achat.'},horizon:{name:'Appartement Horizon',x:42,z:0,price:550,rent:20,deposit:40,theme:2,rooms:2,type:'apartment',description:'Appartement familial au rez-de-chaussée : deux chambres et pièce de vie. Location ou achat.'}});
+ for(const [id,h]of Object.entries(houses)){h.rent??=id==='rose'?16:id==='sauge'?11:8;h.deposit??=h.rent*2;h.type??='house';}
+ const bounds={minX:-49.5,maxX:49.5,minZ:-4.48,maxZ:45.5};
  for(const [i,p] of people.entries())p.features={jaw:(i%3-1)*.25,nose:(i%4-1.5)*.2,lips:p.sex==='female'?.3:0,brows:(i%3-1)*.25,makeup:p.sex==='female'?.2:0,accessory:p.sex==='female'&&i%2===0?1:0};
  const styles=[{name:'Chemise et pantalon',bottom:0},{name:'Blouse et jupe',bottom:1},{name:'T-shirt et short',bottom:2},{name:'Polo et jean',bottom:0},{name:'Pull et pantalon',bottom:0},{name:'Tenue de sport',bottom:2},{name:'Cardigan et pantalon',bottom:0},{name:'Robe longue',bottom:1},{name:'Débardeur et jupe',bottom:1},{name:'Veste et pantalon',bottom:0},{name:'Tunique et pantalon',bottom:0},{name:'Sweat à col doux',bottom:0},{name:'Blouse légère et jupe',bottom:1},{name:'T-shirt ajusté et jean',bottom:0},{name:'Chemise manches retroussées',bottom:0},{name:'Pyjama doux',bottom:0},{name:'Robe midi à taille douce',bottom:1},{name:'Chemisier en lin et pantalon',bottom:0},{name:'Pull fin et jean',bottom:0},{name:'Veste légère et jean',bottom:0},{name:'Ensemble décontracté',bottom:2},{name:'Blouse et jupe midi',bottom:1}];
  for(const [id,style,pattern] of [['lina',17,0],['noah',19,0],['emma',21,2],['ines',16,0],['sami',18,0],['jade',20,1],['hugo',14,0]]){byId[id].style=style;byId[id].features.pattern=pattern;}
@@ -20,6 +29,6 @@ const Town=(()=>{
  const point=(s,x,z,key=null)=>{if(key){const c=typeof module!=='undefined'?require('./furniture-core.js'):FurnitureCore;[x,z]=c.map(s,key,x,z);}return [home(s).x+x,home(s).z+z];};
  const anchor=(s,x,z,dir=0,lift=0,key=null)=>{const p=point(s,x,z,key),c=key?(typeof module!=='undefined'?require('./furniture-core.js'):FurnitureCore):null;return [...p,dir-(c?c.placement(s,key).turn*Math.PI/2:0),lift];};
  const inside=(s,x=s.x,z=s.z)=>Math.abs(x-home(s).x)<5.75&&z-home(s).z>-4.7&&z-home(s).z<4.75;
- return {people,ids,byId,houses,styles,furniture,home,point,anchor,inside};
+ return {bounds,people,ids,byId,houses,styles,furniture,home,point,anchor,inside};
 })();
 if(typeof module!=='undefined')module.exports=Town;
