@@ -38,12 +38,12 @@ test('Morphology and age show the fitting control only on a female adult without
 test('GPU chest volume resets between adults, male bodies and children',()=>{
  values.length=0;
  for(const appearance of [{body:'female',age:24,bust:0},{body:'female',age:24,bust:1},{body:'male',age:24,bust:1},{body:'female',age:6,bust:1},{body:'female',age:17,bust:1},{body:'female',age:18,bust:.5},{body:'female',age:24}])draw(appearance);
- assert.deepEqual(values,[.03,.07,0,0,0,.05,.05]);
+ assert.equal(values.length,7);for(const [i,want]of [.006,.031,0,0,0,.0185,.0185].entries())assert.ok(Math.abs(values[i]-want)<1e-12);
 });
 test('The actual game and studio pass the selected age to the renderer',()=>{
  run('restoreGame(null);state.age=12;state.appearance.bust=1');values.length=0;run('avatar({moving:0})');assert.equal(values.pop(),0);
  run("$('previewBtn').onclick();avatar({moving:0})");assert.equal(values.pop(),0);
- run("$('finishEditor').onclick();state.age=24;avatar({moving:0})");assert.equal(values.pop(),.07);
+ run("$('finishEditor').onclick();state.age=24;avatar({moving:0})");assert.equal(values.pop(),.031);
 });
 test('The two child rendering paths suppress the new adult displacement',()=>{
  run("restoreGame(null);state.day=6;state.family.children=[{id:'child0',name:'Test',bornDay:1,skin:2,hunger:80,comfort:80,fun:80}]");

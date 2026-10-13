@@ -1,3 +1,34 @@
+# Ressources 3D — V10.0.0
+
+## Base humaine actuelle
+
+Deux corps adultes sont préparés à partir des **données graphiques du cœur MakeHuman, CC0 1.0 Universal**. La licence du programme MakeHuman (AGPL) est distincte ; aucun code du programme n’est copié, exécuté ou inclus dans le jeu. Notre parseur et le convertisseur sont originaux.
+
+- Licence officielle des données : https://static.makehumancommunity.org/about/license.html
+- Déclaration du dépôt : https://github.com/makehumancommunity/makehuman/blob/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/LICENSE.md
+- Texte CC0 : https://creativecommons.org/publicdomain/zero/1.0/
+- Commit source : `a8bc2d54ff0ac92e78ff71431b1023eda42bf482`.
+
+`tools/character-sources.json` énumère les quatorze fichiers graphiques/licence utilisés, leurs URL fixées à ce commit, tailles et SHA-256. Sources : `base.obj`, rig et poids `default`, cibles adultes féminines/masculines macrodetails et yeux `low-poly`. Les corps combinent des cibles adulte/jeune africaines (40 %), asiatiques (20 %) et caucasiennes (40 %), indépendamment des teints personnalisables. Les groupes auxiliaires du modèle ne sont pas ajoutés à la surface visible.
+
+Les positions sont adaptées au squelette à 21 articulations existant (pivots Quaternius CC0 conservés dans `tools/character-rig.json`), avec retarget des bras et jambes, réduction QEM et transfert des poids. Les normales anatomiques sont conservées, avec un adoucissement du torse. Chaque corps : **7 098 sommets, 14 172 triangles** (14 000 corps + 172 yeux), **241 188 octets binaires**. Quantification : positions à 0,1 mm, normales à 8 bits, quatre poids de skinning normalisés. `assets/humans.js` regroupe les deux corps en base64, environ 647 ko. Il ne contient plus les anciennes surfaces de sourcils ni les trois cheveux du pack précédent.
+
+Les vingt maillages de coiffure (dix par corps) et les vêtements sont dérivés/générés localement au chargement. La subdivision des vêtements partage ses arêtes pour éviter des fissures lors des déformations. Les épaules, cols et poignets héritent des poids du corps ; les tresses sont des mèches en volume, les boucles sont placées sur le cuir chevelu. Il n’y a aucune image IA, texture distante ou animation téléchargée.
+
+Reconstruction, avec Python et les dépendances **uniquement pour la préparation** :
+
+```sh
+python -m pip install -r tools/requirements-character-prep.txt
+python tools/download_character_sources.py /chemin/vers/donnees-graphiques
+python tools/build_natural_characters.py /chemin/vers/donnees-graphiques
+```
+
+NumPy, SciPy et fast-simplification ne sont pas distribués au navigateur. fast-simplification est MIT : https://github.com/pyvista/fast-simplification. Les poses, la locomotion, les expressions et les transitions sont calculées par le code original du jeu ; les doigts restent attachés au poignet, sans rig individuel. Les modèles enfants réutilisent des versions réduites de ces bases.
+
+## Historique des ressources — V2.4 à V9.0.1
+
+Les descriptions de tailles et de corps ci-dessous concernent les versions précédentes. Le convertisseur `tools/build_characters.py` est conservé pour reproduire ces anciennes versions ; il n’est plus utilisé par la V10.
+
 # Ressources 3D — V2.4.0
 
 Modèles et trois coiffures adaptés du pack **Universal Base Characters — Standard**, par Quaternius.
