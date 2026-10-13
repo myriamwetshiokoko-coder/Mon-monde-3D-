@@ -17,6 +17,12 @@ const Daily = ((life) => {
    {name:'Entretenir le massif',point:[-10,38],pose:'garden',seconds:8,dir:-Math.PI/2},
    {name:'Ramasser les feuilles',point:[3,40],pose:'sweep',seconds:7,dir:0}]}
  };
+ Object.assign(jobs,{
+ chef:{name:'Cuisine du Café Fleur',role:'Cuisinier',pay:85,start:[-15.1,31.4],tasks:[{name:'Préparer les ingrédients',point:[-15,30.6],pose:'prepare',seconds:7,dir:0},{name:'Découper les légumes',point:[-14,31.4],pose:'chop',seconds:8,dir:0},{name:'Cuire les commandes',point:[-14,31.4],pose:'stir',seconds:8,dir:0},{name:'Dresser les assiettes',point:[-13,31.4],pose:'serve',seconds:7,dir:0}]},
+ teacher:{name:'École Soleil',role:'Enseignant',pay:80,start:[-42,29],tasks:[{name:'Accueillir la classe',point:[-42,30],pose:'talk',seconds:6,dir:0},{name:'Préparer le cours',point:[-45,35.5],pose:'readStand',seconds:8,dir:0},{name:'Expliquer au tableau',point:[-42,36],pose:'talk',seconds:10,dir:Math.PI},{name:'Ranger les livres',point:[-46,34],pose:'stock',seconds:6,dir:-Math.PI/2}]},
+ mechanic:{name:'Atelier Horizon',role:'Mécanicien',pay:90,start:[42,29],tasks:[{name:'Réceptionner le véhicule',point:[42,29],pose:'talk',seconds:6,dir:Math.PI},{name:'Inspecter la roue',point:[41,33],pose:'garden',seconds:9,dir:Math.PI/2},{name:'Travailler à l’établi',point:[45,35],pose:'clean',seconds:8,dir:0},{name:'Ranger les outils',point:[46,33],pose:'stock',seconds:7,dir:Math.PI/2}]},
+ care:{name:'Accueil du centre Soleil',role:'Agent d’accueil et de soins',pay:75,start:[-38,29],tasks:[{name:'Accueillir une famille',point:[-38,29],pose:'talk',seconds:6,dir:Math.PI},{name:'Préparer la salle',point:[-38,33],pose:'clean',seconds:8,dir:0},{name:'Ranger les fournitures',point:[-37,35],pose:'stock',seconds:7,dir:Math.PI/2},{name:'Noter les rendez-vous',point:[-38,29],pose:'phone',seconds:6,dir:Math.PI}]}
+ });
  const books={novel:{name:'Les jours lumineux',color:'#b784a1'},cookbook:{name:'Ma cuisine fleurie',color:'#c59760'},garden:{name:'Un jardin au Soleil',color:'#829b77'}};
  const items={cookbook:{name:'Livre de cuisine',price:25,book:'cookbook'},garden:{name:'Livre de jardinage',price:18,book:'garden'},takeaway:{name:'Repas à emporter',price:16,meals:1},provisions:{name:'Panier de 3 provisions',price:18,groceries:3}};
  const channels=['Cuisine au Soleil','Voyages et jardins','Soirée musique'];

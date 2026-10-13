@@ -98,6 +98,174 @@
       "bytes": 1749303,
       "filename": "base.obj",
       "sha256": "8e761e6624b8f54536409135d1636da63b32486a90d4897f84e121d144f6fb4c"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/african-female-child.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-female-child.target",
+      "filename": "african-female-child.target",
+      "bytes": 442183,
+      "sha256": "f88b8f252df8a9a3f35f78e1664983e9a30756bca1e454afce39438296eb7b41"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/asian-female-child.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-female-child.target",
+      "filename": "asian-female-child.target",
+      "bytes": 447393,
+      "sha256": "a4fffea45a475a24a0a7332dac28a07dfd60a9af9eb50b61ed5abd1178197f75"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/caucasian-female-child.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-female-child.target",
+      "filename": "caucasian-female-child.target",
+      "bytes": 446405,
+      "sha256": "17fc408839c0a407bf4efd96d9af7eebcdf20d74698659f3597b0647ed6b147e"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-female-child-averagemuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-female-child-averagemuscle-averageweight.target",
+      "filename": "universal-female-child-averagemuscle-averageweight.target",
+      "bytes": 604,
+      "sha256": "4ba5396ddabda448ece15650a566fbebfbb10239256ccb201e8f883429e12249"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/african-male-child.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-male-child.target",
+      "filename": "african-male-child.target",
+      "bytes": 439005,
+      "sha256": "5b89c85ed7ba9984b5e57a5844b10eb74ab7fcfa79f77a5a3ec697dd860969ed"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/asian-male-child.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-male-child.target",
+      "filename": "asian-male-child.target",
+      "bytes": 442344,
+      "sha256": "c1b56e9cc549cd7c463f407557d7adceaa217b528c600d34c19df98bc3d6472e"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/caucasian-male-child.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-male-child.target",
+      "filename": "caucasian-male-child.target",
+      "bytes": 441028,
+      "sha256": "401b9b0349c88dc7aacb81e71f67daf747fecde0f7fd7f3f6e10fb2ce5586d1e"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-child-averagemuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-child-averagemuscle-averageweight.target",
+      "filename": "universal-male-child-averagemuscle-averageweight.target",
+      "bytes": 604,
+      "sha256": "4ba5396ddabda448ece15650a566fbebfbb10239256ccb201e8f883429e12249"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/african-female-old.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-female-old.target",
+      "filename": "african-female-old.target",
+      "bytes": 408823,
+      "sha256": "c165e7caf01aaf45511ebc78a441c8c73ead13231af1a8c6666941345f088b61"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/asian-female-old.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-female-old.target",
+      "filename": "asian-female-old.target",
+      "bytes": 426301,
+      "sha256": "1a90cb281df640df55fbce3acd6588f27b28affeb96a7f693f6f038aefc204d8"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/caucasian-female-old.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-female-old.target",
+      "filename": "caucasian-female-old.target",
+      "bytes": 408930,
+      "sha256": "6560982486c4b1a7a0b1d82b0ad3f09770c16b4f87c8f949537dc9cfc941a0b0"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-female-old-averagemuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-female-old-averagemuscle-averageweight.target",
+      "filename": "universal-female-old-averagemuscle-averageweight.target",
+      "bytes": 604,
+      "sha256": "4ba5396ddabda448ece15650a566fbebfbb10239256ccb201e8f883429e12249"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/african-male-old.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-male-old.target",
+      "filename": "african-male-old.target",
+      "bytes": 411367,
+      "sha256": "59ec94956b3525dbb30238d1239b2bce52adc3bfae091f12cd85d2570aa1933c"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/asian-male-old.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-male-old.target",
+      "filename": "asian-male-old.target",
+      "bytes": 427966,
+      "sha256": "36dc5a3a135ded33885e814806b0e3668ca5bf44bddcebdee48ae75ae68bc3d3"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/caucasian-male-old.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-male-old.target",
+      "filename": "caucasian-male-old.target",
+      "bytes": 400125,
+      "sha256": "b0d2b1d58cba0358af59833740e70229265f7da1c20a11240f4123b7192cfd6d"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-old-averagemuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-old-averagemuscle-averageweight.target",
+      "filename": "universal-male-old-averagemuscle-averageweight.target",
+      "bytes": 604,
+      "sha256": "4ba5396ddabda448ece15650a566fbebfbb10239256ccb201e8f883429e12249"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/african-female-baby.target",
+      "filename": "african-female-baby.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-female-baby.target",
+      "bytes": 463097,
+      "sha256": "b1d4b5c76c73107b8f433bba6e224addf9da542287612868a02109d0f5a1c235"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/asian-female-baby.target",
+      "filename": "asian-female-baby.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-female-baby.target",
+      "bytes": 463063,
+      "sha256": "43c2a05ac425c4084f9dc30687a294cc5b61699d7c075985536f7e9c3b23f78d"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/caucasian-female-baby.target",
+      "filename": "caucasian-female-baby.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-female-baby.target",
+      "bytes": 463014,
+      "sha256": "2ae0b8f760a3608b8e628b9af80054592d0fd0ac4b7867f81d8fc86b5a75c170"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-female-baby-averagemuscle-averageweight.target",
+      "filename": "universal-female-baby-averagemuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-female-baby-averagemuscle-averageweight.target",
+      "bytes": 604,
+      "sha256": "4ba5396ddabda448ece15650a566fbebfbb10239256ccb201e8f883429e12249"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/african-male-baby.target",
+      "filename": "african-male-baby.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-male-baby.target",
+      "bytes": 463002,
+      "sha256": "32ce877fa330805971ca636a78aa736bc486b37118e91d2e4bfb9f1ad2cd48a1"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/asian-male-baby.target",
+      "filename": "asian-male-baby.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-male-baby.target",
+      "bytes": 463045,
+      "sha256": "296f9dd9c9716a0e43afb9dadfb35e11be0ecc1f15d2efae6e903b0e91bc07a5"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/caucasian-male-baby.target",
+      "filename": "caucasian-male-baby.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-male-baby.target",
+      "bytes": 463026,
+      "sha256": "f970a2e354b70f8438508a884cd40a9b2ea5cbd24fa6b89a99071a30720c7417"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-baby-averagemuscle-averageweight.target",
+      "filename": "universal-male-baby-averagemuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-baby-averagemuscle-averageweight.target",
+      "bytes": 604,
+      "sha256": "4ba5396ddabda448ece15650a566fbebfbb10239256ccb201e8f883429e12249"
     }
   ]
 }

@@ -19,4 +19,5 @@ const WorkScenes={
   {text:'Des feuilles couvrent le chemin du parc.',choices:['Les pousser sur les fleurs','Bloquer le chemin','Balayer et regrouper les feuilles'],correct:2}
  ]
 };
+for(const [id,choices]of Object.entries({chef:['Vérifier les ingrédients et préparer le poste','Découper sur une planche propre','Remuer et surveiller la cuisson','Dresser les portions à servir'],teacher:['Accueillir les élèves et expliquer la journée','Préparer les supports de lecture','Expliquer le cours à la classe','Ranger les livres en laissant le passage libre'],mechanic:['Écouter la demande du client','Inspecter la roue sur le poste réservé','Utiliser l’établi et les outils adaptés','Ranger les outils après le travail'],care:['Accueillir la famille et écouter sa demande','Préparer une salle propre','Ranger les fournitures','Noter le rendez-vous dans le carnet']}))WorkScenes[id]=choices.map(text=>({text:'Que fais-tu à ce poste ?',choices:[text,'Quitter la tâche sans la terminer','Laisser le poste encombré'],correct:0}));
 if(typeof module!=='undefined')module.exports=WorkScenes;

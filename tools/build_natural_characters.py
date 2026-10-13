@@ -5,7 +5,7 @@ Preparation dependencies: numpy, scipy, fast-simplification. None are used by th
 Usage: python tools/build_natural_characters.py /path/to/makehuman-data
 See ASSETS.md for the pinned source files and their licences.
 """
-import base64,json,struct,sys
+import base64,json,struct,sys,copy
 from pathlib import Path
 import numpy as np
 from scipy.sparse import coo_matrix
@@ -76,21 +76,22 @@ def pack(points,triangles,weights,material,tex=None,surface_normals=None):
         data.extend(struct.pack('<3h3b4B4BB2H',*np.rint(p*10000).astype(int),*np.clip(np.rint(normal*127),-127,127).astype(int),*joints,*wi,material,*np.clip(np.rint(uv*65535),0,65535).astype(int)))
     return data,triangles.astype('<u2').flatten()
 
-def build(sex):
-    bones=RIG[sex];q=np.array([b['pivot'] for b in bones]);v=BASE.copy()
+def build(sex,age="young"):
+    bones=copy.deepcopy(RIG[sex]);q=np.array([b['pivot'] for b in bones]);v=BASE.copy()
     # A blended adult shape provides a neutral starting face, independent of skin colour.
-    for kind,amount in [('african',.4),('asian',.2),('caucasian',.4)]:v+=target(kind+'-'+sex+'-young.target')*amount
-    v+=target('universal-'+sex+'-young-averagemuscle-averageweight.target')
+    for kind,amount in [('african',.4),('asian',.2),('caucasian',.4)]:v+=target(kind+'-'+sex+'-'+age+'.target')*amount
+    v+=target('universal-'+sex+'-'+age+'-averagemuscle-averageweight.target')
     def joint(name):return v[SKELETON['joints'][name]].mean(0)
     def helper(name):return v[list(GROUPS['joint-'+name])].mean(0)
     floor=v[np.unique(np.array([f for g,f in FACES if g=='body']))][:,1].min()
-    scale=.106
+    scale=.106 if age not in ["child","baby"] else 1.77/(v[np.unique(np.array([f for g,f in FACES if g=="body"]))][:,1].max()-floor)
     pelvis=helper('pelvis');eye=helper('l-eye');head_shift=q[6,1]+.1045-(eye[1]-floor)*scale
     hip_shift=q[1,1]-(pelvis[1]-floor)*scale
     z_shift=q[1,2]-pelvis[2]*scale
+    eye_source_y=(eye[1]-floor)*scale
     def canonical(points):
         points=np.array(points,copy=True);points*=scale;points[...,1]-=floor*scale
-        y=points[...,1].copy();points[...,1]+=head_shift*smooth(1.30,1.53,y)+hip_shift*smooth(.5,.85,y)*(1-smooth(1.08,1.45,y))
+        y=points[...,1].copy();points[...,1]+=head_shift*smooth(eye_source_y-.25,eye_source_y-.05,y)+hip_shift*smooth(.5,.85,y)*(1-smooth(1.08,1.45,y))
         points[...,2]+=z_shift;return points
     rest=canonical(v)
     def j(name):return canonical(joint(name))
@@ -127,7 +128,7 @@ def build(sex):
                 forward=h(side+'-finger-3-4')-source[3];forward/=np.linalg.norm(forward)
                 wide=h(side+'-finger-2-1')-h(side+'-finger-5-1');wide-=forward*(wide@forward);wide/=np.linalg.norm(wide)
                 normal=np.cross(forward,wide);a=np.column_stack([forward,wide,normal]);sign=1 if side=='l' else -1
-                b=np.column_stack([[sign,0,0],[0,0,-sign],[0,1,0]])
+                b=np.column_stack([[sign,0,0],[0,0,1],[0,-sign,0]])
                 pts=(rest-source[3])@(b@a.T).T+q[k]
         elif k>=15:
             side='l' if k<18 else 'r';base=15 if k<18 else 18
@@ -139,10 +140,16 @@ def build(sex):
                 # Match the compact game's ankle/sole height without changing foot direction.
                 pts[:,1]=q[k,1]+(rest[:,1]-source[2][1])*q[k,1]/max(source[2][1],.001)
         transformed+=pts*weights[:,k,None]
+    youth=age in ['child','baby']
+    adult_head=float(q[6,1])
+    def age_y(y):return np.interp(y,[0,.535,.932,1.055,1.291,1.485,1.55,4],[0,.445,.815,.930,1.180,1.375,1.440,3.890])
+    if youth:
+        transformed[:,1]=age_y(transformed[:,1])
+        for bone in bones:bone['pivot'][1]=float(age_y(bone['pivot'][1]))
     triangles=np.array([f for group,f in FACES if group=='body'],dtype=np.int64)
     used=np.unique(triangles);ids=np.full(len(v),-1,dtype=int);ids[used]=np.arange(len(used));triangles=ids[triangles]
     points=transformed[used]
-    simplified,faces,collapses=fast_simplification.simplify(points,triangles,target_count=14000,return_collapses=True)
+    simplified,faces,collapses=fast_simplification.simplify(points,triangles,target_count=14000 if age=="young" else 7000,return_collapses=True)
     _,_,mapping=fast_simplification.replay_simplification(points,triangles,collapses)
     w=np.zeros((len(simplified),21));tex=np.zeros((len(simplified),2));sizes=np.bincount(mapping,minlength=len(simplified))
     # Keep the original smooth anatomical shading, rather than large QEM face normals.
@@ -162,16 +169,21 @@ def build(sex):
     ep,ef,_,_=obj(SOURCE/'low-poly.obj');proxy=(SOURCE/'low-poly.mhclo').read_text().split('verts 0',1)[1]
     indices=[int(x) for x in proxy.splitlines() if x.strip().isdigit()]
     assert len(indices)==len(ep)
-    eyes=canonical(v[indices]);eye_faces=np.array([f for _,f in ef]);eye_weights=np.zeros((len(eyes),21));eye_weights[:,6]=1
+    eyes=canonical(v[indices]);
+    if youth:eyes[:,1]=age_y(eyes[:,1])
+    eye_faces=np.array([f for _,f in ef]);eye_weights=np.zeros((len(eyes),21));eye_weights[:,6]=1
     skin,skin_ix=pack(simplified,faces,w,2,tex,smooth_normals);eye_data,eye_ix=pack(eyes,eye_faces,eye_weights,1)
     out=skin+eye_data;ix=np.concatenate([skin_ix,eye_ix+len(simplified)]).astype('<u2')
     torso=simplified[(np.abs(simplified[:,0])<.13)&(simplified[:,1]>1.08)&(simplified[:,1]<1.40)]
     centre=float((np.quantile(torso[:,2],.02)+np.quantile(torso[:,2],.98))*.5)
     eye_centre=h('l-eye')
-    body={'bones':bones,'vertices':base64.b64encode(out).decode(),'indices':base64.b64encode(ix.tobytes()).decode(),'count':len(ix),'vertexCount':len(out)//22,'source':'MakeHuman CC0','sourceCommit':(SOURCE/'source-commit.txt').read_text().strip(),'bodyTriangles':len(faces),'eyeTriangles':len(eye_faces),'shape':{'eyeX':float(eye_centre[0]),'torsoZ':centre,'eyeZ':float(max(eyes[:,2].max(),simplified[(np.abs(simplified[:,0])>.010)&(np.abs(simplified[:,0])<.067)&(np.abs(simplified[:,1]-q[6,1]-.1045)<.020),2].max()))}}
+    body={'bones':bones,'vertices':base64.b64encode(out).decode(),'indices':base64.b64encode(ix.tobytes()).decode(),'count':len(ix),'vertexCount':len(out)//22,'source':'MakeHuman CC0','bodySex':sex,'ageKind':age,'sourceCommit':(SOURCE/'source-commit.txt').read_text().strip(),'bodyTriangles':len(faces),'eyeTriangles':len(eye_faces),'shape':{'youth':youth,'virtualHeadY':adult_head,'eyeX':float(eye_centre[0]),'torsoZ':centre,'eyeZ':float(max(eyes[:,2].max(),simplified[(np.abs(simplified[:,0])>.010)&(np.abs(simplified[:,0])<.067)&(np.abs(simplified[:,1]-(float(age_y(q[6,1]+.1045)) if youth else q[6,1]+.1045))<.020),2].max()))}}
     print(json.dumps({'body':sex,'vertices':body['vertexCount'],'triangles':len(ix)//3,'bytes':len(out)+ix.nbytes,'bounds':[simplified.min(0).tolist(),simplified.max(0).tolist()],'eye':h('l-eye').tolist(),'mouth':h('mouth').tolist()}),flush=True)
-    np.savez(SOURCE/('prepared-'+sex+'.npz'),points=simplified,faces=faces,weights=w)
+    np.savez(SOURCE/('prepared-'+sex+'-'+age+'.npz'),points=simplified,faces=faces,weights=w)
     return body
 
-models={sex:build(sex) for sex in ['female','male']};models['hair']=[]
+models={sex:build(sex) for sex in ['female','male']}
+for age,prefix in [('baby','baby'),('child','child'),('old','senior')]:
+    for sex in ['female','male']:models[prefix+sex.title()]=build(sex,age)
+models['hair']=[]
 (ROOT/'assets/humans.js').write_text('/* CC0 MakeHuman bodies, adapted to the existing game rig. See ASSETS.md. */\nconst HumanAssets='+json.dumps(models,separators=(',',':'))+';\n')

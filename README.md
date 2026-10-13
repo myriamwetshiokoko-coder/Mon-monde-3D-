@@ -1,4 +1,21 @@
-# Mon Monde 3D — V10.0.0 · nouveaux personnages
+# Mon Monde 3D — V11.0.0 · âges, logements et vie de ville
+
+## V11 : changements jouables
+
+La marche V10 est conservée. Modèles CC0 spécifiques pour bébés, enfants et aînés, pouce gauche corrigé, jupe moins entraînée par les cuisses, coiffures ajustées à chaque crâne. Les aînés ont des cheveux progressivement gris et des marques du visage intégrées à la peau.
+
+Le téléphone propose **Logements**, **Vêtements**, **Vie et âges**, **École** et **Mobilité**. Deux appartements accessibles au rez-de-chaussée complètent les trois maisons : achat, location avec caution/loyer par journée de jeu, colocation avec un second adulte contrôlable et revente à 80 % du prix. Pas d’expulsion automatique ; les impayés restent consultables et peuvent être réglés. Les étages supérieurs ne sont pas accessibles.
+
+Les 22 tenues sont disponibles dans une boutique payante, avec un dressing partagé. Les tenues des anciennes sauvegardes sont conservées, et la première tenue d’une nouvelle partie est offerte. Les couleurs, coiffures, visage et meubles existants restent personnalisables. Un mode créatif explicite permet d’ajouter 500 ou 5 000 sols.
+
+Sept emplois avec quatre tâches et décisions chacun : café, épicerie, jardinier, cuisine, enseignement, mécanique, accueil du centre. Quatre habitants supplémentaires, deux aînés, école et atelier accessibles. Les employés restent à leur poste pendant les horaires de travail après leur salaire journalier ; au parc les activités varient, la lecture se fait assise.
+
+Les enfants et bambins rejoignent l’école en semaine, sont assis pour les cours et déjeunent sur place ; la présence et les cours du personnage enfant sont enregistrés. L’âge peut être choisi dans Vie et âges. Les nouveaux bébés ont un âge fixe jusqu’à modification explicite. Les anciennes familles conservent leur progression. Les futures grossesses peuvent durer 3, 7 ou 14 journées fictives ; l’accueil reste manuel et annoncé.
+
+Deux voitures achetables/revendables à 70 %, inscription au code puis parcours accompagné dans le monde pour obtenir le permis. Les déplacements en voiture sont **assistés**, avec arrêts à confirmer et freinage devant piétons/véhicules. Pas de volant libre, physique automobile ou intérieur détaillé. Les routes, logements et lieux s’étendent jusqu’à ±49,5 mètres.
+
+Les sauvegardes restent sur l’appareil ; aucun compte ou serveur ajouté. Aucun enregistrement vidéo privé ni sauvegarde personnelle n’est publié. Safari iPhone 16 n’est pas disponible dans l’environnement de test : les FPS natifs et le toucher doivent encore être observés sur cet appareil.
+
 
 Les corps et visages féminins/masculins utilisent désormais une **nouvelle base humaine MakeHuman CC0**, adaptée au moteur existant. La tête, le nez, les oreilles, les mains et la silhouette proviennent du nouveau maillage anatomique ; les anciennes apparences restent personnalisables. Ce changement conserve le quartier, les activités, les histoires et les sauvegardes privées sur l’appareil.
 

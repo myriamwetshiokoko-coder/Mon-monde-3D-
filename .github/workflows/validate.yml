@@ -59,3 +59,5 @@ jobs:
         run: node tests/character-fit.test.cjs
       - name: Modèles, locomotion et transitions V10
         run: node tests/characters-v10.test.cjs
+      - name: Vie de ville V11, économie, école et mobilité
+        run: node tests/city-v11.test.cjs

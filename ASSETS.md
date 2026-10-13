@@ -76,3 +76,9 @@ Aucune nouvelle ressource externe. Le lit, le canapé et la table/chaises procé
 ## V8 — vêtements et expressions
 
 Aucune ressource externe nouvelle. Les nouveaux hauts sont découpés et légèrement élargis depuis la surface skinnée CC0 existante ; les chaussons sont procéduraux. Sommets de vêtements quantifiés identiques regroupés sans changer les triangles, pour limiter le coût GPU. Lèvres/sourcils/sourire et cadres de scènes créés dans le moteur existant. Textes RP écrits dans le projet, sans téléchargement ni génération distante.
+
+## V11 — morphologies d’âge
+
+Bébés, enfants et aînés : huit bases MakeHuman CC0 au total (femme/homme × bébé/enfant/jeune/aîné), même dépôt et commit épinglé que V10. Le manifeste `tools/character-sources.json` contient les 38 fichiers graphiques précis et leurs SHA-256. Les 24 cibles supplémentaires sont les six mélanges ethniques et deux moyennes universelles pour chacun des trois âges. Aucun code MakeHuman AGPL inclus ou exécuté. Conversion originale via NumPy, SciPy et fast-simplification, hors jeu.
+
+Bases adultes : 14 172 triangles et 241 188 octets binaires chacune. Chaque base d’âge : 7 172 triangles et 122 188 octets. Géométrie d’âge, mains corrigées, tenues, cheveux, marques d’âge, école, atelier, appartements et voitures réalisés/adaptés localement. Les modèles d’âge et leurs coiffures sont transférés au GPU à leur première utilisation puis réutilisés. Aucun asset généré par IA, vidéo personnelle ou photo privée ajouté.

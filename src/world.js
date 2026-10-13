@@ -1,6 +1,6 @@
 // V0.2 : la maison existante et un extérieur d’un seul tenant, sans chargement.
 const foregroundFixtures=[];
-box('#a9c89c',0,-.4,20,65,.3,53);
+box('#a9c89c',0,-.4,20,102,.3,53);
 function fixture(id,zone,build){
  const start=scene.length;build();const bounds={min:[Infinity,Infinity,Infinity],max:[-Infinity,-Infinity,-Infinity]};
  for(const o of scene.slice(start)){o.foreground=id;const m=o.m,r=o.shape==='cube'?[.5,.5,.5]:o.shape==='sphere'?[1,1,1]:[1,.5,1];for(let axis=0;axis<3;axis++){const extent=Math.abs(m[axis])*r[0]+Math.abs(m[4+axis])*r[1]+Math.abs(m[8+axis])*r[2];bounds.min[axis]=Math.min(bounds.min[axis],m[12+axis]-extent);bounds.max[axis]=Math.max(bounds.max[axis],m[12+axis]+extent)}}
@@ -167,7 +167,7 @@ const counterDetailStart=scene.length;box('#d8b788',-15,1.35,32.5,.75,.5,.2);box
 
 houseTemplate.length=0;houseTemplate.push(...scene.filter(o=>Math.abs(o.m[12])<6.4&&Math.abs(o.m[14])<5.4&&Math.abs(o.m[0])<13&&Math.abs(o.m[10])<11));for(const o of houseTemplate)o.homeId='soleil';
 // Two furnished, walkable homes with the same tested room proportions.
-for(const id of ['sauge','rose']){
+for(const id of Object.keys(Town.houses).filter(id=>id!=='soleil')){
  const h=Town.houses[id];for(const o of houseTemplate){const m=o.m.slice();m[12]+=h.x;m[14]+=h.z;scene.push({...o,m,homeId:id,foreground:o.foreground?o.foreground+'-'+id:''});}
  for(const f of foregroundFixtures.filter(f=>f.zone==='maison'))foregroundFixtures.push({id:f.id+'-'+id,zone:id,bounds:{min:[f.bounds.min[0]+h.x,f.bounds.min[1],f.bounds.min[2]+h.z],max:[f.bounds.max[0]+h.x,f.bounds.max[1],f.bounds.max[2]+h.z]}});
  box(id==='sauge'?'#adc2b1':'#d9b1ad',h.x,.03,7.6,7.5,.09,5);
