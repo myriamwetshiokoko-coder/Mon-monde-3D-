@@ -1,3 +1,21 @@
+# Mon Monde 3D — V10.0.0 · nouveaux personnages
+
+Les corps et visages féminins/masculins utilisent désormais une **nouvelle base humaine MakeHuman CC0**, adaptée au moteur existant. La tête, le nez, les oreilles, les mains et la silhouette proviennent du nouveau maillage anatomique ; les anciennes apparences restent personnalisables. Ce changement conserve le quartier, les activités, les histoires et les sauvegardes privées sur l’appareil.
+
+- **Visages :** yeux ajustés à chaque modèle, sourcils/lèvres/maquillage sur la peau, paupières qui clignent et légers mouvements de bouche pendant la discussion/le repas. Les réglages de traits et de teints sont conservés. Les lunettes suivent les dimensions et la profondeur du nouveau visage.
+- **Coiffures :** dix choix conservés sur chaque morphologie ; ligne des cheveux et longueurs ajustées, carré plus arrondi, tresses en volume et boucles posées sur la surface réelle du crâne. Elles sont construites une fois au chargement.
+- **Vêtements :** les 22 styles et quatre motifs restent disponibles. Épaules, cols, manches et bas sont recalculés depuis les nouveaux corps. La poitrine adulte garde son réglage personnel avec une amplitude adaptée au relief déjà présent dans le nouveau modèle ; corps, vêtements et grossesse partagent les déformations. Chaussures plus fines avec semelles et lacets.
+- **Mouvement :** marche à pieds alternés, appui au sol, levée du pied et course distincte. La phase suit la distance réellement parcourue par le joueur et les habitants, y compris lorsqu’une collision arrête le déplacement. Transitions de gestes en 0,30 seconde et respiration au repos ; l’animation visuelle ne consomme aucun repas, argent ou temps de simulation.
+- **Studio :** ouvrir **Style → Voir mon personnage en 3D → Gestes** pour essayer **Marche, Course, Assis et Téléphone**, en plus du repos, de la discussion, de la lecture, du repas et de la cuisine. Les contrôles de rotation et les cinq sections restent accessibles.
+
+Chaque corps comprend 7 098 sommets et 14 172 triangles, dont les yeux. Les deux bases occupent environ 647 ko de JavaScript local, contre environ 1 Mo précédemment. Les vêtements détaillés ajoutent leurs propres triangles ; ces tailles ne constituent pas une mesure de FPS. Aucune ressource 3D distante n’est chargée pendant la partie.
+
+**Limites :** rendu semi-réaliste léger, expressions simples, doigts attachés aux mains et enfants encore représentés par des modèles réduits. Ni photoréalisme, ni capture de mouvements, ni système facial complet annoncés. Safari natif, tactile et FPS sur iPhone 16 restent à mesurer sur l’appareil. Validation reproductible dans `TEST_RESULTS.md`, provenance et reconstruction dans `ASSETS.md`.
+
+La clé de sauvegarde et le schéma restent identiques. Argent, logements, meubles, enfants, grossesses, relations, métiers, apparences des deux adultes et histoires restent enregistrés comme auparavant. Aucune sauvegarde ni capture personnelle n’est incluse dans le dépôt.
+
+## Historique — V9.0.1
+
 # Mon Monde 3D — V9.0.1 · visage intégré et silhouette
 
 Correctif de la vue de profil signalée sur iPhone. Les sourcils, les lèvres et le maquillage s’appliquent désormais à la surface articulée du visage. Ils suivent la rotation de la tête, les animations et les réglages de mâchoire, de largeur et de lèvres. Les accessoires restent des objets distincts.

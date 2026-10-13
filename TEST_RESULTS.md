@@ -1,3 +1,17 @@
+# Vérifications — V10.0.0
+
+Branche `develop/v10-personnages-naturels`, depuis main V9.0.1 `31338cd26b4203d6d4cfa36289c1130a76661b36`, 13 octobre 2026. Publication selon l’autorisation permanente de la propriétaire ; aucune sauvegarde ni capture personnelle ajoutée au dépôt.
+
+**361 tests dans seize suites.** Les 345 essais précédents restent actifs ; les contrôles de quantité/matériaux sont adaptés aux nouvelles bases, aux yeux plus compacts et aux couleurs de sourcils intégrées. Le réglage de poitrine conserve ses valeurs enregistrées avec une nouvelle amplitude de rendu adaptée à l’anatomie de la base. Les comparaisons numériques de déformation tolèrent l’arrondi flottant.
+
+Seize essais V10 couvrent provenance/budget des deux bases, yeux attachés à la tête, alternance et continuité des pieds, appui lié à la distance y compris avec un joystick partiellement incliné, course distincte, pieds plats au sol sous plusieurs tailles, conservation des longueurs de jambes, respiration au repos, transitions de 0,30 seconde, longueurs/os connectés pendant les transitions, séparation des caches par personne et remise à zéro, quatre nouveaux gestes de studio sans avancer la partie, clignement/expression et remise à zéro des uniformes, absence de nouveaux buffers GPU ou champs d’animation dans les sauvegardes, collier projeté sur les vrais vêtements avec leurs poids d’articulation.
+
+**Rendu réel hors écran :** 26 scènes rejouées sous Mesa EGL/OpenGL ES après les corrections de boucles/volume, puis le profil du collier et sept contrôles finaux. Vues de face, profil et trois quarts, morphologies féminine/masculine, carré/tresses/boucles, lunettes, paupières fermées, marche/course, poitrine minimum/maximum, grossesse, repas/lecture/téléphone/sommeil, studio, enfants, conversation, dîner, TV, cuisine et promenade du couple. Les commandes et shaders du jeu sont exécutés en GLES ; les parties sont synthétiques. La comparaison des vues a permis de corriger les boucles sur le front, des fissures de subdivision des vêtements et les accessoires trop éloignés du nouveau corps.
+
+**Contrôles statiques :** syntaxe JS/CJS et Python, poids/indices/normales des modèles et vêtements, 43 scripts locaux, cache 10.0.0, fichiers référencés, IDs HTML uniques, manifeste et différences sans erreurs d’espaces. Modèles : 7 098 sommets / 14 172 triangles par corps, 241 188 octets binaires chacun ; environ 647 ko pour l’asset JS. Les tissus ajoutent leurs propres triangles (environ 5 300–6 300 pour chemise/lin/maille/veste selon corps). Aucun buffer de personnage n’est créé pendant les animations.
+
+**Limites de vérification :** Mesa/llvmpipe exécute le rendu mais ne représente pas le GPU de l’iPhone. Les tests d’interface emploient un DOM simulé et ne rendent pas le CSS natif. Aucune mesure de FPS, de tactile ou de comportement Safari sur iPhone 16 n’est annoncée. Expressions simples, pas de rig de doigts ni de capture de mouvements ; les enfants gardent des modèles réduits. Le jeu conserve son style semi-réaliste léger.
+
 # Vérifications — V9.0.1
 
 Correctif depuis main `4da4616d5a581f435e33bcca6445e493e5e2c903`, branche `develop/v9-1-visage-silhouette`, 13 octobre 2026. Publication selon l’autorisation permanente conservée dans README ; aucune photo personnelle ni sauvegarde privée incluse.

@@ -57,3 +57,5 @@ jobs:
         run: node tests/domestic.test.cjs
       - name: Visage intégré et vêtements V9.0.1
         run: node tests/character-fit.test.cjs
+      - name: Modèles, locomotion et transitions V10
+        run: node tests/characters-v10.test.cjs
