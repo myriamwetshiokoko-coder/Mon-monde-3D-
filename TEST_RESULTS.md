@@ -1,3 +1,13 @@
+# Vérifications — V9.0.1
+
+Correctif depuis main `4da4616d5a581f435e33bcca6445e493e5e2c903`, branche `develop/v9-1-visage-silhouette`, 13 octobre 2026. Publication selon l’autorisation permanente conservée dans README ; aucune photo personnelle ni sauvegarde privée incluse.
+
+**345 tests dans quinze suites** : les 332 essais précédents, dont le contrôle des sourcils adapté au rendu intégré, et treize essais de fixation/apparence. Suppression des primitives de lèvres/sourcils vérifiée pour les deux corps, plusieurs poses et dimensions ; réglage de poitrine borné, import ancien, sauvegarde avec enfant/grossesse, deux adultes indépendants, affichage selon âge/morphologie, remise à zéro des uniformes entre personnages, deux chemins de rendu des enfants, expressions/maquillage propres à chaque visage. Indices, normales et poids des vêtements, col à moins de cinq millimètres des vrais triangles de la chemise raccord des épaules sous cinq poses, manches de veste adaptées au poignet de chaque corps et absence de nouvelle allocation de maillage pendant l’animation contrôlés.
+
+**Seize rendus EGL/GLES** : profils et faces des deux morphologies avec réglages extrêmes de traits/maquillage/dimensions, trois quarts, pull en marche, poitrine discrète et pleine, robe de grossesse, repas assis, sommeil, lecture, studio réel, enfants, conversation et café. Shaders réels et commandes du jeu exécutés sous Mesa/llvmpipe, sans erreur de shader ou de GL. Vues de profil et scènes inspectées, puis deux contrôles finaux de la veste à manches longues. Les données sont des parties synthétiques. Les tests d’interface utilisent un DOM simulé ; tactile/CSS natifs Safari et FPS iPhone ne sont pas mesurés.
+
+La surface du visage porte directement ses couleurs : aucun maillage séparé de maquillage ne peut rester devant la tête. Le relief du buste et ses normales utilisent la même déformation pour la peau et les vêtements, avec une seule exponentielle par sommet ; les hauts sont dérivés de la surface du corps et héritent de ses poids d’articulation. Cache 9.0.1 pour les 42 scripts, syntaxe JS/CJS, manifeste, identifiants HTML et fichiers présents contrôlés. Le rendu conserve sa base stylisée ; ni nouvel asset humain photoréaliste ni animation faciale complète annoncés.
+
 # Vérifications — V9.0.0
 
 Depuis main `612e194f7acf70c8849790e6df26396f8bee5c1e`, branche `develop/v9-personnages-vie`, 12 octobre 2026. Publication selon l’autorisation permanente de la propriétaire conservée dans README.

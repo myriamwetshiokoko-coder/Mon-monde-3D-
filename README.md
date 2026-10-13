@@ -1,3 +1,11 @@
+# Mon Monde 3D — V9.0.1 · visage intégré et silhouette
+
+Correctif de la vue de profil signalée sur iPhone. Les sourcils, les lèvres et le maquillage s’appliquent désormais à la surface articulée du visage. Ils suivent la rotation de la tête, les animations et les réglages de mâchoire, de largeur et de lèvres. Les accessoires restent des objets distincts.
+
+La morphologie féminine adulte a un buste arrondi, avec un réglage **Poitrine : discrète / plus pleine** dans **Style → Voir mon personnage en 3D → Corps**. Corps et vêtements suivent le même volume. Les hauts sont construits sur la surface articulée du corps, avec des épaules continues et un col ajusté à la chemise. Ce réglage personnel reste enregistré lors de la reprise et du changement d’adulte jouable ; les anciennes apparences reçoivent une valeur intermédiaire. Les enfants et les morphologies masculines ne reçoivent pas ce volume supplémentaire.
+
+Les histoires, familles, enfants, grossesses, relations, argent, meubles et activités de la V9 sont conservés. La clé de sauvegarde et le schéma restent identiques. Le rendu demeure stylisé sur les modèles CC0 existants ; cette correction ne remplace pas les modèles par des humains photoréalistes. Validation détaillée dans `TEST_RESULTS.md`.
+
 # Mon Monde 3D — V9.0.0 · visages et vie de foyer
 
 Cette mise à jour conserve le quartier, les logements, les métiers, les familles et les sauvegardes. Elle reprend le rendu des personnages et ajoute des activités partagées réellement jouables.

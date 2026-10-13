@@ -10,21 +10,13 @@ for(const [label,pose]of [['Repos',''],['Discussion','talk'],['Lecture','readSta
 $('editor').append(toolbar);
 const studioOpen=$('previewBtn').onclick;$('previewBtn').onclick=()=>{studioPose='';studioAngle=0;studioOpen();};
 const studioClose=$('finishEditor').onclick;$('finishEditor').onclick=()=>{studioPose='';studioAngle=0;studioClose();save();};
-const studioAvatar=avatar;avatar=function(t){if(!editorMode){studioAvatar(t);return;}human(state.x,state.z,0,skin,outfit,performance.now()*.005,0,state.hair,state.face,studioPose,state.style,state.hairColor,Life.avatarScale(state),0,state.appearance);};
+const studioAvatar=avatar;avatar=function(t){if(!editorMode){studioAvatar(t);return;}human(state.x,state.z,0,skin,outfit,performance.now()*.005,0,state.hair,state.face,studioPose,state.style,state.hairColor,Life.avatarScale(state),0,{...state.appearance,age:state.age});};
 // The studio uses a steady portrait framing, and orbit controls reset camera smoothing.
 const studioEye=cameraEye;cameraEye=function(target,distance,yaw,pitch){if(editorMode&&studioAngle){target[1]=(HumanRenderer.models[state.appearance.body==='male'?'male':'female'].bones[6].pivot[1]+.1045)*Life.avatarScale(state)*(state.appearance.height||1)+groundAt(state.x,state.z)+.015;distance=1.35;}return studioEye(target,distance,yaw,pitch);};
-const faceBrowMeshes=new Map();
-function faceBrowMesh(value){const key=Math.round(value*10)/10;if(faceBrowMeshes.has(key))return faceBrowMeshes.get(key);const vertices=[],segments=20,rings=6,thickness=.0018*(1+key*.45);
- const point=(side,i,k)=>{const t=i/segments*2-1,a=k/rings*Math.PI*2,dy=-.008*t/(side*.046),len=Math.hypot(dy,1),n=[-dy/len*Math.sin(a),Math.sin(a)/len,Math.cos(a)];return [side*(.039+t*.024)+n[0]*thickness,.004*(1-t*t)+n[1]*thickness,n[2]*.0025,...n];};
- for(const side of [-1,1])for(let i=0;i<segments;i++)for(let k=0;k<rings;k++)for(const [di,dk]of [[0,0],[1,0],[0,1],[0,1],[1,0],[1,1]])vertices.push(...point(side,i+di,k+dk));const mesh=makeMesh(vertices);faceBrowMeshes.set(key,mesh);return mesh;}
-function drawFaceDetails(actor,model,palette,appearance,pose,phase){if(!editorMode&&Math.hypot(actor[12]-state.x,actor[14]-state.z)>8)return;const a=FaceDesign.normalize(appearance),head=mul(actor,palette[6]),h=model.bones[6].pivot,exp=FaceDesign.expression(pose,phase);
+// Lips, brows and makeup are now shaded on the skinned face itself. Only actual
+// jewellery is drawn here; no fixed-depth facial primitives can float in profile.
+function drawFaceDetails(actor,model,palette,appearance,pose,phase){if(!editorMode&&Math.hypot(actor[12]-state.x,actor[14]-state.z)>8)return;const a=FaceDesign.normalize(appearance),head=mul(actor,palette[6]),h=model.bones[6].pivot;
  const part=(color,x,y,z,sx,sy,sz)=>drawOne(shapes.sphere,typeof color==='string'?hex(color):color,mul(head,modelMatrix(x,y,z,sx,sy,sz,0)));
- const sk=hex(skins[appearance.teint??2]),tint=hex('#b26070'),lip=a.makeup>.05?sk.map((v,k)=>v*(1-a.makeup*.65)+tint[k]*a.makeup*.65):sk.map((v,k)=>v*[.9,.79,.79][k]);const mouthY=h[1]+.042,z=h[2]+.111;
- part(lip,0,mouthY+.004,z,.022*(1+a.lips*.22),.004+a.makeup*.002,.004);
- part(lip,0,mouthY-.004-exp.speech*.004,z,.022*(1+a.lips*.22),.004,.004);
- if(exp.smile>0)for(const side of [-1,1])part(lip,side*.023,mouthY+exp.smile*.016,z,.005,.004,.003);
- if(exp.speech>.4)part('#684c4b',0,mouthY-exp.speech*.002,z+.001,.018,.002+exp.speech*.004,.003);
- drawOne(faceBrowMesh(a.brows),hex('#51413b'),mul(head,modelMatrix(0,h[1]+.128,h[2]+.120,1,1,1,0)));
  for(const side of [-1,1]){if(a.accessory===1||a.accessory===3){part('#c49a52',side*.094,h[1]+.056,h[2]+.005,.009,.017,.008);}}
  if(a.accessory>=2){const neck=mul(actor,palette[5]);for(let i=0;i<9;i++){const theta=Math.PI*.1+i/8*Math.PI*.8;drawOne(shapes.sphere,hex('#c49a52'),mul(neck,modelMatrix(Math.cos(theta)*.075,h[1]-.075,h[2]+Math.sin(theta)*.057,.006,.004,.006,0)));}drawOne(shapes.sphere,hex('#e2bc65'),mul(neck,modelMatrix(0,h[1]-.10,h[2]+.058,.008,.014,.005,0)));}
 }

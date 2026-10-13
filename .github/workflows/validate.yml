@@ -55,3 +55,5 @@ jobs:
         run: node tests/characters-v9.test.cjs
       - name: Rituels et promenades V9
         run: node tests/domestic.test.cjs
+      - name: Visage intégré et vêtements V9.0.1
+        run: node tests/character-fit.test.cjs
