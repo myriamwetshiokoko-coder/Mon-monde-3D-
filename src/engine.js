@@ -4,11 +4,13 @@
 const canvas=document.getElementById('world');
 const gl=canvas.getContext('webgl',{antialias:true,premultipliedAlpha:false,alpha:false})||canvas.getContext('experimental-webgl');
 if(!gl){document.getElementById('welcome').querySelector('.modal').innerHTML='<h1>WebGL indisponible</h1><p>Le navigateur n’a pas activé l’affichage 3D. Ouvre cette démo dans un navigateur moderne prenant en charge WebGL.</p>';throw new Error('WebGL indisponible');}
-const VS=`attribute vec3 position;attribute vec3 normal;uniform mat4 model,viewProjection;uniform mediump float surfaceKind;uniform float worldTime;varying vec3 N;varying vec3 P;void main(){vec4 world=model*vec4(position,1.0);if(surfaceKind>5.5&&surfaceKind<6.5){float bend=clamp(world.y-.5,0.0,1.0);world.x+=sin(worldTime*.9+world.z*.8+world.y)*.035*bend;world.z+=cos(worldTime*.7+world.x)*.025*bend;}P=world.xyz;vec3 scales=vec3(dot(model[0].xyz,model[0].xyz),dot(model[1].xyz,model[1].xyz),dot(model[2].xyz,model[2].xyz));N=mat3(model)*(normal/scales);gl_Position=viewProjection*world;}`;
-const FS=`precision mediump float;
+const VS=`attribute vec3 position;attribute vec3 normal;uniform mat4 model,viewProjection;uniform highp float surfaceKind;uniform float worldTime;varying vec3 N;varying vec3 P;void main(){vec4 world=model*vec4(position,1.0);if(surfaceKind>5.5&&surfaceKind<6.5){float bend=clamp(world.y-.5,0.0,1.0);world.x+=sin(worldTime*.9+world.z*.8+world.y)*.035*bend;world.z+=cos(worldTime*.7+world.x)*.025*bend;}P=world.xyz;vec3 scales=vec3(dot(model[0].xyz,model[0].xyz),dot(model[1].xyz,model[1].xyz),dot(model[2].xyz,model[2].xyz));N=mat3(model)*(normal/scales);gl_Position=viewProjection*world;}`;
+const FS=`precision highp float;
 varying vec3 N,P;uniform vec3 tint,lightColor,sunDirection,sunColor,ambientColor,eyePosition,fogColor;
 uniform float opacity,surfaceKind,nightAmount;
 float grain(vec2 p){return sin(p.x*47.0+sin(p.y*7.0)*1.4)*sin(p.y*23.0)*.5+.5;}
+float hash2(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+float noise2(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(hash2(i),hash2(i+vec2(1.0,0.0)),f.x),mix(hash2(i+vec2(0.0,1.0)),hash2(i+vec2(1.0)),f.x),f.y);}
 void main(){vec3 n=normalize(N),base=tint;vec2 coord=abs(n.y)>.7?P.xz:(abs(n.x)>.7?P.zy:P.xy);
  float detail=1.0;if(surfaceKind>.5&&surfaceKind<1.5){detail=.97+.025*sin(coord.x*32.0+sin(coord.y*3.0)*1.8);if(abs(n.y)>.7){vec2 plank=vec2(P.x*2.4,P.z*.55+mod(floor(P.x*2.4),2.0)*.5);vec2 seam=abs(fract(plank)-.5);detail*=1.0-.075*smoothstep(.485,.499,max(seam.x,seam.y));}}
  else if(surfaceKind>1.5&&surfaceKind<2.5){detail=.995+.005*sin(coord.x*42.0)*sin(coord.y*42.0);}
@@ -16,14 +18,22 @@ void main(){vec3 n=normalize(N),base=tint;vec2 coord=abs(n.y)>.7?P.xz:(abs(n.x)>
  else if(surfaceKind>3.5&&surfaceKind<4.5){detail=.98+.018*grain(coord*.16);if(tint.r>.6){vec2 seam=abs(fract(coord*.68)-.5);detail*=1.0-.08*smoothstep(.474,.499,max(seam.x,seam.y));}}
  else if(surfaceKind>5.5&&surfaceKind<6.5){detail=.9+.1*grain(coord*.3);base=mix(base,base*vec3(.89,1.04,.88),max(n.y,0.0)*.45);}
  else if(surfaceKind>6.5&&surfaceKind<7.5){n=normalize(n+vec3(sin(P.x*5.0)*.13,0.0,cos(P.z*6.0)*.13));detail=.97+.03*sin(P.x*8.0+P.z*3.0);}
+ float closeDetail=1.0-smoothstep(2.0,7.0,length(P-eyePosition));
+ if(surfaceKind>.5&&surfaceKind<1.5){float w=sin(coord.y*170.0+noise2(coord*vec2(3.0,18.0))*9.0);detail=.955+.025*w*closeDetail+.018*noise2(coord*8.0);if(n.y>.85&&P.y<.18){float row=floor(P.z/.19),joint=min(abs(fract(P.z/.19)-.5),abs(fract(P.x/1.15+hash2(vec2(row,3.0)))-.5));detail*=1.0-.13*(1.0-smoothstep(.004,.018,joint));}}
+ else if(surfaceKind>1.5&&surfaceKind<2.5){float weave=sin(coord.x*230.0)*sin(coord.y*247.0);detail=.978+.014*weave*closeDetail+.014*noise2(coord*13.0);}
+ else if(surfaceKind>2.5&&surfaceKind<3.5)detail=.96+.04*noise2(P.xz*6.0);
+ else if(surfaceKind>3.5&&surfaceKind<4.5){detail=.98+.016*noise2(coord*21.0);if(n.y>.8&&P.y<.18){vec2 tile=abs(fract(coord*.8)-.5);detail*=1.0-.075*smoothstep(.485,.498,max(tile.x,tile.y));}}
  float diffuse=max(dot(n,sunDirection),0.0);vec3 hemisphere=mix(ambientColor*.64,ambientColor,clamp(n.y*.5+.5,0.0,1.0));
  vec3 col=base*detail*(hemisphere+sunColor*diffuse);
  float homeLamp=max(max(0.0,1.0-length(P-vec3(-3.8,2.2,2.7))/5.2),max(max(0.0,1.0-length(P-vec3(-21.0,2.2,2.7))/5.2),max(0.0,1.0-length(P-vec3(13.4,2.2,2.7))/5.2)));
  homeLamp=max(homeLamp,max(max(0.0,1.0-length(P-vec3(.18,2.35,.53))/4.0),max(max(0.0,1.0-length(P-vec3(-17.02,2.35,.53))/4.0),max(0.0,1.0-length(P-vec3(17.38,2.35,.53))/4.0))));
  float streetLamp=max(max(0.0,1.0-length(P-vec3(-12.7,3.13,17.0))/5.0),max(0.0,1.0-length(P-vec3(12.7,3.13,17.0))/5.0));
+ float indoor=step(abs(P.z),5.1)*step(min(min(abs(P.x),abs(P.x+17.2)),min(abs(P.x-17.2),min(abs(P.x+42.0),abs(P.x-42.0)))),6.15)*step(P.y,3.3);col+=base*indoor*.15;
  col+=base*vec3(1.0,.73,.40)*max(homeLamp,streetLamp)*nightAmount*.52;
  if((surfaceKind>4.5&&surfaceKind<5.5)||(surfaceKind>6.5&&surfaceKind<8.5)){vec3 halfVector=normalize(sunDirection+normalize(eyePosition-P));float spec=pow(max(dot(n,halfVector),0.0),surfaceKind>7.5?34.0:18.0);col+=sunColor*spec*.22;}
  if(surfaceKind>8.5&&surfaceKind<9.5)col=mix(col,base*1.08,nightAmount*.85);
+ if(surfaceKind>4.5&&surfaceKind<5.5){vec3 v=normalize(eyePosition-P),h=normalize(v+sunDirection);col+=sunColor*pow(max(dot(n,h),0.0),48.0)*.12;}
+ if(surfaceKind>7.5&&surfaceKind<8.5){vec3 v=normalize(eyePosition-P),r=reflect(-v,n);float fres=.08+.52*pow(1.0-max(dot(n,v),0.0),5.0);vec3 sky=mix(fogColor,vec3(.42,.65,.74),clamp(r.y*.7+.3,0.0,1.0));col=mix(col,sky,fres);col+=sunColor*pow(max(dot(n,normalize(v+sunDirection)),0.0),80.0)*.22;}
  float fog=1.0-exp(-max(0.0,length(P-eyePosition)-12.0)*.009);col=mix(col,fogColor,min(.42,fog));
  gl_FragColor=vec4(clamp(col,0.0,1.0),opacity);}`;
 function shader(type,src){let s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}

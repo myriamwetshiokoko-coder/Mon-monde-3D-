@@ -82,3 +82,9 @@ Aucune ressource externe nouvelle. Les nouveaux hauts sont découpés et légèr
 Bébés, enfants et aînés : huit bases MakeHuman CC0 au total (femme/homme × bébé/enfant/jeune/aîné), même dépôt et commit épinglé que V10. Le manifeste `tools/character-sources.json` contient les 38 fichiers graphiques précis et leurs SHA-256. Les 24 cibles supplémentaires sont les six mélanges ethniques et deux moyennes universelles pour chacun des trois âges. Aucun code MakeHuman AGPL inclus ou exécuté. Conversion originale via NumPy, SciPy et fast-simplification, hors jeu.
 
 Bases adultes : 14 172 triangles et 241 188 octets binaires chacune. Chaque base d’âge : 7 172 triangles et 122 188 octets. Géométrie d’âge, mains corrigées, tenues, cheveux, marques d’âge, école, atelier, appartements et voitures réalisés/adaptés localement. Les modèles d’âge et leurs coiffures sont transférés au GPU à leur première utilisation puis réutilisés. Aucun asset généré par IA, vidéo personnelle ou photo privée ajouté.
+
+## V12 — géométrie conservée et direction artistique
+
+Même source CC0 épinglée et même manifeste SHA-256 que V11. La tête conserve désormais les faces source ; seul le reste du corps est simplifié avec frontière du cou préservée. Adultes : 14 172 triangles avec yeux, 242 596 / 242 420 octets binaires ; âges : 10 172–11 010 triangles et 175 036–189 018 octets. Asset JavaScript total : 2 133 991 octets. Aucune nouvelle dépendance de rendu.
+
+Meubles, mèches courbes, feuillage en cartes géométriques et matières par shader sont des créations procédurales originales. Aucun asset externe supplémentaire, aucune sauvegarde ou capture personnelle publié.

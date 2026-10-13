@@ -1,3 +1,15 @@
+# Vérifications — V12.0.0
+
+Développement sur `develop/v12-refonte-visuelle`, depuis main V11 `71558ae2975e6a3331419ad6ea9ff4ebb41d1454`, 13 octobre 2026. Publication selon l'autorisation permanente de la propriétaire. Aucune sauvegarde ni capture personnelle incluse.
+
+**388 tests dans dix-huit suites.** Quatorze nouveaux contrôles couvrent les sept métiers par les vrais boutons (démarrage, quatre décisions et salaire une seule fois), lieux et postes accessibles sans traverser les murs, sauvegarde/restauration des aménagements des deux appartements, poids et indices des coiffures, tailles/repères des huit bases, meubles toujours déplaçables, quatre nouvelles carrières des cohabitants et parois conservées selon la position de la caméra. Les tests existants restent actifs. Leurs attentes de version, de nombre de sommets et d'opacité sont adaptées au nouveau rendu. Le budget de lots statiques est plafonné à 1 000 et le budget de géométrie reste sous 850 000 sommets ; l'éclairage intérieur de jour est désormais contrôlé avec son rebond supplémentaire de 0,12.
+
+**35 scènes GLES, sept scènes complémentaires et gros plans de correction.** Vrais shaders et commandes sous Mesa/EGL : visages de face/profil, plusieurs coiffures, marche/course, enfants/aînés/bébé, repas, lecture, téléphone, grossesse, cuisine, famille, appartements. Les compléments démarrent les tâches de chef, enseignant, mécanicien et soignant par les vrais menus avant leur rendu ; ils incluent aussi rue, chambre et intérieur. Après retouche des boucles, compilation et rendu contrôlés à nouveau. Pas d'erreur shader ou GL dans les scènes validées.
+
+**Contrôles statiques :** syntaxe de 71 JS/CJS, Python compilable, 52 scripts locaux sous cache 12.0.0, 140 IDs uniques et manifeste valide. 2 546 objets, 858 lots statiques, 745 236 sommets statiques. L'asset humain JavaScript pèse 2 133 991 octets. Les coiffures utilisent des sommets partagés pour supprimer leurs doublons ; aucun nouveau maillage GPU n'est créé pendant une animation.
+
+**Limites :** DOM et actions tactiles simulés, GLES sur llvmpipe ; aucune mesure de FPS natifs sur iPhone 16 ni validation CSS Safari annoncée. Le navigateur de contrôle disponible ne fournit pas de contexte WebGL. Le résultat reste stylisé, avec vêtements procéduraux, doigts rigides et gestes simples. Étages des appartements décoratifs et conduite assistée comme dans V11. Les traits des visages et coiffures ne constituent pas une refonte photoréaliste comparable aux Sims 4 ou à One State.
+
 # Vérifications — V11.0.0
 
 Développement sur `develop/v11-vie-ville`, depuis la V10 publiée `052a7c345e3d3940c680e00fd196e4f0f811223b`. Publication autorisée sans nouvelle confirmation. Toutes les fixtures utilisent des personnages fictifs ; aucune vidéo privée ni sauvegarde personnelle ajoutée au dépôt.

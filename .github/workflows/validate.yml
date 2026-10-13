@@ -61,3 +61,5 @@ jobs:
         run: node tests/characters-v10.test.cjs
       - name: Vie de ville V11, économie, école et mobilité
         run: node tests/city-v11.test.cjs
+      - name: Accès aux sept métiers, appartements et refonte V12
+        run: node tests/refonte-v12.test.cjs

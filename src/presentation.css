@@ -100,3 +100,7 @@ html,body{overscroll-behavior:none}#world{width:100%;height:100%;touch-action:no
 .editor[data-style-section="face"] .style-hair,.editor[data-style-section="face"] .style-clothes,.editor[data-style-section="face"] .style-body,.editor[data-style-section="hair"] .style-face,.editor[data-style-section="hair"] .style-clothes,.editor[data-style-section="hair"] .style-body,.editor[data-style-section="clothes"] .style-face,.editor[data-style-section="clothes"] .style-hair,.editor[data-style-section="clothes"] .style-body,.editor[data-style-section="body"] .style-face,.editor[data-style-section="body"] .style-hair,.editor[data-style-section="body"] .style-clothes,.editor[data-style-section="gestures"] #appearance{display:none}
 
 #bustField[hidden]{display:none!important}
+
+/* V12: keep career access visible without displacing the save and home controls. */
+.utility #phoneBtn{grid-column:1;grid-row:1}.utility #moreBtn{grid-column:2;grid-row:1}.utility #styleBtn{grid-column:3;grid-row:1}.utility #saveBtn{grid-column:4;grid-row:1}
+.utility #workBtn{grid-column:1;grid-row:3;background:#526757ec;color:#fff8e8}.utility #familyStatus,.utility #domesticStatus{grid-row:4}.utility #familyStatus:not([hidden])~#domesticStatus{grid-row:5}

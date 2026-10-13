@@ -1,3 +1,13 @@
+# V12.0.0 — Métiers accessibles et intérieurs retravaillés
+
+Le bouton **💼 Travail** ouvre le poste choisi, sa distance, les conditions de service et les tâches. Choisir un métier dans Téléphone → Emplois, rejoindre le repère puis commencer sur place entre 8 h et 20 h. Les sept métiers proposent quatre tâches et des choix concrets ; le salaire arrive à la fin du service. Le conjoint peut conserver son propre emploi.
+
+Canapés, lits et tables reconstruits avec cadres, pieds, coussins, textiles et finitions ; cuisines avec façades, poignées, frigo et plaque à induction. Matières de bois, sols, tissus et verre plus détaillées. La caméra masque les murs qui gênent la vue et conserve les autres. Les appartements ont des façades distinctes ; leurs étages supérieurs restent décoratifs. Les aménagements sauvegardés des deux appartements sont conservés au chargement.
+
+Les huit bases de personnages conservent maintenant la résolution source de leur tête. Lèvres et nez sont repérés sur chaque base ; la lumière du studio arrive de face. Les coiffures longues, chignons et queues de cheval utilisent des mèches courbes plus fines ; les boucles courtes ont un relief et une texture adaptés au crâne. Les anciens choix d'apparence et les parties restent compatibles.
+
+Le jeu conserve un rendu stylisé, des vêtements procéduraux et des animations simples. Cette mise à jour ne lui donne pas la qualité graphique des Sims 4 ou de One State. Les FPS et le tactile natifs de l'iPhone 16 doivent être évalués sur l'appareil.
+
 # Mon Monde 3D — V11.0.0 · âges, logements et vie de ville
 
 ## V11 : changements jouables
