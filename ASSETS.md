@@ -1,3 +1,18 @@
+## Intérieurs V12.2.0 — créations originales CC0
+
+`tools/build_interiors.py` construit des maillages originaux de lit, table/chaises, cuisine et frigo. Aucun téléchargement de modèle tiers ou de photo. La sortie `assets/interiors.js` reprend le format compact position/UV flottants, normales/tangentes int16 et indices uint16 d’Aurore ; ses trois tuiles locales sont réutilisées sans duplication de textures.
+
+| Modèle | Sommets | Triangles |
+| --- | ---: | ---: |
+| Lit | 5 304 | 7 900 |
+| Table et deux chaises | 3 660 | 4 848 |
+| Cuisine | 9 082 | 13 104 |
+| Frigo | 2 394 | 3 396 |
+
+911 328 octets de géométrie décodée supplémentaire, partagés entre les cinq logements ; sortie JS 1 218 771 octets. Les modèles détaillés restent limités au voisinage de 18 mètres et à la caméra. Aucun budget de FPS natif n’est déduit de ces tailles.
+
+Les angles arrondis, draps avec plis, courbe des dossiers, cuve creuse et robinet sont de la géométrie. Texture de bois, textile et relief issus du source Aurore CC0. Le rendu utilise un éclairage simplifié et ne revendique pas un PBR complet. L’évier a une vraie ouverture du plan de travail et une cuve sous sa surface ; il n’y a pas de simulation d’eau ni d’ouverture animée des portes.
+
 ## Canapé Aurore — V12.1.0
 
 - Source : `assets/models/canape-aurore.glb`, création procédurale originale « Mon Monde 3D · Atelier Aurore », déclaration CC0-1.0 incluse dans le GLB. Aucun modèle commercial ou photo externe.

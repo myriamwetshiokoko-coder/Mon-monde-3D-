@@ -34,11 +34,12 @@ const InteriorArt=(()=>{
   for(const x of [-6,6])trim(home,null,'#b7b0a2',x,.12,0,.055,.13,9.8,1);
   trim(home,null,'#b7b0a2',0,.12,-4.93,11.7,.13,.055,1);
   for(const cx of [-3.35,3.35]){for(const dx of [-1.12,1.12])trim(home,null,'#e9e9df',cx+dx,1.70,5.30,.065,1.33,.085,5);for(const y of [1.065,2.335])trim(home,null,'#e9e9df',cx,y,5.30,2.3,.065,.085,5);trim(home,null,'#d2cabb',cx,1.05,5.32,2.45,.07,.20,4);}
-  for(const x of [-5.13,-4.17,-3.22,-2.28]){trim(home,null,'#b9b9ae',x,.48,-3.465,.87,.75,.025,4);trim(home,null,'#7f7d70',x,.71,-3.435,.29,.025,.03,5);}
+  const cabinetStart=scene.length;for(const x of [-5.13,-4.17,-3.22,-2.28]){trim(home,null,'#b9b9ae',x,.48,-3.465,.87,.75,.025,4);trim(home,null,'#7f7d70',x,.71,-3.435,.29,.025,.03,5);}
+  for(const o of scene.slice(cabinetStart))o.interiorKey='kitchen';
   const fridgeStart=scene.length,fridgeTag=scene.find(o=>o.homeId===id&&o.foreground&&o.foreground.includes('fridge'))?.foreground;
   addPart(home,null,'bevel','#c4c7be',-5.35,1.69,-1.903,1.02,1.30,.045,4);addPart(home,null,'bevel','#c4c7be',-5.35,.54,-1.903,1.02,.91,.045,4);trim(home,null,'#71766e',-5.35,1.015,-1.875,1.0,.013,.021,5);
-  for(const y of [.63,1.63])trim(home,null,'#777c71',-4.94,y,-1.858,.028,.26,.026,5);for(const o of scene.slice(fridgeStart))o.foreground=fridgeTag;
-  addPart(home,null,'bevel','#343b39',-2.40,1.043,-3.95,1.10,.026,.61,5);
+  for(const y of [.63,1.63])trim(home,null,'#777c71',-4.94,y,-1.858,.028,.26,.026,5);for(const o of scene.slice(fridgeStart)){o.foreground=fridgeTag;o.interiorKey='fridge';}
+  addPart(home,null,'bevel','#343b39',-2.40,1.043,-3.95,1.10,.026,.61,5).interiorKey='kitchen';
   for(const x of [-4.9,4.5]){trim(home,null,'#e7e4d9',x,.34,-4.885,.08,.085,.026,4);trim(home,null,'#6f726d',x,.34,-4.868,.008,.027,.01,5);}
   if(id==='studio'){trim(home,null,'#a3ad9e',5.70,1.33,-3.2,.10,1.36,1.78,2);for(const z of [-3.72,-2.86])trim(home,null,'#6c756b',5.635,1.33,z,.02,.023,.70,5);}
   if(id==='horizon'){trim(home,null,'#91a5a4',5.91,1.34,.50,.025,.68,1.26,2);for(let i=0;i<3;i++)trim(home,null,['#b4c4b4','#cfb893','#b29c8f'][i],5.887,1.45,.04+i*.35,.015,.31,.22,2);}

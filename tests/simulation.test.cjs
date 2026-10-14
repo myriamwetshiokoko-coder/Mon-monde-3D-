@@ -110,7 +110,7 @@ test('World labels avoid buttons, HUD rectangles, one another and paused menus',
  for(const id of Object.keys(hud))els[id].getBoundingClientRect=original[id];run('paused=false;restoreGame(null);labelBoundsDirty=true');
 });
 test('The displayed release and every script use the same new cache version',()=>{
- const html=fs.readFileSync('index.html','utf8'),scripts=[...html.matchAll(/<script src="([^"]+)"/g)];assert.equal(scripts.length,54);assert.ok(scripts.every(m=>m[1].endsWith('?v=12.1.0')));assert.ok(html.includes('MAISON SOLEIL · V12.1.0'));assert.ok(html.includes('Version 12.1.0 · Un quartier, une famille, un chez-toi'));
+ const html=fs.readFileSync('index.html','utf8'),scripts=[...html.matchAll(/<script src="([^"]+)"/g)];assert.equal(scripts.length,55);assert.ok(scripts.every(m=>m[1].endsWith('?v=12.2.0')));assert.ok(html.includes('MAISON SOLEIL · V12.2.0'));assert.ok(html.includes('Version 12.2.0 · Un quartier, une famille, un chez-toi'));
 });
 
 test('Both natural models face movement with fitted eyes and no detached brow mesh',()=>{

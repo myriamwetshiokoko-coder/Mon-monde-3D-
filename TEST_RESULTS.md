@@ -1,3 +1,13 @@
+## V12.2.0 — intérieurs, 14 octobre 2026
+
+- Les 21 suites Node passent. Six nouveaux tests contrôlent la géométrie, les indices et tangentes, la taille mémoire, les positions dans les cinq logements, la persistance d’un aménagement valide et de l’argent/thème, l’absence de nouvelles allocations GPU pendant les dessins, le passage transparent différé du frigo, le repli si un shader est refusé et la coupe des meubles hauts dans la vue de cuisine.
+- Les 24 tests d’aménagement conservent repas, sommeil, rotation, placements, trajets et migration. La simulation conserve 73 tests. Le test de cache vérifie les 55 scripts en V12.2.0.
+- Les scènes réelles sont capturées et rejouées par EGL/GLES Mesa llvmpipe avec textures et indices : `bedroom`, `interior-detail:bed`, `interior-detail:dining`, `interior-detail:kitchen`, `interior-detail:fridge`, `focus-cook`, `shared-dinner`, `arranged-sleep`. Zéro erreur de shader/GL ; images inspectées. La vue de cuisine a révélé une obstruction par les meubles hauts : elle est corrigée et rendue à nouveau.
+- Syntaxe JS/CJS et Python vérifiée ; `git diff --check`.
+- Les tests de simulation utilisent un DOM/WebGL simulé. Le rendu EGL est réel, mais ne constitue pas une validation de Safari, CSS, tactile ou FPS sur iPhone 16. Aucune sauvegarde personnelle publiée.
+
+Reproduire : `node tests/interiors-v12.test.cjs`; `node tools/capture_render.cjs /tmp/cuisine.json focus-cook`; `python3 tools/check_render.py /tmp/cuisine.json /tmp/cuisine.png`.
+
 ## V12.1.0 — Aurore, 14 octobre 2026
 
 - Toutes les suites Node du projet sont exécutées, y compris `tests/furniture-aurore.test.cjs` (3 tests). Le test de cache/version de simulation est actualisé pour les deux nouveaux scripts et V12.1.0.

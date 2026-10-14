@@ -20,9 +20,13 @@ box('#e4bda7',-3.2,.04,2.2,4.4,.06,3.5);box('#cda88f',-3.95,.40,2.7,2.25,.62,1.2
 box('#a77762',-2.2,.35,2.0,1.25,.17,.78);for(let dx of [-.46,.46])for(let dz of [-.26,.26])box('#a77762',-2.2+dx,.18,2+dz,.10,.32,.10);
 box('#bd9279',-5.0,.38,.75,.4,.74,.7);box('#42383c',-4.96,.97,.7,.74,.66,.07);fixture('home-entry-flowers','maison',()=>flower(-1.3,3.55));
 // Cuisine (fond gauche)
+const originalKitchenStart=scene.length;
 box('#e9b6a2',-3.4,.47,-3.95,4.65,.92,.85);box('#faf2e9',-3.4,.97,-3.95,4.8,.13,.95);box('#e1c9b5',-4.45,1.8,-4.96,2.1,.78,.16);box('#e1c9b5',-2.2,1.8,-4.96,1.6,.78,.16);
 box('#a6b9b5',-4.35,1.06,-3.91,.9,.02,.4);box('#75716e',-4.35,1.07,-3.91,.5,.02,.22);for(let xx of [-2.75,-2.05])cyl('#3a3638',xx,1.05,-3.95,.42,.045,.42);
+for(const o of scene.slice(originalKitchenStart))o.interiorKey='kitchen';
+const originalFridgeStart=scene.length;
 fixture('home-fridge','maison',()=>{box('#d4b7a0',-5.35,1.2,-2.45,1.1,2.4,1.05);box('#f6e5d8',-5.35,1.7,-1.91,.10,.96,.05);box('#ad816f',-5.06,1.30,-1.88,.09,.14,.05)});
+for(const o of scene.slice(originalFridgeStart))o.interiorKey='fridge';
 // Chambre (fond droit)
 box('#ddd1c7',2.9,.06,-3.2,5.4,.07,3.2);box('#bd958f',3.15,.4,-3.55,2.25,.68,2.4);box('#ece2d7',3.15,.78,-3.55,2.08,.16,2.24);box('#f4d3c0',3.15,.9,-3.1,2.05,.24,1.4);box('#fef8ee',2.6,.91,-4.43,.76,.19,.46);box('#fef8ee',3.52,.91,-4.43,.76,.19,.46);box('#9f766a',3.15,.96,-4.79,2.5,1.1,.23);
 box('#b38b76',5.22,.35,-3.7,.86,.7,.7);flower(5.2,-3.75);fixture('home-wardrobe','maison',()=>{box('#cab2a4',1.2,.86,-3.5,.7,1.74,1.65);box('#927766',1.64,1.02,-3.45,.05,.25,.10)});
@@ -39,8 +43,10 @@ for(let z=-11;z<12;z+=2.2){ball('#87b88a',-10,.8,z,1,1.7,1);ball('#91be93',10,.7
 for(const o of scene){const c=o.color.map(v=>Math.round(v*255).toString(16).padStart(2,'0')).join('');if(o.shape==='cube'&&['f0e7d9','ddb4a6','f7e1d2','fef8ee'].includes(c)){o.shape='sphere';for(let k=0;k<12;k++)o.m[k]*=.5;}}
 // Parquet joints, cabinet fronts and hardware add scale without new obstacles.
 for(let x=-5.7;x<=5.7;x+=.45)box('#e4d2bd',x,.036,0,.012,.002,9.9);
+const originalCabinetDetailStart=scene.length;
 for(let x=-5.35;x<-1.2;x+=.78){box('#d1a795',x,.48,-3.512,.014,.74,.012);box('#987b63',x+.22,.73,-3.50,.19,.018,.027);}
 for(let x of [-4.35,-3.55,-2.75,-2.05]){box('#c3a48a',x,1.8,-4.858,.012,.68,.013);box('#92745b',x+.17,1.78,-4.845,.025,.12,.027);}
+for(const o of scene.slice(originalCabinetDetailStart))o.interiorKey='kitchen';
 // Rounded sofa feet and layered bedding; no change to the navigable floor plan.
 for(let x of [-4.8,-3.1])for(let z of [2.25,3.12])cyl('#7d6556',x,.15,z,.045,.24,.045);
 for(let z of [-3.65,-3.3,-2.95])box('#e8bda6',3.15,.916,z,2,.016,.026);

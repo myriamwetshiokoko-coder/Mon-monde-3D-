@@ -1,3 +1,15 @@
+# V12.2.0 — Chambre, repas et cuisine
+
+Le canapé Aurore de V12.1 est conservé. Les cinq logements reçoivent maintenant un lit à cadre en bois avec tête rembourrée, oreillers, drap et plaid avec plis ; une table aux coins arrondis et deux chaises à assise rembourrée/dossier courbe ; une cuisine avec façades et poignées, plan de travail avec ouverture réelle pour l’évier, cuve et robinet courbe, plaque à induction ; un frigo aux portes et poignées distinctes.
+
+Les textures locales d’Aurore sont partagées avec ces meubles. Les thèmes existants colorent le plaid et les façades. Les buffers des quatre modèles sont également partagés entre les maisons ; aucun fichier distant ou Blender nécessaire pour jouer. Le mobilier procédural reste disponible à distance et si le nouveau shader est indisponible.
+
+Dormir, manger à deux, cuisiner, réorganiser les trois meubles d’origine et reprendre une ancienne partie utilisent les mêmes emplacements et règles. Le frigo devient transparent lorsqu’il masque les personnages ; les placards hauts suivent la coupe du mur arrière pendant la vue de cuisine. La cuisine et le frigo restent fixes.
+
+21 suites locales passent, dont six tests pour les nouveaux intérieurs. Les shaders et scènes sont vérifiés par rendu EGL/GLES hors navigateur. La fluidité et le toucher natifs sur iPhone 16 restent à tester sur appareil. Le rendu demeure stylisé ; cette étape ne remplace pas les personnages ou la ville.
+
+Reconstruction : `python3 tools/build_interiors.py` avec NumPy. Détails de provenance et tests dans `ASSETS.md` et `TEST_RESULTS.md`.
+
 # V12.1.0 — Canapé Aurore dans le jeu
 
 Le modèle Aurore préparé pour Blender est maintenant affiché directement dans les cinq logements : assises et dossiers arrondis, coussins sauge/argile, passepoils et structure/pieds en chêne. Ses textures de tissu, de bois et de relief sont embarquées localement. Les thèmes Sauge et Roseraie restent appliqués au tissu principal.
