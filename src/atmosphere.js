@@ -3,7 +3,7 @@ const Atmosphere=(()=>{
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),mix=(a,b,t)=>a.map((v,i)=>v+(b[i]-v)*t);
  function frame(hour=12,studio=false){
   hour=Number.isFinite(hour)?((hour%24)+24)%24:12;
-  if(studio)return {sun:[-.45,.75,.45],sunColor:[.75,.71,.65],ambient:[.53,.56,.62],skyTop:[.68,.78,.82],skyBottom:[.92,.90,.83],fog:[.88,.9,.87],night:0};
+  if(studio)return {sun:[-.3558,.6608,-.6608],sunColor:[.62,.59,.54],ambient:[.62,.59,.56],skyTop:[.68,.78,.82],skyBottom:[.92,.90,.83],fog:[.88,.9,.87],night:0};
   const theta=(hour-6)/24*Math.PI*2,elevation=Math.sin(theta),day=clamp((elevation+.14)/.55,0,1),gold=day*(1-clamp(elevation/.6,0,1)),night=1-day,dusk=(1-clamp(Math.abs(elevation)/.33,0,1))*.65;
   const sun=[Math.cos(theta)*.7,Math.max(.12,elevation),.45],length=Math.hypot(...sun);
   return {sun:sun.map(v=>v/length),sunColor:mix([.58,.61,.65],[.75,.53,.32],gold).map(v=>v*day),ambient:mix([.34,.38,.49],[.48,.52,.56],day),skyTop:mix([.06,.10,.20],[.31,.61,.76],day),skyBottom:mix(mix([.22,.24,.34],mix([.84,.91,.89],[.96,.73,.49],gold),day),[.91,.55,.34],dusk),fog:mix(mix([.20,.24,.34],mix([.78,.85,.82],[.87,.75,.62],gold),day),[.75,.58,.44],dusk*.4),night};
@@ -22,7 +22,7 @@ const Atmosphere=(()=>{
   if(['ffe4ac','f4e2a7'].includes(c))return 9;
   return 0;
  }
- function localLight(x,z,hour,studio=false){const a=frame(hour,studio);if(studio)return a;let lamp=0;for(const cx of [0,-17.2,17.2])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-(cx-3.8),z-2.7)/5.2));for(const cx of [0,-17.2,17.2])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-(cx+.18),z-.53)/4));for(const cx of [-12.7,12.7])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-cx,z-17)/5));a.ambient=a.ambient.map((v,i)=>v+[.34,.24,.12][i]*lamp*a.night);return a;}
+ function localLight(x,z,hour,studio=false){const a=frame(hour,studio);if(studio)return a;let lamp=0;for(const cx of [0,-17.2,17.2,-42,42])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-(cx-3.8),z-2.7)/5.2));for(const cx of [0,-17.2,17.2,-42,42])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-(cx+.18),z-.53)/4));for(const cx of [-12.7,12.7])lamp=Math.max(lamp,Math.max(0,1-Math.hypot(x-cx,z-17)/5));const inside=z>-5&&z<5&&[0,-17.2,17.2,-42,42].some(cx=>Math.abs(x-cx)<6.15);a.ambient=a.ambient.map((v,i)=>v+[.34,.24,.12][i]*lamp*a.night+(inside?.12:0));return a;}
  return {frame,material,localLight};
 })();
 if(typeof module!=='undefined')module.exports=Atmosphere;

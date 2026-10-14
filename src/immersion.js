@@ -24,6 +24,6 @@ const immersiveFace=drawFaceDetails;drawFaceDetails=function(actor,model,palette
 
 // Visual anchors stay collision safe while transaction checks retain the task's location.
 function workstationAnchor(task,job){const p=[...task.point,task.dir||0,0];let dx=0,dz=0;if(job==='cafe'&&task.pose==='cook')dz=.54;if(job==='shop'&&task.pose==='stock')dx=Math.sin(task.dir)*.28;
- if(Life.valid(p[0]+dx,p[1]+dz,barriers)){p[0]+=dx;p[1]+=dz;}return p;
+ if(Life.valid(p[0]+dx,p[1]+dz,barriers)){p[0]+=dx;p[1]+=dz;}if(!Life.valid(p[0],p[1],barriers)){let found=false;for(const r of [.15,.3,.45]){for(const [x,z]of [[-r,0],[r,0],[0,-r],[0,r]])if(Life.valid(p[0]+x,p[1]+z,barriers)){p[0]+=x;p[1]+=z;found=true;break;}if(found)break;}}return p;
 }
 const situatedBegin=beginAction;beginAction=function(a){if(a.shiftTask!==undefined){const task=Daily.currentTask(state);if(task)a={...a,anchor:workstationAnchor(task,state.career.shift.job)};}return situatedBegin(a);};

@@ -4,6 +4,7 @@ const Housing=((town)=>{
  const solids=[[-6.3,-5.9,-5.2,5.2],[5.9,6.3,-5.2,5.2],[-6.3,6.3,-5.27,-4.87],[-6.3,-1.08,4.9,5.23],[1.08,6.3,4.9,5.23],[-5.82,-1.02,-4.52,-3.45],[1.9,4.43,-4.85,-2.2],[-5.25,-2.61,2.04,3.39],[-2.95,-1.43,1.55,2.49],[-.93,1.29,-.33,1.31],[4.05,5.96,2.54,4.06],[4.7,5.88,-2.28,-1.31],[-5.9,-4.8,-2.98,-1.88],[.85,1.7,-4.325,-2.675],[-1.6,-.6,-1.95,-1.45],[-5.58,-4.34,.35,1.05],[3.42,4.38,-1.08,.08],[4.62,5.58,-1.08,.08]];
  // The entrance, kitchen approach, dining seats, bedroom and nursery stay accessible.
  const extraSolids={rose:[[1.9,2.23,-1.80,-1.66],[3.10,5.95,-1.80,-1.66],[2.84,2.98,-1.65,-.65],[4.30,5.95,1.43,1.57]],sauge:[[-4.475,-3.125,-1.475,-.925]]};
+ extraSolids.horizon=extraSolids.rose.map(b=>b.slice());
  const solidsFor=s=>[...solids.map((b,i)=>{const key=Object.keys(core.items).find(k=>core.items[k].solid===i);return key?core.bounds(s,key):b;}),...(extraSolids[s.home.residence]||[])];
  const passages=[[-1.15,1.15,1.55,5.3],[-4.45,-2.4,-3.35,-2.55],[2,4.5,-2.1,-1.45],[1.2,2,0,1.3],[-1.65,-1,0,1.3],[3,5.7,.1,1.4]];
  const passagesFor=s=>passages.map((b,i)=>{const key=i===2?'bed':i===3||i===4?'dining':null;if(!key)return b;const ps=[[b[0],b[2]],[b[0],b[3]],[b[1],b[2]],[b[1],b[3]]].map(p=>core.map(s,key,...p));return [Math.min(...ps.map(p=>p[0])),Math.max(...ps.map(p=>p[0])),Math.min(...ps.map(p=>p[1])),Math.max(...ps.map(p=>p[1]))];});

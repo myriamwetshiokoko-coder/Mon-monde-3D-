@@ -140,6 +140,36 @@ def build(sex,age="young"):
                 # Match the compact game's ankle/sole height without changing foot direction.
                 pts[:,1]=q[k,1]+(rest[:,1]-source[2][1])*q[k,1]/max(source[2][1],.001)
         transformed+=pts*weights[:,k,None]
+    # Fit the painted seam to the actual oral opening, not a skeleton helper.
+    sections=[]
+    for face in [f for group,f in FACES if group=='body']:
+        t=transformed[face]
+        if t[:,1].max()<q[6,1]-.04 or t[:,1].min()>q[6,1]+.090 or t[:,0].min()>0 or t[:,0].max()<0:continue
+        hits=[]
+        for k in range(3):
+            a,b=t[k],t[(k+1)%3]
+            if abs(a[0])<1e-9:hits.append(a)
+            if a[0]*b[0]<0:hits.append(a+(b-a)*(-a[0]/(b[0]-a[0])))
+        hits=list({tuple(np.round(p,7)):p for p in hits}.values())
+        for k in range(len(hits)-1):sections.append((hits[k],hits[k+1]))
+    offsets=np.arange(-.030,.090,.0005);front=[]
+    for off in offsets:
+        y=q[6,1]+off;zs=[]
+        for a,b in sections:
+            if min(a[1],b[1])<=y<=max(a[1],b[1]) and abs(a[1]-b[1])>1e-9:zs.append(a[2]+(b[2]-a[2])*(y-a[1])/(b[1]-a[1]))
+        front.append(max(zs) if zs else -1)
+    spans=[];start=None
+    for k,z in enumerate(front):
+        if z<.025 and start is None:start=k
+        if z>=.025 and start is not None:
+            if start>0 and front[start-1]>.04 and k-start<20 and offsets[k]<.067:spans.append((float((offsets[start]+offsets[k-1])*.5),k-start))
+            start=None
+    expected=.043 if sex=='female' else .029
+    if age=='baby':expected=.002
+    mouth_offset=min(spans,key=lambda p:abs(p[0]-expected))[0] if spans else expected
+    mouth_offset=float(np.clip(mouth_offset,-.03,.065))
+    nose_candidates=[(float(y),float(z)) for y,z in zip(offsets,front) if .04<y<.083 and z>.025]
+    nose_offset=max(nose_candidates,key=lambda v:v[1])[0] if nose_candidates else .069
     youth=age in ['child','baby']
     adult_head=float(q[6,1])
     def age_y(y):return np.interp(y,[0,.535,.932,1.055,1.291,1.485,1.55,4],[0,.445,.815,.930,1.180,1.375,1.440,3.890])
@@ -149,22 +179,38 @@ def build(sex,age="young"):
     triangles=np.array([f for group,f in FACES if group=='body'],dtype=np.int64)
     used=np.unique(triangles);ids=np.full(len(v),-1,dtype=int);ids[used]=np.arange(len(used));triangles=ids[triangles]
     points=transformed[used]
-    simplified,faces,collapses=fast_simplification.simplify(points,triangles,target_count=14000 if age=="young" else 7000,return_collapses=True)
-    _,_,mapping=fast_simplification.replay_simplification(points,triangles,collapses)
-    w=np.zeros((len(simplified),21));tex=np.zeros((len(simplified),2));sizes=np.bincount(mapping,minlength=len(simplified))
-    # Keep the original smooth anatomical shading, rather than large QEM face normals.
-    smooth_normals=np.zeros_like(simplified);np.add.at(smooth_normals,mapping,normals(points,triangles))
-    smooth_normals/=np.maximum(np.linalg.norm(smooth_normals,axis=1,keepdims=True),1e-12)
-    edges=np.concatenate([faces[:,[0,1]],faces[:,[1,2]],faces[:,[2,0]]]);edges=np.concatenate([edges,edges[:,::-1]])
-    adjacency=coo_matrix((np.ones(len(edges)),(edges[:,0],edges[:,1])),shape=(len(simplified),len(simplified))).tocsr()
+    original_normals=normals(points,triangles)
+    original_uv=np.array([UV.get(int(i),[0,0]) for i in used])
+    # Keep facial anatomy at source resolution; decimate the rest with a locked neck border.
+    cut=float(age_y(adult_head-.11)) if youth else adult_head-.11
+    face_points=points[triangles]
+    head=np.all((face_points[:,:,1]>cut)&(np.abs(face_points[:,:,0])<.22),axis=1)
+    head_faces=triangles[head];body_faces=triangles[~head]
+    head_ids=np.unique(head_faces);body_ids=np.unique(body_faces)
+    index=np.full(len(points),-1,dtype=int);index[body_ids]=np.arange(len(body_ids));body_faces=index[body_faces]
+    budget=14000 if age=='young' else 10000
+    target_count=max(1800,budget-len(head_faces))
+    bp,bf,collapses=fast_simplification.simplify(points[body_ids],body_faces,target_count=target_count,return_collapses=True,preserve_border=True)
+    _,_,mapping=fast_simplification.replay_simplification(points[body_ids],body_faces,collapses)
+    sizes=np.maximum(np.bincount(mapping,minlength=len(bp)),1)
+    bw=np.zeros((len(bp),21));bt=np.zeros((len(bp),2));bn=np.zeros_like(bp)
+    np.add.at(bw,mapping,weights[used[body_ids]]);bw/=sizes[:,None]
+    np.add.at(bt,mapping,original_uv[body_ids]);bt/=sizes[:,None]
+    np.add.at(bn,mapping,original_normals[body_ids]);bn/=np.maximum(np.linalg.norm(bn,axis=1,keepdims=True),1e-12)
+    # Broad clothing surfaces keep their smooth fabric shading.
+    edges=np.concatenate([bf[:,[0,1]],bf[:,[1,2]],bf[:,[2,0]]]);edges=np.concatenate([edges,edges[:,::-1]])
+    adjacency=coo_matrix((np.ones(len(edges)),(edges[:,0],edges[:,1])),shape=(len(bp),len(bp))).tocsr()
     count=np.maximum(np.asarray(adjacency.sum(axis=1)),1)
-    cloth_area=(simplified[:,1]>1.05)&(simplified[:,1]<1.49)&(np.abs(simplified[:,0])<.25)
+    cloth_area=(bp[:,1]>1.05)&(bp[:,1]<1.49)&(np.abs(bp[:,0])<.25)
     for _ in range(5):
-        average=adjacency@smooth_normals/count
-        smooth_normals[cloth_area]=smooth_normals[cloth_area]*.55+average[cloth_area]*.45
-        smooth_normals/=np.maximum(np.linalg.norm(smooth_normals,axis=1,keepdims=True),1e-12)
-    np.add.at(w,mapping,weights[used]);w/=np.maximum(sizes[:,None],1)
-    original_uv=np.array([UV.get(int(i),[0,0]) for i in used]);np.add.at(tex,mapping,original_uv);tex/=np.maximum(sizes[:,None],1)
+        average=adjacency@bn/count;bn[cloth_area]=bn[cloth_area]*.55+average[cloth_area]*.45
+        bn/=np.maximum(np.linalg.norm(bn,axis=1,keepdims=True),1e-12)
+    index=np.full(len(points),-1,dtype=int);index[head_ids]=np.arange(len(head_ids))
+    faces=np.concatenate([bf,index[head_faces]+len(bp)])
+    simplified=np.concatenate([bp,points[head_ids]])
+    w=np.concatenate([bw,weights[used[head_ids]]]);tex=np.concatenate([bt,original_uv[head_ids]])
+    smooth_normals=np.concatenate([bn,original_normals[head_ids]])
+    print(json.dumps({'age':age,'body':sex,'preservedHeadTriangles':len(head_faces),'bodyTriangles':len(bf),'totalTriangles':len(faces)}),flush=True)
     # The eye proxy directly maps every vertex to the base's eye fitting surface.
     ep,ef,_,_=obj(SOURCE/'low-poly.obj');proxy=(SOURCE/'low-poly.mhclo').read_text().split('verts 0',1)[1]
     indices=[int(x) for x in proxy.splitlines() if x.strip().isdigit()]
@@ -177,7 +223,7 @@ def build(sex,age="young"):
     torso=simplified[(np.abs(simplified[:,0])<.13)&(simplified[:,1]>1.08)&(simplified[:,1]<1.40)]
     centre=float((np.quantile(torso[:,2],.02)+np.quantile(torso[:,2],.98))*.5)
     eye_centre=h('l-eye')
-    body={'bones':bones,'vertices':base64.b64encode(out).decode(),'indices':base64.b64encode(ix.tobytes()).decode(),'count':len(ix),'vertexCount':len(out)//22,'source':'MakeHuman CC0','bodySex':sex,'ageKind':age,'sourceCommit':(SOURCE/'source-commit.txt').read_text().strip(),'bodyTriangles':len(faces),'eyeTriangles':len(eye_faces),'shape':{'youth':youth,'virtualHeadY':adult_head,'eyeX':float(eye_centre[0]),'torsoZ':centre,'eyeZ':float(max(eyes[:,2].max(),simplified[(np.abs(simplified[:,0])>.010)&(np.abs(simplified[:,0])<.067)&(np.abs(simplified[:,1]-(float(age_y(q[6,1]+.1045)) if youth else q[6,1]+.1045))<.020),2].max()))}}
+    body={'bones':bones,'vertices':base64.b64encode(out).decode(),'indices':base64.b64encode(ix.tobytes()).decode(),'count':len(ix),'vertexCount':len(out)//22,'source':'MakeHuman CC0','bodySex':sex,'ageKind':age,'sourceCommit':(SOURCE/'source-commit.txt').read_text().strip(),'bodyTriangles':len(faces),'eyeTriangles':len(eye_faces),'shape':{'youth':youth,'virtualHeadY':adult_head,'mouthOffset':mouth_offset,'noseOffset':nose_offset,'eyeX':float(eye_centre[0]),'torsoZ':centre,'eyeZ':float(max(eyes[:,2].max(),simplified[(np.abs(simplified[:,0])>.010)&(np.abs(simplified[:,0])<.067)&(np.abs(simplified[:,1]-(float(age_y(q[6,1]+.1045)) if youth else q[6,1]+.1045))<.020),2].max()))}}
     print(json.dumps({'body':sex,'vertices':body['vertexCount'],'triangles':len(ix)//3,'bytes':len(out)+ix.nbytes,'bounds':[simplified.min(0).tolist(),simplified.max(0).tolist()],'eye':h('l-eye').tolist(),'mouth':h('mouth').tolist()}),flush=True)
     np.savez(SOURCE/('prepared-'+sex+'-'+age+'.npz'),points=simplified,faces=faces,weights=w)
     return body
