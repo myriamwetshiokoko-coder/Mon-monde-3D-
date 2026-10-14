@@ -1,3 +1,9 @@
+# V12.0.1 — Auto-école repérable
+
+La voiture bleue d’apprentissage est désormais stationnée et visible devant l’École Soleil, à gauche du quartier, avant de démarrer le parcours. Téléphone → Mobilité → **Trouver l’auto-école** affiche le repère et un chemin de points dorés. La carte contient aussi une entrée Auto-école. Approche la voiture puis utilise **Passer le permis** ; inscription/code et parcours accompagné restent réels, le permis est remis uniquement à la fin du parcours.
+
+La voiture achetée propose désormais **Utiliser ma voiture** lorsqu’on s’en approche. La conduite reste assistée. Les itinéraires des habitants et enfants évitent la voiture d’apprentissage stationnée.
+
 # V12.0.0 — Métiers accessibles et intérieurs retravaillés
 
 Le bouton **💼 Travail** ouvre le poste choisi, sa distance, les conditions de service et les tâches. Choisir un métier dans Téléphone → Emplois, rejoindre le repère puis commencer sur place entre 8 h et 20 h. Les sept métiers proposent quatre tâches et des choix concrets ; le salaire arrive à la fin du service. Le conjoint peut conserver son propre emploi.
