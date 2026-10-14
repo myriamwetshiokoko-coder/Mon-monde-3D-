@@ -1,3 +1,9 @@
+# Vérifications — V12.0.1
+
+Correctif depuis V12 main `98bcb4b091df9064b75479b46c412a8ebafce1b6`, branche `develop/v12-1-permis-accessible`. Huit nouveaux tests d’intégration : accès avant inscription, guide autour du véhicule et arrivée à portée, rendu du véhicule avant le code sans transaction, inscription/questions via vrais boutons, départ désactivé à distance, parcours réel et attribution finale, interaction du véhicule acheté et permis exigé, accès carte/distances et guide transitoire non sauvegardé.
+
+Régressions ciblées : ville/école, simulation complète et V12. Le placement du véhicule a révélé un chemin d’enfants passant à travers sa collision ; la planification des itinéraires inclut maintenant ce véhicule stationné. Rendu du départ avec vraie voiture avant inscription sous Mesa/EGL : aucune erreur shader/GL. La CI exécute les dix-neuf suites (396 tests). Vérification des fichiers publiés avant remise du lien. Limites : DOM simulé et GPU llvmpipe, FPS/tactile Safari iPhone non mesurés ; conduite assistée.
+
 # Vérifications — V12.0.0
 
 Développement sur `develop/v12-refonte-visuelle`, depuis main V11 `71558ae2975e6a3331419ad6ea9ff4ebb41d1454`, 13 octobre 2026. Publication selon l'autorisation permanente de la propriétaire. Aucune sauvegarde ni capture personnelle incluse.
