@@ -1,3 +1,15 @@
+# V12.1.0 — Canapé Aurore dans le jeu
+
+Le modèle Aurore préparé pour Blender est maintenant affiché directement dans les cinq logements : assises et dossiers arrondis, coussins sauge/argile, passepoils et structure/pieds en chêne. Ses textures de tissu, de bois et de relief sont embarquées localement. Les thèmes Sauge et Roseraie restent appliqués au tissu principal.
+
+Les six groupes de matériaux partagent un seul jeu de buffers entre les logements. Le modèle détaillé apparaît à moins de 18 mètres ; le canapé procédural reste utilisé à distance, ou si le nouveau shader ne peut pas être initialisé. Les cartes sont préparées en 128 × 128 pixels avec mipmaps. Aucun chargement distant, compte ou installation de Blender nécessaire pour jouer.
+
+Placement, rotation, places assises, trajets, ombres de contact et anciennes sauvegardes gardent leurs coordonnées. Il n’y a aucune remise à zéro de la partie. Travail, auto-école et conduite assistée de V12.0.1 sont conservés. Cette étape concerne le canapé ; les autres meubles et les personnages conservent leur rendu précédent.
+
+Le modèle comporte 9 750 sommets et 15 792 triangles, avec environ 643 ko de géométrie et textures décodées partagées. Cela ne constitue pas une mesure de FPS. Rendu WebGL vérifié hors navigateur et tests de simulation exécutés ; Safari, le toucher et la fluidité sur iPhone 16 restent à observer sur l’appareil.
+
+Reconstruction : `python3 tools/build_furniture.py` avec NumPy/Pillow. Source originale et détails dans `ASSETS.md` ; validation dans `TEST_RESULTS.md`.
+
 # V12.0.1 — Auto-école repérable
 
 La voiture bleue d’apprentissage est désormais stationnée et visible devant l’École Soleil, à gauche du quartier, avant de démarrer le parcours. Téléphone → Mobilité → **Trouver l’auto-école** affiche le repère et un chemin de points dorés. La carte contient aussi une entrée Auto-école. Approche la voiture puis utilise **Passer le permis** ; inscription/code et parcours accompagné restent réels, le permis est remis uniquement à la fin du parcours.

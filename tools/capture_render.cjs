@@ -5,7 +5,7 @@
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'index.html'),'utf8'),commands=[];
 let serial=1,attribute=0;
-const constants={ARRAY_BUFFER:34962,ELEMENT_ARRAY_BUFFER:34963,STATIC_DRAW:35044,VERTEX_SHADER:35633,FRAGMENT_SHADER:35632,COMPILE_STATUS:35713,LINK_STATUS:35714,MAX_VERTEX_UNIFORM_VECTORS:36347,FLOAT:5126,SHORT:5122,BYTE:5120,UNSIGNED_BYTE:5121,UNSIGNED_SHORT:5123,TRIANGLES:4,COLOR_BUFFER_BIT:16384,DEPTH_BUFFER_BIT:256,DEPTH_TEST:2929,LEQUAL:515,CULL_FACE:2884,BLEND:3042,SRC_ALPHA:770,ONE_MINUS_SRC_ALPHA:771};
+const constants={ARRAY_BUFFER:34962,ELEMENT_ARRAY_BUFFER:34963,STATIC_DRAW:35044,VERTEX_SHADER:35633,FRAGMENT_SHADER:35632,COMPILE_STATUS:35713,LINK_STATUS:35714,MAX_VERTEX_UNIFORM_VECTORS:36347,FLOAT:5126,SHORT:5122,BYTE:5120,UNSIGNED_BYTE:5121,UNSIGNED_SHORT:5123,TEXTURE_2D:3553,TEXTURE0:33984,TEXTURE1:33985,RGBA:6408,REPEAT:10497,LINEAR:9729,LINEAR_MIPMAP_LINEAR:9987,TEXTURE_WRAP_S:10242,TEXTURE_WRAP_T:10243,TEXTURE_MIN_FILTER:10241,TEXTURE_MAG_FILTER:10240,TRIANGLES:4,COLOR_BUFFER_BIT:16384,DEPTH_BUFFER_BIT:256,DEPTH_TEST:2929,LEQUAL:515,CULL_FACE:2884,BLEND:3042,SRC_ALPHA:770,ONE_MINUS_SRC_ALPHA:771};
 const pack=x=>ArrayBuffer.isView(x)?{bytes:Buffer.from(x.buffer,x.byteOffset,x.byteLength).toString('base64'),type:x.constructor.name}:x;
 const gl=new Proxy(constants,{get:(o,k)=>{
  if(k in o)return o[k];
@@ -52,6 +52,8 @@ if(scene==='focus-cook')run("state.appearance.body='female';state.hair=6;state.s
 if(scene==='focus-read')run("state.appearance.body='female';state.hair=5;state.style=6;state.x=-3.7;state.z=1.4;beginAction(readingAction('novel',[Town.home(state).x-3.55,2.2,Math.PI,.18]));$('observeActivity').onclick()");
 if(scene==='focus-work')run("state.appearance.body='male';state.hair=0;state.career={job:'cafe',completed:0,shift:{job:'cafe',day:1,step:1}};state.x=-14;state.z=31.4;state.time=10;beginAction({shiftTask:1,name:'Poste de travail',verb:'Préparer les commandes',pose:'cook',seconds:8});$('observeActivity').onclick()");
 if(scene==='focus-conversation')run("state.x=0;state.z=25;residents[1].x=1.25;residents[1].z=25;state.time=15;beginAction({npc:'noah',pose:'talk',verb:'Discussion',seconds:10});updateResidents(.05);$('observeActivity').onclick()");
+if(scene==='aurore'||scene==='aurore-night')run("state.x=-3.5;state.z=.4;state.time="+(scene==='aurore-night'?23:14)+";state.rp.autonomy=false;camYaw=3.02;camZoom=4;camPitch=.31;paused=true;");
+if(scene==='aurore-moved')run("state.home.layouts.soleil={dining:{x:-3.5,z:-1.25,turn:0},bed:{x:.25,z:.3,turn:0},sofa:{x:3.3,z:-3.5,turn:2}};rebuildFurnitureCollisions();syncHomeInteractions();state.x=3.3;state.z=-1.35;state.time=14;state.rp.autonomy=false;camYaw=3.1;camZoom=4;camPitch=.31;paused=true;");
 if(scene==='bedroom')run('state.x=.1;state.z=-2;camYaw=.22;camPitch=.34');
 if(scene==='garden')run("state.x=-3;state.z=13;camYaw=.5;activity={name:'Potager',pose:'garden',t:0,seconds:5}");
 if(scene==='cafe')run("state.x=-12;state.z=31.4;state.time=9;camYaw=0;camPitch=.4;activity={name:'Café Fleur',pose:'eat',anchor:[-9.5,30,Math.PI,0],t:0,seconds:5}");
@@ -69,7 +71,9 @@ if(scene==='v11-school')run("state.x=-43;state.z=29.5;state.time=11;for(const [i
 if(scene==='v11-car')run("Life.apply(state,{buyVehicle:'family',cost:520});state.transport.vehicle='family';state.transport.x=0;state.transport.z=19.65;state.transport.yaw=PI/2;state.transport.trip={name:'Essai',practice:false,points:[[12,19.65]],step:0,waiting:true};state.x=0;state.z=19.65;camYaw=.5;camZoom=5;camPitch=.24;paused=true;");
 if(scene==='v11-baby')run("state.x=3.5;state.z=.9;state.family.children=[{name:'Test',bornDay:1,age:0,skin:2,sex:'female',hunger:80,comfort:90,fun:80}];camYaw=.2;camZoom=3.5;camPitch=.42;paused=true;");
 if(scene.startsWith('v12-work:')){const job=scene.split(':')[1];if(!run(`Daily.jobs.${job}`))throw Error('Unknown job');run(`state.time=10;state.career.job='${job}';state.career.shift={job:'${job}',day:1,step:1};const jobCaptureTask=Daily.currentTask(state);state.x=jobCaptureTask.point[0];state.z=jobCaptureTask.point[1];near=findNear();openObjectMenu('jobTask');$('menuChoices').children[WorkScenes.${job}[1].correct].onclick();if(!activity)throw Error('Work did not start');$('observeActivity').onclick();activity.t=3;paused=true;`);}
-if(scene.startsWith('studio:')||scene.startsWith('portrait')){
+if(scene==='aurore-detail'){
+ run(`state.home.layouts.soleil={sofa:{x:0,z:0,turn:0}};state.x=0;state.z=0;state.time=14;state.home.theme=0;gl.viewport(0,0,640,480);canvas.width=640;canvas.height=480;gl.clearColor(.91,.90,.87,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.useProgram(program);gl.enableVertexAttribArray(attrPosition);gl.enableVertexAttribArray(attrNormal);gl.uniform1f(uOpacity,1);const sofaEye=[2.2,1.7,-3.3],sofaVP=mul(perspective(PI/4,640/480,.1,100),lookAt(sofaEye,[0,.55,0]));gl.uniformMatrix4fv(uVP,false,new Float32Array(sofaVP));setEnvironment(sofaEye);dynamic('cube','#e6e1d7',0,-.04,0,20,.06,20);FurnitureRenderer.draw(sofaEye,sofaVP);`);
+}else if(scene.startsWith('studio:')||scene.startsWith('portrait')){
  const close=scene.startsWith('portrait');
  const [,body='female',style='0',pose='idle',hair='1',angle='0',pregnancy='0',pattern='0',eyes='0']=scene.split(':');
  if(pose==='blink')run('performance.now=()=>5900');

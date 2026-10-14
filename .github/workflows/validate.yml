@@ -63,5 +63,7 @@ jobs:
         run: node tests/city-v11.test.cjs
       - name: Accès aux sept métiers, appartements et refonte V12
         run: node tests/refonte-v12.test.cjs
+      - name: Canapé Aurore, textures et aménagements V12.1
+        run: node tests/furniture-aurore.test.cjs
       - name: Accès au permis et voiture stationnée V12.0.1
         run: node tests/transport-access.test.cjs

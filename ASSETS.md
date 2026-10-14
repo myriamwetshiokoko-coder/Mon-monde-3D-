@@ -1,3 +1,11 @@
+## Canapé Aurore — V12.1.0
+
+- Source : `assets/models/canape-aurore.glb`, création procédurale originale « Mon Monde 3D · Atelier Aurore », déclaration CC0-1.0 incluse dans le GLB. Aucun modèle commercial ou photo externe.
+- Le source GLB d’origine est conservé ; `tools/build_furniture.py` produit `assets/aurore.js` pour le moteur WebGL 1. Ce script est un adaptateur statique de ce modèle (nœuds identité), pas un importateur glTF général.
+- Positions/UV flottants, normales/tangentes int16 normalisées, indices uint16. Groupement en six matériaux. Orientation adaptée au canapé existant, largeur/profondeur contenues dans ses collisions. Les tangentes sont calculées depuis les triangles et UV et orthogonalisées ; aucun MikkTSpace complet revendiqué.
+- Trois images PNG incorporées au GLB sont préparées en tuiles RGBA de 128 × 128 pixels. Coloration sRGB décodée pour l’éclairage ; carte de normales traitée linéairement, force 0,45 conservée. Matériaux simples avec lumière du monde et rugosité ; ce rendu n’est pas une implémentation PBR glTF complète.
+- 9 750 sommets, 15 792 triangles ; sortie JavaScript de 858 106 octets. Le GLB source n’est pas téléchargé pendant le jeu. Aucun transfert de sauvegardes.
+
 # Ressources 3D — V10.0.0
 
 ## Base humaine actuelle

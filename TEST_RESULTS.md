@@ -1,3 +1,14 @@
+## V12.1.0 — Aurore, 14 octobre 2026
+
+- Toutes les suites Node du projet sont exécutées, y compris `tests/furniture-aurore.test.cjs` (3 tests). Le test de cache/version de simulation est actualisé pour les deux nouveaux scripts et V12.1.0.
+- Géométrie : 9 750 sommets / 15 792 triangles. Six groupes de matériaux ; indices uint16 valides, normales et tangentes orthonormales, UV finis. Géométrie et tuiles décodées sous 650 000 octets, partagées entre logements.
+- Encombrement vérifié contre les collisions existantes pour les quatre rotations et les cinq logements. Aménagement valide sauvegardé/repris avec argent et thème inchangés. Ancien canapé disponible comme repli à distance.
+- Shaders réels compilés et commandes GPU rejouées dans EGL/GLES Mesa llvmpipe : `aurore-detail` (7 dessins), `aurore` (142), `aurore-night` (249), `aurore-moved` (253), `focus-read` (234). Zéro erreur de shader ou de GL ; les images sont inspectées. Textures, mipmaps et indices sont exécutés par ce relecteur, sans mock du rendu.
+- Vérification de syntaxe de tous les scripts JS/CJS et des deux scripts Python concernés ; `git diff --check`.
+- Les tests de simulation utilisent DOM/WebGL simulés ; les rendus EGL ne vérifient ni le navigateur, ni l’interface CSS/tactile native, ni les FPS de l’iPhone 16. Pas de test Safari natif revendiqué.
+
+Reproduction : `node tests/furniture-aurore.test.cjs`; `node tools/capture_render.cjs /tmp/aurore.json aurore-detail`; `python3 tools/check_render.py /tmp/aurore.json /tmp/aurore.png`. Aucun fichier personnel utilisé pour ces scènes synthétiques.
+
 # Vérifications — V12.0.1
 
 Correctif depuis V12 main `98bcb4b091df9064b75479b46c412a8ebafce1b6`, branche `develop/v12-1-permis-accessible`. Neuf nouveaux tests d’intégration : accès avant inscription, guide autour du véhicule et arrivée à portée, rendu du véhicule avant le code sans transaction, inscription/questions via vrais boutons, départ désactivé à distance, parcours réel et attribution finale, interaction du véhicule acheté et permis exigé, accès carte/distances et guide transitoire non sauvegardé, annulation sans permis fictif. La sortie après examen reste hors de la collision de la voiture stationnée.

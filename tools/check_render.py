@@ -38,6 +38,15 @@ for name,a,result in frame['commands']:
     elif name=='createProgram':objects[result['id']]=gf('glCreateProgram',u,[])()
     elif name=='createBuffer':
         handle=u();gf('glGenBuffers',None,[i,C.POINTER(u)])(1,C.byref(handle));objects[result['id']]=handle.value
+    elif name=='createTexture':
+        handle=u();gf('glGenTextures',None,[i,C.POINTER(u)])(1,C.byref(handle));objects[result['id']]=handle.value
+    elif name=='bindTexture':gf('glBindTexture',None,[u,u])(a[0],obj(a[1]))
+    elif name=='activeTexture':gf('glActiveTexture',None,[u])(*a)
+    elif name=='texParameteri':gf('glTexParameteri',None,[u,u,i])(*a)
+    elif name=='generateMipmap':gf('glGenerateMipmap',None,[u])(*a)
+    elif name=='texImage2D':
+        raw=base64.b64decode(a[8]['bytes']);data=C.create_string_buffer(raw);gf('glTexImage2D',None,[u,i,i,i,i,i,u,u,ptr])(*a[:8],data)
+    elif name=='uniform1i':gf('glUniform1i',None,[i,i])(obj(a[0]),a[1])
     elif name=='shaderSource':
         src=C.c_char_p(a[1].encode());gf('glShaderSource',None,[u,i,C.POINTER(C.c_char_p),ptr])(obj(a[0]),1,C.byref(src),None)
     elif name=='compileShader':gf('glCompileShader',None,[u])(obj(a[0]));status('Shader',obj(a[0]))
