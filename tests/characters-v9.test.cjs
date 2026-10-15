@@ -1,6 +1,29 @@
 const assert=require('node:assert/strict'),{run,els,gl,storage,createRuntime}=require('./runtime.cjs');let count=0;
 const test=(name,fn)=>{fn();count++;console.log('PASS',name)},json=s=>JSON.parse(run('JSON.stringify('+s+')'));
-test('Each morphology has ten distinct fitted scalp meshes with normalized skinning',()=>{for(const body of ['female','male']){const head=run(`HumanRenderer.models.${body}.bones[6].pivot[1]`);for(let i=0;i<10;i++){const g=run(`HumanRenderer.models.${body}.hair[${i}]`),v=Buffer.from(g.vertices);assert.ok(g.indices.length>100);assert.ok(Array.from(g.indices).every(id=>id<v.length/22));let crown=-Infinity;for(let o=0;o<v.length;o+=22){assert.ok(Math.abs(v.readInt16LE(o)/10000)<.145);crown=Math.max(crown,v.readInt16LE(o+2)/10000);assert.equal(v[o+13]+v[o+14]+v[o+15]+v[o+16],255);for(let k=9;k<13;k++)assert.ok(v[o+k]<21);}assert.ok(crown-head<.26);}}assert.notDeepEqual(Buffer.from(run('HumanRenderer.models.male.hair[5].vertices')),Buffer.from(run('HumanRenderer.models.female.hair[5].vertices')));});
+test('Every age mesh has ten fitted hairstyles with valid mobile geometry and normalized skinning',()=>{
+ for(const body of ['female','male','babyFemale','babyMale','childFemale','childMale','seniorFemale','seniorMale']){
+  const model=run(`HumanRenderer.models.${body}`),skin=Buffer.from(model.surfaceVertices),head=model.bones[6].pivot[1];
+  let scalp=-Infinity,headWidth=0;
+  for(let o=0;o<skin.length;o+=22)if(skin[o+17]===2){
+   const y=skin.readInt16LE(o+2)/10000;scalp=Math.max(scalp,y);
+   if(y>head+.025)headWidth=Math.max(headWidth,Math.abs(skin.readInt16LE(o)/10000));
+  }
+  for(let i=0;i<10;i++){
+   const g=model.hair[i],v=Buffer.from(g.vertices);let crown=-Infinity;
+   assert.ok(g.indices.length>100);assert.ok(g.indices.length/3<12000,body+' hair budget');
+   assert.ok(v.length/22<65536);assert.ok(Array.from(g.indices).every(id=>id<v.length/22));
+   for(let o=0;o<v.length;o+=22){
+    assert.ok(Math.abs(v.readInt16LE(o)/10000)<Math.max(.145,headWidth+.035),body+' scalp width');
+    crown=Math.max(crown,v.readInt16LE(o+2)/10000);
+    assert.equal(v[o+13]+v[o+14]+v[o+15]+v[o+16],255);
+    for(let k=9;k<13;k++)assert.ok(v[o+k]<21);
+    assert.ok(Math.abs(Math.hypot(v.readInt8(o+6),v.readInt8(o+7),v.readInt8(o+8))/127-1)<.025);
+   }
+   assert.ok(crown-scalp<.035,body+' hair grows beyond scalp');
+  }
+ }
+ assert.notDeepEqual(Buffer.from(run('HumanRenderer.models.male.hair[5].vertices')),Buffer.from(run('HumanRenderer.models.female.hair[5].vertices')));
+});
 test('Surface smoothing leaves positions, materials, UVs and bone weights untouched',()=>{for(const body of ['female','male']){const original=Buffer.from(run(`HumanAssets.${body}.vertices`),'base64'),surface=Buffer.from(run(`HumanRenderer.models.${body}.surfaceVertices`));assert.equal(surface.length,original.length);let different=0;for(let o=0;o<surface.length;o+=22){assert.deepEqual(surface.subarray(o,o+6),original.subarray(o,o+6));assert.deepEqual(surface.subarray(o+9,o+22),original.subarray(o+9,o+22));if(!surface.subarray(o+6,o+9).equals(original.subarray(o+6,o+9)))different++;}if(run(`HumanAssets.${body}.source`)==='MakeHuman CC0'){assert.equal(different,0);for(let o=0;o<surface.length;o+=22)assert.ok(Math.abs(Math.hypot(surface.readInt8(o+6),surface.readInt8(o+7),surface.readInt8(o+8))/127-1)<.025);}else assert.ok(different>100);}});
 test('The linen, fine-knit and layered jacket meshes have valid indices and normalized normals',()=>{for(const body of ['female','male'])for(const name of ['linen','knit','jacket']){const g=run(`HumanRenderer.models.${body}.garments.${name}`),v=Buffer.from(g.vertices);assert.ok(v.length>2200);assert.ok(Array.from(g.indices).every(id=>id<v.length/22));for(let o=0;o<v.length;o+=22){assert.equal(v[o+13]+v[o+14]+v[o+15]+v[o+16],255);assert.ok(Math.abs(Math.hypot(v.readInt8(o+6),v.readInt8(o+7),v.readInt8(o+8))/127-1)<.025);}}});
 test('The midi skirt stays between the knee-length and long hems',()=>{for(const body of ['female','male']){const min=name=>{const v=Buffer.from(run(`HumanRenderer.models.${body}.${name}.vertices`));let y=9;for(let o=0;o<v.length;o+=22)y=Math.min(y,v.readInt16LE(o+2)/10000);return y};assert.ok(min('midiSkirt')<min('skirt'));assert.ok(min('midiSkirt')>min('longSkirt'));}});

@@ -1,3 +1,11 @@
+# V12.3.0 — Finition des personnages
+
+Les iris sont agrandis et reçoivent un contour, des nuances radiales et un reflet ; le blanc de l’œil est plus doux et ombré sous la paupière. Les sourcils ont une variation fine et la peau reçoit un éclairage enveloppant et un reflet discret. Le teint et les réglages de visage choisis restent appliqués.
+
+Les coupes longue, carrée, ondulée et tressée partent plus bas sous la calotte, avec des mèches superposées et effilées. Les chignons ont un volume arrondi ; la coupe bouclée reçoit des volumes géométriques, limités à 64 pour tous les âges. Les dix coiffures et vingt-deux tenues conservent leurs indices. Pas de nouvelle texture ni de téléchargement externe ; les vêtements et animations existants sont conservés.
+
+Les 21 suites locales passent, y compris les contrôles étendus des dix coiffures sur les huit modèles d’âge/morphologie. Portraits, clignement, marche et scène de foyer sont inspectés par rendu EGL/GLES. La fluidité et le toucher sur iPhone 16 restent à vérifier sur appareil. Cette finition conserve un rendu stylisé.
+
 # V12.2.0 — Chambre, repas et cuisine
 
 Le canapé Aurore de V12.1 est conservé. Les cinq logements reçoivent maintenant un lit à cadre en bois avec tête rembourrée, oreillers, drap et plaid avec plis ; une table aux coins arrondis et deux chaises à assise rembourrée/dossier courbe ; une cuisine avec façades et poignées, plan de travail avec ouverture réelle pour l’évier, cuve et robinet courbe, plaque à induction ; un frigo aux portes et poignées distinctes.

@@ -1,3 +1,7 @@
+## Finition des personnages V12.3.0
+
+Aucun nouveau modèle tiers ni image externe. `src/humans.js` génère les mèches, les volumes de chignon et jusqu’à 64 volumes de boucles par modèle à partir des têtes MakeHuman CC0 déjà intégrées. Les détails d’iris, de sourcils et l’éclairage de peau sont calculés dans le shader existant. Les buffers de coiffure restent réutilisés entre les personnages partageant le même modèle ; les modèles d’âge supplémentaires restent créés à la demande. Pas de nouvelles textures ou requêtes réseau.
+
 ## Intérieurs V12.2.0 — créations originales CC0
 
 `tools/build_interiors.py` construit des maillages originaux de lit, table/chaises, cuisine et frigo. Aucun téléchargement de modèle tiers ou de photo. La sortie `assets/interiors.js` reprend le format compact position/UV flottants, normales/tangentes int16 et indices uint16 d’Aurore ; ses trois tuiles locales sont réutilisées sans duplication de textures.

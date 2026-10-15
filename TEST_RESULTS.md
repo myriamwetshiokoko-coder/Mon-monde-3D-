@@ -1,3 +1,12 @@
+## V12.3.0 — personnages, 15 octobre 2026
+
+- Les 21 suites Node passent : exécution complète, puis nouvelle exécution de `characters-v9.test.cjs` après correction du plafond de boucles et adaptation des bornes de tête aux proportions des bébés. Les 16 tests de cette suite passent. Cache des 55 scripts et HUD actualisés en V12.3.0.
+- Les dix coiffures sont contrôlées sur les huit modèles : indices valides, moins de 12 000 triangles par coiffure, indexation uint16, poids normalisés, normales unitaires et encombrement relatif au cuir chevelu. Le nombre de boucles est limité à 64, sans nouvelle allocation pendant le dessin ni nouvelle texture.
+- Rendus réels EGL/GLES Mesa llvmpipe sans erreur shader/GL : portraits féminins face/profil, homme, enfant, senior, bébé, coupe bouclée, chignon, clignement, marche, dos et scène `family`. Comparaison des portraits avant/après et inspection des images. Après le contrôle de budget, la coupe bouclée est rendue à nouveau avec le plafond de 64 volumes ; le motif d’anneaux de l’ancienne calotte est supprimé.
+- Syntaxe JS/CJS et `git diff --check` vérifiés. Les suites utilisent un DOM/WebGL simulé ; le rendu GLES ne mesure ni Safari ni la fluidité/tactile sur iPhone 16. Aucune sauvegarde personnelle utilisée.
+
+Reproduire : `node tests/characters-v9.test.cjs` ; `node tools/capture_render.cjs /tmp/portrait.json portrait:female:17:idle:6:0` ; `python3 tools/check_render.py /tmp/portrait.json /tmp/portrait.png`.
+
 ## V12.2.0 — intérieurs, 14 octobre 2026
 
 - Les 21 suites Node passent. Six nouveaux tests contrôlent la géométrie, les indices et tangentes, la taille mémoire, les positions dans les cinq logements, la persistance d’un aménagement valide et de l’argent/thème, l’absence de nouvelles allocations GPU pendant les dessins, le passage transparent différé du frigo, le repli si un shader est refusé et la coupe des meubles hauts dans la vue de cuisine.
