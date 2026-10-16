@@ -1,3 +1,13 @@
+## V12.4.0 — détails de peau et feuillets de mèches, 15 octobre 2026
+
+- Exécution des 21 suites Node. Le premier passage révèle un dépassement du plafond de 130 000 octets pour une coiffure adulte ; les feuillets sont échantillonnés à 16 segments. `revision.test.cjs` repasse avec 15 tests. `characters-v9.test.cjs` est réexécuté après les dernières modifications de coiffure et le masque de détail réservé aux adultes : 18 tests. Les autres suites, dont les sauvegardes et la simulation, passent. Les 56 scripts sont en V12.4.0.
+- Contrôles des dix coiffures sur les huit modèles : indices, poids, normales et enveloppe adaptée aux nouveaux volumes. Deux cartes RGB de 512² pixels non uniformes ; pas d’allocation de texture lors des dessins. Le masque de peau passe de 1 à 0 lorsque le dessin suivant est un enfant.
+- Rendus EGL/GLES Mesa llvmpipe des portraits face/profil, coupe courte masculine, enfants, bébé, senior, clignement, marche, rue de nuit et foyer, sans erreur shader/GL. Comparaison de la face avant/après avec les mêmes réglages. Les artefacts de raccord UV du cou repérés au profil sont écartés par le masque de texture. Les essais de spirales bouclées et de calotte continue sont rejetés après inspection ; la coupe bouclée existante est conservée.
+- Syntaxe JS/CJS, conversion Python et `git diff --check` vérifiés. Le portrait de comparaison contient uniquement des rendus capturés depuis le moteur ; aucune image générée représentant une qualité non implémentée.
+- DOM et WebGL sont simulés dans les suites Node. Le rendu hors navigateur ne mesure pas Safari, les FPS ni les gestes tactiles sur iPhone 16. Le moteur et les modèles demeurent stylisés ; cette version ne garantit pas un niveau de rendu inZOI.
+
+Reproduire : `node tests/characters-v9.test.cjs` ; `node tools/capture_render.cjs /tmp/portrait.json portrait:female:17:idle:6:0` ; `python3 tools/check_render.py /tmp/portrait.json /tmp/portrait.png`.
+
 ## V12.3.0 — personnages, 15 octobre 2026
 
 - Les 21 suites Node passent : exécution complète, puis nouvelle exécution de `characters-v9.test.cjs` après correction du plafond de boucles et adaptation des bornes de tête aux proportions des bébés. Les 16 tests de cette suite passent. Cache des 55 scripts et HUD actualisés en V12.3.0.

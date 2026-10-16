@@ -1,3 +1,13 @@
+## Détails de peau V12.4.0 — MakeHuman CC0
+
+Sources : `base/skins/textures/young_darkskinned_female_diffuse.png` et `young_darkskinned_male_diffuse.png` du miroir `s20220526/makehuman-assets`, commit `8cf9645b975a98eea056b140df11a1d278da0d10`. Le [README de cette révision](https://github.com/s20220526/makehuman-assets/blob/8cf9645b975a98eea056b140df11a1d278da0d10/README.md) annonce la publication des actifs sous CC0 depuis septembre 2020. La [liste officielle MakeHuman des actifs système](https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html) décrit également les peaux système sous CC0.
+
+SHA-256 des PNG source : féminin `96aa4a96b247fc90d371587bb88e6ae3bfc77e83f5126f17e6bbb713aa200470` ; masculin `e3f0dbb634e4c68561338f0087f7a122444e84ec56df102212f1222aa12e4d50`. Les fichiers téléchargés sont identiques aux objets LFS de la révision épinglée. La licence actuelle est vérifiée sur ce miroir ; la conversion ne s’appuie pas sur le README obsolète du dépôt ancien.
+
+`python3 tools/build_skin_surfaces.py /tmp/skin-sources` télécharge si nécessaire, vérifie ces empreintes et prépare `assets/skin-surfaces.js`. Les cartes RGB 512 × 512 stockent une variation relative à une teinte médiane par canal ; le shader conserve le teint choisi et limite ce détail au visage adulte. 1 572 864 octets RGB décodés ; deux textures RGBA partagées totalisent 2 MiB hors mipmaps, environ 2,67 MiB avec mipmaps. Aucun téléchargement de texture externe pendant le jeu.
+
+Les feuillets de mèches et le relief de coupe courte sont des géométries originales générées dans `src/humans.js`, liées au même squelette de tête et de buste. Les coiffures restent sous le plafond de 130 000 octets de sommets utilisé par le test de révision adulte. Aucun fichier ni modèle d’inZOI n’est utilisé.
+
 ## Finition des personnages V12.3.0
 
 Aucun nouveau modèle tiers ni image externe. `src/humans.js` génère les mèches, les volumes de chignon et jusqu’à 64 volumes de boucles par modèle à partir des têtes MakeHuman CC0 déjà intégrées. Les détails d’iris, de sourcils et l’éclairage de peau sont calculés dans le shader existant. Les buffers de coiffure restent réutilisés entre les personnages partageant le même modèle ; les modèles d’âge supplémentaires restent créés à la demande. Pas de nouvelles textures ou requêtes réseau.

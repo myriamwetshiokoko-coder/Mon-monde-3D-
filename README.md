@@ -1,3 +1,13 @@
+# V12.4.0 — Peau et mèches, première étape vers un rendu plus naturel
+
+Les visages adultes utilisent désormais deux cartes de détail RGB de peau MakeHuman CC0, converties en 512 × 512 pixels et teintées par la couleur choisie. Elles apportent des variations de peau et de lèvres sur le visage. Le masque écarte les raccords du cou et les bras ; ce détail photographique est désactivé sous 18 ans. Le blanc des yeux et les réglages d’apparence restent ceux du personnage choisi.
+
+Les coiffures longue, carrée, ondulée, queue de cheval et pixie utilisent des mèches en feuillets courbes croisés, avec détails fins et bords effilés. Les cheveux longs ont des mèches devant les épaules et une raie étroite ; la coupe courte reçoit un relief balayé. La coupe bouclée conserve ses volumes précédents, après rejet des essais de spirales et de calotte continue. Les dix indices de coiffure restent compatibles avec les sauvegardes.
+
+L’éclairage des personnages est calculé sur les couleurs linéaires avant conversion d’affichage. Le modèle anatomique et les vêtements existants sont conservés. Ce travail est une première étape : le résultat reste stylisé, ne reproduit pas la qualité photoréaliste d’inZOI et ne constitue pas une refonte complète du moteur 3D.
+
+Comparaison des rendus réels, à caméra et réglages identiques : `docs/personnage-v12-4-avant-apres.png`. Les 21 suites locales passent après ajustement des feuillets pour conserver le budget des coiffures. Détails et limites de validation dans `TEST_RESULTS.md` ; sources et reconstruction dans `ASSETS.md`.
+
 # V12.3.0 — Finition des personnages
 
 Les iris sont agrandis et reçoivent un contour, des nuances radiales et un reflet ; le blanc de l’œil est plus doux et ombré sous la paupière. Les sourcils ont une variation fine et la peau reçoit un éclairage enveloppant et un reflet discret. Le teint et les réglages de visage choisis restent appliqués.

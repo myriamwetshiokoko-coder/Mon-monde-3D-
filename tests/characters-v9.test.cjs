@@ -13,13 +13,13 @@ test('Every age mesh has ten fitted hairstyles with valid mobile geometry and no
    assert.ok(g.indices.length>100);assert.ok(g.indices.length/3<12000,body+' hair budget');
    assert.ok(v.length/22<65536);assert.ok(Array.from(g.indices).every(id=>id<v.length/22));
    for(let o=0;o<v.length;o+=22){
-    assert.ok(Math.abs(v.readInt16LE(o)/10000)<Math.max(.145,headWidth+.035),body+' scalp width');
+    assert.ok(Math.abs(v.readInt16LE(o)/10000)<Math.max(.16,headWidth+.065),body+' scalp width');
     crown=Math.max(crown,v.readInt16LE(o+2)/10000);
     assert.equal(v[o+13]+v[o+14]+v[o+15]+v[o+16],255);
     for(let k=9;k<13;k++)assert.ok(v[o+k]<21);
     assert.ok(Math.abs(Math.hypot(v.readInt8(o+6),v.readInt8(o+7),v.readInt8(o+8))/127-1)<.025);
    }
-   assert.ok(crown-scalp<.035,body+' hair grows beyond scalp');
+   assert.ok(crown-scalp<.045,body+' hair grows beyond scalp');
   }
  }
  assert.notDeepEqual(Buffer.from(run('HumanRenderer.models.male.hair[5].vertices')),Buffer.from(run('HumanRenderer.models.female.hair[5].vertices')));
@@ -39,4 +39,22 @@ test('Each resident has a valid, diverse outfit and fabric choice',()=>{const pe
 test('Pregnancy, sleep, seated reading and walking keep finite matrices in the new clothes',()=>{const old=gl.uniformMatrix4fv;let matrices=0;gl.uniformMatrix4fv=(_key,_transpose,data)=>{assert.ok(Array.from(data).every(Number.isFinite));matrices++};for(const body of ['female','male'])for(let style=16;style<22;style++)for(const pose of ['','read','eat','sleep'])run(`HumanRenderer.draw(0,0,.5,2,3,1.4,${pose?'0':'1'},6,1,'${pose}',${style},0,1,0,{body:'${body}',pregnancy:1,pattern:2})`);gl.uniformMatrix4fv=old;assert.ok(matrices>=144);});
 test('Brows, lips and makeup no longer add detached facial primitives or mesh caches',()=>{run('var faceProbeOld=drawOne,faceProbeCount=0;drawOne=()=>faceProbeCount++');for(const body of ['female','male'])for(const pose of ['', 'talk','eat','sleep','readStand'])run(`drawFaceDetails(modelMatrix(0,0,0,1.2,.9,1,.7),HumanRenderer.models.${body},HumanRenderer.palette(HumanRenderer.models.${body},2,0,'${pose}'),{accessory:0,makeup:1,lips:1,brows:-1},'${pose}',2)`);assert.equal(run('faceProbeCount'),0);assert.equal(run('typeof faceBrowMeshes'),'undefined');run('drawOne=faceProbeOld');});
 test('The shared TV cutaway removes the overlay without removing the physical furniture',()=>{run("restoreGame(null);var originalFades=fadedBatches,originalFaceDraw=drawOne;var cutawayMesh={},otherMesh={},cutawayDraws=[];fadedBatches=[{foreground:'home-tv-soleil',mesh:cutawayMesh,color:[1,1,1],material:0},{foreground:'other',mesh:otherMesh,color:[1,1,1],material:0}];activity={homeMoment:'tv'};observedActivity=activity;var cutawayBarriers=JSON.stringify(barriers);drawOne=(mesh)=>cutawayDraws.push(mesh);drawForeground();drawOne=originalFaceDraw");assert.equal(run('cutawayDraws.includes(cutawayMesh)'),false);assert.equal(run('cutawayDraws.includes(otherMesh)'),true);assert.equal(run('fadedBatches.length'),2);assert.equal(run('JSON.stringify(barriers)'),run('cutawayBarriers'));run('fadedBatches=originalFades;activity=null;observedActivity=null');});
+
+test('Skin surface maps carry nonuniform RGB detail in a bounded shared texture budget',()=>{
+ const maps=run('SkinSurfaces'),size=maps.size;assert.equal(size,512);assert.equal(maps.channels,3);
+ for(const sex of ['female','male']){
+  const bytes=Buffer.from(maps.maps[sex].pixels,'base64');assert.equal(bytes.length,size*size*3);
+  const unique=new Set(bytes);assert.ok(unique.size>80);assert.ok(bytes.some((v,i)=>i%3===0&&v!==bytes[i+1]));
+ }
+ let allocations=0;const old=gl.createTexture;gl.createTexture=()=>{allocations++;return old();};
+ run('HumanRenderer.setView(modelMatrix(0,0,0,1,1,1,0))');
+ for(const body of ['female','male'])for(const age of [8,24,70])run(`HumanRenderer.draw(0,0,0,2,3,1,0,6,0,'',17,0,1,0,{body:'${body}',age:${age}})`);
+ gl.createTexture=old;assert.equal(allocations,0);
+});
+
+test('Adult photo detail resets when the next draw is a child',()=>{
+ const values=[],old=gl.uniform1f;gl.uniform1f=(key,value)=>{if(key==='skinDetail')values.push(value);old(key,value);};
+ for(const age of [24,8,70,0])run(`HumanRenderer.draw(0,0,0,2,3,1,0,6,0,'',17,0,1,0,{body:'female',age:${age}})`);
+ gl.uniform1f=old;assert.deepEqual(values,[1,0,1,0]);
+});
 console.log('FINAL CHARACTERS V9:',count,'tests passed. GPU shader rendering and native Safari are checked separately.');
