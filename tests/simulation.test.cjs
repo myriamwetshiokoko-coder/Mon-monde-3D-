@@ -110,7 +110,7 @@ test('World labels avoid buttons, HUD rectangles, one another and paused menus',
  for(const id of Object.keys(hud))els[id].getBoundingClientRect=original[id];run('paused=false;restoreGame(null);labelBoundsDirty=true');
 });
 test('The displayed release and every script use the same new cache version',()=>{
- const html=fs.readFileSync('index.html','utf8'),scripts=[...html.matchAll(/<script src="([^"]+)"/g)];assert.equal(scripts.length,58);assert.ok(scripts.every(m=>m[1].endsWith('?v=12.5.0')));assert.ok(html.includes('MAISON SOLEIL · V12.5.0'));assert.ok(html.includes('Version 12.5.0 · Un quartier, une famille, un chez-toi'));
+ const html=fs.readFileSync('index.html','utf8'),scripts=[...html.matchAll(/<script src="([^"]+)"/g)];assert.equal(scripts.length,58);assert.ok(scripts.every(m=>m[1].endsWith('?v=12.5.1')));assert.ok(html.includes('MAISON SOLEIL · V12.5.1'));assert.ok(html.includes('Version 12.5.1 · Un quartier, une famille, un chez-toi'));
 });
 
 test('Both natural models face movement with fitted eyes and no detached brow mesh',()=>{
@@ -148,3 +148,4 @@ test('Home furniture and cafe chairs keep the avatar visible while their actual 
  run("restoreGame(null);state.x=-1.1;state.z=-1;foregroundHold.clear();var homeFades=foregroundOccluders([-1.1,1.3,-3.5],[-1.1,-1,0,0])");assert.ok(run("homeFades.has('home-library')"));assert.equal(run('Life.valid(1.2,-3.5,barriers)'),false);assert.equal(run('Life.valid(-5.35,-2.45,barriers)'),false);run("state.x=-9.5;state.z=30;foregroundHold.clear();var chairFades=foregroundOccluders([-9.5,2.7,35],[-9.5,30,Math.PI,0])");assert.ok(run("chairFades.has('cafe-chair--9.5-30')"));run('state.x=0;state.z=3;restoreGame(null)');
 });
 console.log(`FINAL: ${count} tests passed. This suite stubs WebGL; use tools/check_render.py for real offscreen GLES rendering. Safari and native touch still pending.`);
+
