@@ -1,3 +1,13 @@
+# V12.5.1 — Histoires de vie : accès et sauvegardes
+
+Les six histoires de V12.5 sont accessibles depuis le bouton Foyer, le menu principal et les deux entrées du téléphone. Les résumés et souvenirs utilisent des retours à la ligne lisibles. Chaque histoire reste un choix ponctuel avec bonus de jauges et souvenir ; elle ne lance pas de nouvelle scène 3D et ne se renouvelle pas chaque jour.
+
+Les histoires de couple et de famille se jouent avec le personnage principal. Quand un second adulte est contrôlé, une indication explique comment reprendre le personnage principal ; ses histoires de quotidien et de métier restent accessibles. Un choix ne peut plus attribuer au second adulte l’affection liée au couple principal.
+
+La confirmation distingue un souvenir enregistré d’un choix encore présent seulement dans la session. Si l’enregistrement échoue, deux actions permettent de réessayer ou d’exporter la sauvegarde. Réessayer ne rejoue pas le choix et ne redonne pas les bonus. Les anciennes sauvegardes et les six identifiants d’histoires sont conservés.
+
+Validation dédiée : `node tests/life-stories.test.cjs` couvre les douze options, les conditions, les accès, les deux adultes, la reprise et les échecs de stockage. Le navigateur distant affiche « WebGL indisponible » ; il ne permet pas de valider l’interaction 3D ni le tactile Safari/iPhone. Détails des contrôles exécutés dans `TEST_RESULTS.md`.
+
 # V12.4.0 — Peau et mèches, première étape vers un rendu plus naturel
 
 Les visages adultes utilisent désormais deux cartes de détail RGB de peau MakeHuman CC0, converties en 512 × 512 pixels et teintées par la couleur choisie. Elles apportent des variations de peau et de lèvres sur le visage. Le masque écarte les raccords du cou et les bras ; ce détail photographique est désactivé sous 18 ans. Le blanc des yeux et les réglages d’apparence restent ceux du personnage choisi.
@@ -321,3 +331,4 @@ CSS Safari, tactile natif et FPS sur iPhone 16 restent à valider sur appareil. 
 Les voitures circulent mais ne sont pas conduisibles. Les trois logements partagent la même emprise de base. Lit, canapé et table/chaises se déplacent désormais ; murs, cuisine, salle de bain et certains équipements restent fixes. Les dix types du catalogue restent plaçables. Pas encore d’éditeur de murs/étages, de commerce géré par le joueur ou de loyer.
 
 Le projet de bébé utilise un moment de couple habillé et un calendrier fictif. Deux enfants au maximum ; bambin après deux jours, enfant après quatre. L’âge choisi pour le joueur reste fixe ; enfants et aînés n’ont pas de corps dédiés. Pas de multijoueur, connexion de compte ni synchronisation entre appareils.
+

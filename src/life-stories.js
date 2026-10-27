@@ -27,9 +27,10 @@ const LifeStories=(()=>{
     {label:'🎯 Préparer mes objectifs',text:'Tu fais le point sur tes ambitions professionnelles.',effect:{fun:8,social:3}}]}
  ];
  const normalize=(raw)=>({completed:Array.isArray(raw?.completed)?[...new Set(raw.completed.filter(x=>definitions.some(d=>d.id===x)))].slice(0,definitions.length):[],lastDay:Number.isFinite(raw?.lastDay)?Math.max(0,Math.floor(raw.lastDay)):0,log:Array.isArray(raw?.log)?raw.log.filter(x=>x&&typeof x.text==='string').slice(-12).map(x=>({day:Number(x.day)||1,text:x.text.slice(0,180)})):[]});
- const available=s=>definitions.filter(d=>d.available(s)&&!s.stories.completed.includes(d.id));
- function choose(s,id,index){const d=definitions.find(x=>x.id===id);if(!d||!d.available(s)||s.stories.completed.includes(id)||!Number.isInteger(index)||!d.options[index])return false;const o=d.options[index];s.stories.completed.push(id);s.stories.lastDay=s.day;s.stories.log.push({day:s.day,text:d.title+' — '+o.text});s.stories.log=s.stories.log.slice(-12);for(const [k,v]of Object.entries(o.effect||{}))s[k]=Life.clamp(s[k]+v,0,100);if(o.affection&&s.family.partnerId)s.romance[s.family.partnerId]=Life.clamp((s.romance[s.family.partnerId]||0)+o.affection,0,100);if(o.children)for(const child of s.family.children)child.fun=Life.clamp(child.fun+o.children,0,100);Life.record(s,o.text);return true;}
+ const available=s=>definitions.filter(d=>d.available(s)&&!s.stories.completed.includes(d.id)&&(s.control?.active!=='housemate'||!['couple','famille'].includes(d.group)));
+ function choose(s,id,index){const d=available(s).find(x=>x.id===id);if(!d||!Number.isInteger(index)||!d.options[index])return false;const o=d.options[index];s.stories.completed.push(id);s.stories.lastDay=s.day;s.stories.log.push({day:s.day,text:d.title+' — '+o.text});s.stories.log=s.stories.log.slice(-12);for(const [k,v]of Object.entries(o.effect||{}))s[k]=Life.clamp(s[k]+v,0,100);if(o.affection&&s.family.partnerId)s.romance[s.family.partnerId]=Life.clamp((s.romance[s.family.partnerId]||0)+o.affection,0,100);if(o.children)for(const child of s.family.children)child.fun=Life.clamp(child.fun+o.children,0,100);Life.record(s,o.text);return true;}
  return {definitions,normalize,available,choose};
 })();
 const storyRestore=Life.restore;
 Life.restore=function(raw){const s=storyRestore(raw);s.stories=LifeStories.normalize(raw?.stories);return s;};
+

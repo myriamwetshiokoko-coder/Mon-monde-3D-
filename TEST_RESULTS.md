@@ -1,3 +1,15 @@
+## V12.5.1 — correctifs et vérification des histoires, 26 octobre 2026
+
+- Exécution complète de `node --test --test-concurrency=3 tests/*.test.cjs` : les 22 suites passent, sans échec, y compris les 73 contrôles de simulation précédents et la nouvelle suite d’histoires. Les 58 scripts et l’affichage utilisent V12.5.1.
+- 33 contrôles dédiés passent avec `node tests/life-stories.test.cjs` : les douze options ont des effets exacts, plafonnés et conservés après sauvegarde/restauration ; les histoires terminées ne reviennent pas. Les contextes indisponibles et les indices invalides ne consomment aucun choix. Une ancienne sauvegarde gagne un historique vide sans perte de progression.
+- Accès exécutés par les véritables gestionnaires : Foyer direct, Foyer depuis le menu compact, téléphone à l’accueil et dans Mon foyer. Les menus mettent le temps en pause. Résumés, résultats et souvenirs contiennent de vrais sauts de ligne.
+- Le second adulte ne peut plus consommer les histoires du couple ou des enfants du personnage principal. Quotidien et métier propre restent jouables. Reprendre le personnage principal rétablit l’accès aux histoires familiales non terminées.
+- Échecs de stockage simulés sur les deux clés, puis sur chacune séparément : le résultat annonce le défaut d’enregistrement et propose réessai/export. Le réessai conserve un seul souvenir et une seule attribution de bonus. Reprise après initialisation complète également exécutée.
+- Syntaxe JS/CJS et `git diff --check` passent. Le rendu `family` est rejoué avec EGL/GLES Mesa llvmpipe : 176 dessins, zéro erreur shader et zéro erreur GL. Aucun changement du moteur ou des modèles dans ce correctif.
+- Essai du site publié dans le navigateur distant : l’écran affiche « WebGL indisponible ». Les tests DOM/WebGL simulés et le rendu GLES ne valident ni le CSS en jeu, ni les gestes Safari, ni les FPS de l’iPhone 16. Aucune sauvegarde personnelle utilisée.
+
+Reproduire : `node --test --test-concurrency=3 tests/*.test.cjs` ; `node tools/capture_render.cjs /tmp/family.json family` ; `python3 tools/check_render.py /tmp/family.json /tmp/family.png`.
+
 ## V12.4.0 — détails de peau et feuillets de mèches, 15 octobre 2026
 
 - Exécution des 21 suites Node. Le premier passage révèle un dépassement du plafond de 130 000 octets pour une coiffure adulte ; les feuillets sont échantillonnés à 16 segments. `revision.test.cjs` repasse avec 15 tests. `characters-v9.test.cjs` est réexécuté après les dernières modifications de coiffure et le masque de détail réservé aux adultes : 18 tests. Les autres suites, dont les sauvegardes et la simulation, passent. Les 56 scripts sont en V12.4.0.
@@ -329,3 +341,4 @@ Ce contrôle ne valide **ni CSS et HUD réel, ni Safari/WebKit, ni gestes tactil
 7. Traverser la rue, observer le trafic, essayer les trois résolutions et contrôler la fluidité des zones remplies.
 
 Conduite, éditeur de murs, multijoueur et expressions faciales détaillées restent hors de cette version et ne sont pas annoncés comme implémentés.
+

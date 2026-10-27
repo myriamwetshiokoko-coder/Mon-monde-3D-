@@ -29,6 +29,8 @@ jobs:
           done
       - name: Anciennes fonctionnalités et intégration
         run: node tests/simulation.test.cjs
+      - name: Histoires de vie, choix et sauvegardes V12.5.1
+        run: node tests/life-stories.test.cjs
       - name: Métiers et économie
         run: node tests/daily.test.cjs
       - name: Quartier et foyer autonomes
@@ -69,3 +71,4 @@ jobs:
         run: node tests/furniture-aurore.test.cjs
       - name: Accès au permis et voiture stationnée V12.0.1
         run: node tests/transport-access.test.cjs
+
