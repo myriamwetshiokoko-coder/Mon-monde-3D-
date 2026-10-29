@@ -216,6 +216,11 @@ const decorListV3=[
 ];
 function safeTextV3(v){return String(v==null?'':v).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]})}
 function initV3(){
+ // Une nouvelle partie doit aussi reconstruire les champs hérités de la V2.
+ if(!s.v2||typeof s.v2!=='object')s.v2={};
+ s.v2=Object.assign({},baseLife,s.v2);
+ for(const k of ['goalsClaimed','feed','messagesRead','memories'])if(!Array.isArray(s.v2[k]))s.v2[k]=[];
+ if(!lifeGoals.some(g=>g.id===s.v2.goal))s.v2.goal='business';
  if(!s.family3||typeof s.family3!=='object')s.family3={};
  const f=s.family3;
  if(!romanceNPCsV3.some(p=>p.id===f.partnerId))f.partnerId=null;
