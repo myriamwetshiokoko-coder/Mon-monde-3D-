@@ -15,6 +15,22 @@
 
 .life-mission{border:1px solid #e0cff8;background:linear-gradient(125deg,#fff,#fff6fb)}
 .life-mission .progress{margin-top:12px}
+
+/* V3: interface famille et patrimoine (sans moteur 3D) */
+.nav{grid-template-columns:repeat(6,1fr)}.nav button{font-size:9px}.nav button span{font-size:21px}
+.family-hero{background:linear-gradient(125deg,#fcdee7,#efebff);border:1px solid #ead3e9;overflow:hidden}
+.family-hero h2{font-size:20px;margin:7px 0}.family-hero .tiny{color:#786c87}
+.family-people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+.family-person{background:#fff;border:1px solid #f0e7f3;padding:12px 9px;border-radius:17px;text-align:center}
+.family-person .face{font-size:30px;margin:5px auto}.family-person b{font-size:12px;display:block}.family-person small{font-size:10px;color:#8f8899;line-height:1.5;display:block;margin-top:4px}
+.family-note{padding:10px 12px;border-radius:12px;background:#f5f1ff;color:#685d88;font-size:11px;line-height:1.6}
+.family-memory{display:flex;gap:9px;align-items:flex-start;border-bottom:1px solid #efebf1;padding:10px 0;font-size:12px;color:#5a5268}
+.family-memory:last-child{border-bottom:0}.family-memory span{font-size:18px}
+.money-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.money-box{border-radius:17px;background:#f8f5fe;padding:14px;min-width:0}.money-box strong{display:block;font-size:19px;margin-top:7px;color:#6251bc}
+.money-box small{font-size:10px;color:#82788e;display:block;line-height:1.5}
+@media(max-width:360px){.nav{padding-left:2px;padding-right:2px}.nav button{font-size:8px}.family-people{gap:6px}}
+
 </style>
 </head>
 <body>
@@ -183,6 +199,191 @@ takeAction=function(name,id){
  }
  originalTakeActionV21(name,id);
 };
+
+
+/* V3 FAMILLE ET FINANCES - jeu original inspiré des mécaniques life sim, sans reprise d'assets tiers */
+const romanceNPCsV3=[
+{id:'elias',name:'Elias',emoji:'👨🏽‍💼',career:'Architecte',pay:170,trait:'Créatif, attentionné et ambitieux'},
+{id:'noah',name:'Noah',emoji:'👨🏿‍🍳',career:'Chef cuisinier',pay:150,trait:'Chaleureux, drôle et indépendant'},
+{id:'jade',name:'Jade',emoji:'👩🏾‍💻',career:'Développeuse',pay:190,trait:'Passionnée, loyale et spontanée'}
+];
+const babyNamesV3=[{name:'Inaya',emoji:'👧🏾'},{name:'Milo',emoji:'👦🏾'},{name:'Naïa',emoji:'👧🏾'},{name:'Eliott',emoji:'👦🏾'}];
+const decorListV3=[
+{id:'plants',name:'Plantes & fleurs',emoji:'🪴',cost:100,comfort:1},
+{id:'sofa',name:'Salon chaleureux',emoji:'🛋️',cost:450,comfort:2},
+{id:'kitchen',name:'Cuisine équipée',emoji:'🍽️',cost:650,comfort:2},
+{id:'nursery',name:'Coin enfant',emoji:'🧸',cost:350,comfort:1}
+];
+function safeTextV3(v){return String(v==null?'':v).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]})}
+function initV3(){
+ if(!s.family3||typeof s.family3!=='object')s.family3={};
+ const f=s.family3;
+ if(!romanceNPCsV3.some(p=>p.id===f.partnerId))f.partnerId=null;
+ if(!['single','dating','engaged','married'].includes(f.status))f.status='single';
+ if(typeof f.bond!=='number'||!Number.isFinite(f.bond))f.bond=0;
+ if(typeof f.partnerWallet!=='number'||!Number.isFinite(f.partnerWallet))f.partnerWallet=0;
+ if(!Array.isArray(f.children))f.children=[];
+ if(!Array.isArray(f.memories))f.memories=[];
+ if(!Array.isArray(f.decor))f.decor=[];
+ if(!Array.isArray(f.pets))f.pets=[];
+ if(!Number.isFinite(f.lastDay))f.lastDay=s.day;
+ if(!Number.isFinite(f.lastDateDay))f.lastDateDay=0;
+ if(!f.pending||!Number.isFinite(f.pending.dueDay)||typeof f.pending.name!=='string')f.pending=null;
+ if(!s.economy3||typeof s.economy3!=='object')s.economy3={};
+ const e=s.economy3;
+ if(!Number.isFinite(e.savings)||e.savings<0)e.savings=0;
+ if(!Number.isFinite(e.fund)||e.fund<0)e.fund=0;
+ if(!Array.isArray(e.managers))e.managers=[];
+ if(!Number.isFinite(e.lastDay))e.lastDay=s.day;
+}
+initV3();
+function memoryV3(symbol,message){
+ const f=s.family3;
+ f.memories.unshift({day:s.day,emoji:symbol,text:message});
+ if(f.memories.length>22)f.memories.length=22;
+ log(symbol+' '+message);
+}
+function partnerV3(){return romanceNPCsV3.find(p=>p.id===s.family3.partnerId)||null}
+function childAgeV3(ch){return Math.min(24,Math.max(0,Math.floor((s.day-ch.bornDay)/12)))}
+function familyTickV3(){
+ initV3();const f=s.family3,e=s.economy3;
+ if(f.lastDay<s.day){
+  for(let d=Math.max(0,f.lastDay+1);d<=s.day;d++){
+   const p=partnerV3();
+   if(p){
+    f.partnerWallet+=p.pay;
+    if(d%6===0){f.bond=Math.min(100,f.bond+2);memoryV3('💼',p.name+' poursuit sa carrière de '+p.career.toLowerCase()+'. Ses revenus restent dans son propre budget.')}
+   }
+   for(const ch of f.children){
+    const age=Math.min(24,Math.max(0,Math.floor((d-ch.bornDay)/12)));
+    if(d>ch.bornDay&&(d-ch.bornDay)%12===0){
+     memoryV3('🎂',ch.name+' fête ses '+age+' ans ! '+(age===4?'Entrée à l’école.':age===18?'Début de sa vie d’adulte autonome.':age>18?'Ses projets prennent forme.':'La famille grandit.'));
+    }
+    if(d>ch.bornDay&&d%5===0&&age<18){
+     const cost=age<4?12:age<11?20:35;
+     if(p)f.partnerWallet=Math.max(0,f.partnerWallet-cost);
+     const what=age<4?'une activité d’éveil':age<11?'une sortie scolaire':'une activité entre jeunes';
+     if(d%10===0)memoryV3('🎒',ch.name+' participe à '+what+'. La famille s’occupe automatiquement de l’organisation et des frais.');
+    }
+    if(d>ch.bornDay&&d%11===0&&age>=18){if(d%22===0)memoryV3('🌱',ch.name+' avance dans ses études, sa carrière et ses relations, sans intervention de Myriam.')}
+   }
+  }
+  f.lastDay=s.day;
+ }
+ if(e.lastDay<s.day){
+  for(let d=Math.max(0,e.lastDay+1);d<=s.day;d++){
+   if(d%7===0){
+    const interest=Math.floor(e.savings*.01);
+    if(interest){e.savings+=interest;log('🏦 Ton épargne reçoit '+format(interest)+' d’intérêts fictifs.')}
+    if(e.fund>0){const rates=[-.03,.015,.025,-.018,.032,.006,-.008];const rate=rates[Math.floor(d/7)%rates.length];const delta=Math.round(e.fund*rate);e.fund=Math.max(0,e.fund+delta);log('📈 Fonds virtuel : '+(delta>=0?'+':'')+format(delta)+' cette semaine.')}
+   }
+  }
+  e.lastDay=s.day;
+ }
+}
+const originalRollDayV3=rollDay;
+rollDay=function(){originalRollDayV3();familyTickV3();};
+const originalDailyProfitV3=dailyProfit;
+dailyProfit=function(){const raw=originalDailyProfitV3();initV3();let extra=0;for(const id of s.economy3.managers){const b=businesses.find(b=>b.id===id);if(b&&s.businesses[id])extra+=Math.round(b.profit*(1+(s.businesses[id]-1)*.65)*.2);}return raw+extra;};
+function romanceStatusV3(){const f=s.family3;return {single:'Célibataire',dating:'En couple',engaged:'Fiancés',married:'Mariés'}[f.status]||'Célibataire'}
+function faceV3(n){return '<div class="face">'+n+'</div>'}
+function familyTeaserV3(){
+ const f=s.family3,p=partnerV3();
+ const desc=p?(p.name+' · '+romanceStatusV3()+' · '+f.children.length+' enfant(s)'):'Rencontres, amour et famille à ton rythme';
+ return '<div class="card family-hero"><div class="row"><div><span class="pill gold">💞 NOUVEAU : TA VIE DE FAMILLE</span><h3 style="margin:8px 0">'+(p?'Ton foyer évolue':'Une vie à construire')+'</h3><p>'+safeTextV3(desc)+'</p></div><div style="font-size:38px">🏡</div></div>'+button('familyOpen',null,'Découvrir ma vie de famille','btn full')+'</div>';
+}
+function familyPanelV3(){
+ initV3();const f=s.family3,p=partnerV3(),num=f.children.length;
+ const baby=f.pending;
+ const coupleAction=p?(
+  '<div class="card"><div class="row"><div><h3>💞 '+safeTextV3(p.name)+' et Myriam</h3><p>'+romanceStatusV3()+' · '+safeTextV3(p.career)+'</p></div><span class="pill">'+Math.round(f.bond)+'/100 💗</span></div>'+
+  '<div class="progress"><span style="width:'+Math.round(f.bond)+'%"></span></div>'+
+  '<p style="margin-top:10px">Son travail, son argent et ses activités sont gérés automatiquement. Myriam décide uniquement de ses propres choix.</p>'+
+  (f.lastDateDay===s.day?'<span class="pill green">✅ Moment partagé aujourd’hui</span>':button('familyDate',null,'💕 Passer du temps ensemble (gratuit)','btn full secondary'))+
+  (f.status==='dating'&&f.bond>=65?button('familyEngage',null,'💍 Proposer des fiançailles','btn full'):'')+
+  (f.status==='engaged'?button('familyWedding',null,'💒 Organiser notre mariage','btn full'):'')+
+  button('familyLeaveConfirm',null,f.status==='married'?'Envisager une séparation':'Mettre fin à cette relation','reset')+'</div>'
+ ):'<div class="card"><h3>💌 Rencontres & sentiments</h3><p>Fais une rencontre si tu en as envie. Aucun mariage ni enfant n’est obligatoire pour réussir ta vie.</p>'+button('familyMeet',null,'Rencontrer quelqu’un','btn full')+'</div>';
+ let kids='';
+ if(num){
+ kids='<h2 class="section-title">🧸 Les enfants</h2><div class="family-people">'+f.children.map(ch=>{
+  const age=childAgeV3(ch);let school=age<3?'Petite enfance':age<18?(age<6?'École maternelle':age<12?'École':'Collège / lycée'):'Vie adulte autonome';
+  return '<div class="family-person">'+faceV3(safeTextV3(ch.emoji||'🧒🏾'))+'<b>'+safeTextV3(ch.name)+'</b><small>'+age+' an'+(age>1?'s':'')+' · '+safeTextV3(school)+'</small><small>Sorties et activités automatiques</small></div>';
+ }).join('')+'</div><div class="family-note">🎒 Les enfants jouent, étudient et grandissent sans que tu doives payer manuellement chaque activité. Un an de croissance = 12 jours de jeu.</div>';
+ }else kids='<div class="family-note">La famille est facultative. Tu peux développer ta carrière, voyager et vivre tes aventures sans enfants.</div>';
+ const pregnancy=baby?'<div class="card"><h3>🍼 Un projet de bébé</h3><p>Une arrivée est prévue à partir du jour '+baby.dueDay+'. Tu gardes le choix du moment : aucune naissance automatique.</p>'+
+ (s.day>=baby.dueDay?button('familyBirth',null,'👶 Accueillir '+safeTextV3(baby.name),'btn full'): '<span class="pill">Encore '+(baby.dueDay-s.day)+' jour(s) de jeu</span>')+
+ button('familyCancelBaby',null,'Annuler ce projet','btn small secondary')+'</div>':
+ num<3?'<div class="card"><h3>🍼 Agrandir mon foyer</h3><p>C’est un choix personnel. Le jeu ne lancera jamais une grossesse ou une naissance tout seul.</p>'+button('familyPlanBaby',null,'Envisager un enfant','btn full secondary')+'</div>':'<div class="family-note">Cette version permet d’avoir jusqu’à trois enfants.</div>';
+ const pets='<div class="card"><h3>🐾 Mes animaux</h3><p>'+(!f.pets.length?'Un compagnon animal pourrait rejoindre ton foyer.':f.pets.map(t=>safeTextV3(t)).join(' · '))+'</p>'+
+ (f.pets.length>=2?'<span class="pill green">La maison est pleine de vie !</span>':button('familyPet',null,'Adopter un compagnon · 120 DH','btn full secondary',s.money<120))+'</div>';
+ const memories='<h2 class="section-title">📖 Notre histoire</h2><div class="card">'+(f.memories.length?f.memories.slice(0,8).map(m=>'<div class="family-memory"><span>'+safeTextV3(m.emoji)+'</span><div><b>Jour '+m.day+'</b><div>'+safeTextV3(m.text)+'</div></div></div>').join(''):'<p>Les moments importants de ton foyer apparaîtront ici.</p>')+'</div>';
+ return '<h2 class="section-title">💞 Ma famille</h2><div class="card family-hero"><span class="pill gold">MON HISTOIRE, À MON RYTHME</span><h2>Construis la vie que tu veux ✨</h2><p>Amour, enfants, amitié et foyer : rien n’est imposé. Les autres personnages prennent leurs décisions sans être contrôlés par toi.</p></div>'+
+ '<h2 class="section-title">🏠 Mon foyer</h2><div class="family-people"><div class="family-person">'+faceV3('👩🏾')+'<b>Myriam</b><small>Personnage jouable · '+safeTextV3(jobs.find(j=>j.id===s.job)?.name||'Carrière libre')+'</small></div>'+
+ (p?'<div class="family-person">'+faceV3(p.emoji)+'<b>'+safeTextV3(p.name)+'</b><small>'+safeTextV3(p.career)+' · '+romanceStatusV3()+'</small><small>Budget personnel : '+format(f.partnerWallet)+'</small></div>':'<div class="family-person">'+faceV3('💌')+'<b>À toi de choisir</b><small>Vie amoureuse facultative</small></div>')+'</div>'+
+ coupleAction+kids+'<h2 class="section-title">🌱 Les grandes étapes</h2>'+pregnancy+pets+'<h2 class="section-title">🪴 Maison & décoration</h2>'+
+ '<div class="card"><p>Décore ton foyer au fil de tes réussites, sans perdre ton logement actuel.</p>'+decorListV3.map(d=>
+  '<div class="list-card" style="margin:9px 0"><div class="tile-icon">'+d.emoji+'</div><div class="grow"><h3>'+d.name+'</h3><p>Une touche personnelle à la maison.</p></div>'+
+ (f.decor.includes(d.id)?'<span class="pill green">Installé ✓</span>':button('familyDecor',d.id,format(d.cost),'btn small',s.money<d.cost))+'</div>').join('')+'</div>'+memories;
+}
+function economyPanelV3(){
+ initV3();const e=s.economy3, managers=e.managers.filter(id=>s.businesses[id]);
+ return '<h2 class="section-title">🏦 Épargne & investissements fictifs</h2><div class="card">'+
+ '<p>Développe ta fortune à ton rythme. Ce sont des montants fictifs du jeu, sans argent réel ni publicité obligatoire.</p>'+
+ '<div class="money-grid"><div class="money-box"><small>🏦 COMPTE ÉPARGNE</small><strong>'+format(e.savings)+'</strong><small>+1 % tous les 7 jours de jeu, arrondi au DH inférieur.</small></div>'+
+ '<div class="money-box"><small>📈 FONDS VIRTUEL</small><strong>'+format(e.fund)+'</strong><small>Variation simulée chaque semaine : gains ou pertes possibles.</small></div></div>'+
+ '<h3>Mettre de côté</h3><div class="btn-row">'+button('bankDeposit','100','Déposer 100 DH','btn small secondary',s.money<100)+button('bankDeposit','500','Déposer 500 DH','btn small secondary',s.money<500)+button('bankWithdraw','100','Retirer 100 DH','btn small secondary',e.savings<100)+button('bankWithdraw','all','Tout retirer','btn small secondary',e.savings<1)+'</div>'+
+ '<div class="separator"></div><h3>Investir dans un fonds virtuel</h3><p>Fonds à risque, ce placement peut aussi perdre de la valeur. Aucune somme n’est prélevée sans ton choix.</p>'+
+ '<div class="btn-row">'+button('fundBuy','500','Investir 500 DH','btn small',s.money<500)+button('fundSell','all','Revendre le fonds','btn small secondary',e.fund<1)+'</div></div>'+
+ '<h2 class="section-title">👥 Équipe & gestion</h2><div class="card"><p>Recrute un responsable pour augmenter de 20 % les bénéfices de chaque entreprise choisie. Tes employés gèrent leur travail de manière autonome.</p>'+
+ (Object.keys(s.businesses).length?businesses.filter(b=>s.businesses[b.id]).map(b=>
+ '<div class="list-card" style="margin:12px 0"><div class="tile-icon">👩🏽‍💼</div><div class="grow"><h3>'+safeTextV3(b.name)+'</h3><p>'+ (managers.includes(b.id)?'Responsable en poste · +20 % / jour':'Gestion indépendante · coût unique : 750 DH')+'</p></div>'+
+ (managers.includes(b.id)?'<span class="pill green">Recruté</span>':button('hireManager',b.id,'Recruter','btn small',s.money<750))+'</div>').join(''):'<div class="family-note">Commence par ouvrir une entreprise pour recruter ton équipe.</div>')+
+ '</div>';
+}
+const originalHomeV3=home;
+home=function(){return originalHomeV3().replace('<div class="quick">',familyTeaserV3()+'<div class="quick">')};
+const originalEmpireV3=empire;
+empire=function(){return originalEmpireV3().replace('<h2 class="section-title">🏡 Immobilier</h2>',economyPanelV3()+'<h2 class="section-title">🏡 Immobilier</h2>')};
+const originalMeV3=me;
+me=function(){initV3();return originalMeV3()+'<div class="card"><h3>💞 Mon histoire personnelle</h3><p>Un foyer à ton image, sans obligations.</p><div class="stat-row"><span>Situation</span><b>'+romanceStatusV3()+'</b></div><div class="stat-row"><span>Enfants</span><b>'+s.family3.children.length+'</b></div><div class="stat-row"><span>Épargne personnelle</span><b>'+format(s.economy3.savings)+'</b></div>'+button('familyOpen',null,'Ouvrir ma famille','btn full secondary')+'</div>';};
+const originalRenderV3=render;
+render=function(){initV3();if(tab!=='family'){originalRenderV3();return;}header();document.querySelectorAll('#nav [data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.getElementById('screen').innerHTML=familyPanelV3();save();};
+function familyDialogV3(title,body){document.getElementById('modal-body').innerHTML='<div class="big">💞</div><h2 id="modal-title">'+title+'</h2>'+body;document.getElementById('modal').classList.add('on');}
+function familyResultV3(text){memoryV3('💞',text);save();render();notify(text)}
+const oldTakeActionV3=takeAction;
+takeAction=function(name,id){
+ initV3();const f=s.family3,e=s.economy3;
+ if(name==='familyOpen'){changeTab('family');return;}
+ if(name==='familyMeet'){
+  familyDialogV3('Une belle rencontre','<p>Choisis la personne avec qui Myriam aimerait faire connaissance. Chaque personnage vit de manière indépendante.</p>'+
+  romanceNPCsV3.map(p=>'<button class="choice" data-action="familyPickPerson" data-id="'+p.id+'">'+p.emoji+' '+p.name+' — '+p.career+'<small>'+p.trait+'</small></button>').join('')+
+  button('cancel',null,'Pas maintenant','btn full secondary'));return;
+ }
+ if(name==='familyPickPerson'){const p=romanceNPCsV3.find(p=>p.id===id);if(!p||f.partnerId)return;closeModal();f.partnerId=p.id;f.status='dating';f.bond=38;f.partnerWallet=320;familyResultV3('Myriam fait la connaissance de '+p.name+'. Une nouvelle histoire commence.');return;}
+ if(name==='familyDate'){if(!partnerV3()||f.lastDateDay===s.day)return;f.bond=Math.min(100,f.bond+11);f.lastDateDay=s.day;s.mood=clamp(s.mood+8);s.relations=clamp(s.relations+4);gainXP(6);familyResultV3('Un joli moment avec '+partnerV3().name+' renforce votre complicité.');return;}
+ if(name==='familyEngage'){if(!partnerV3()||f.status!=='dating'||f.bond<65)return;f.status='engaged';gainXP(25);familyResultV3('Myriam et '+partnerV3().name+' se sont fiancés ! 💍');return;}
+ if(name==='familyWedding'){if(f.status!=='engaged')return;familyDialogV3('Le grand jour','<p>Organise un mariage qui te ressemble. Aucune cérémonie coûteuse n’est obligatoire.</p>'+button('familyMarry','simple','💒 Mariage intime · gratuit','choice')+button('familyMarry','grand','✨ Grande cérémonie · 600 DH','choice',s.money<600));return;}
+ if(name==='familyMarry'){if(f.status!=='engaged'||(id!=='simple'&&id!=='grand'))return;const cost=id==='grand'?600:0;if(s.money<cost)return;s.money-=cost;closeModal();f.status='married';f.bond=Math.min(100,f.bond+15);gainXP(40);familyResultV3('Myriam et '+partnerV3().name+' célèbrent leur mariage !');return;}
+ if(name==='familyLeaveConfirm'){if(!partnerV3())return;familyDialogV3('Un nouveau chapitre ?','<p>Tu peux quitter cette relation. Les enfants et les souvenirs resteront dans ton histoire.</p>'+button('familyLeave',null,'Confirmer la séparation','choice')+button('cancel',null,'Rester ensemble','choice alt'));return;}
+ if(name==='familyLeave'){if(!partnerV3())return;const p=partnerV3();closeModal();f.partnerId=null;f.status='single';f.bond=0;familyResultV3('Myriam et '+p.name+' empruntent des chemins différents.');return;}
+ if(name==='familyPlanBaby'){if(f.pending||f.children.length>=3)return;familyDialogV3('Un enfant dans mon histoire','<p>Choisis un prénom. L’arrivée sera possible dans 8 jours de jeu, mais tu déclencheras toi-même la naissance.</p>'+
+ babyNamesV3.map(b=>button('familyChooseBaby',b.name,b.emoji+' '+b.name,'choice')).join('')+button('cancel',null,'Pas maintenant','choice alt'));return;}
+ if(name==='familyChooseBaby'){const b=babyNamesV3.find(b=>b.name===id);if(!b||f.pending||f.children.length>=3)return;closeModal();f.pending={name:b.name,emoji:b.emoji,dueDay:s.day+8};familyResultV3('Le projet d’accueillir '+b.name+' est lancé. La naissance reste ton choix.');return;}
+ if(name==='familyBirth'){if(!f.pending||s.day<f.pending.dueDay||f.children.length>=3)return;const b=f.pending;f.children.push({name:b.name,emoji:b.emoji,bornDay:s.day});f.pending=null;s.mood=clamp(s.mood+20);gainXP(40);familyResultV3('Bienvenue à '+b.name+' ! La famille s’agrandit. 👶🏾');return;}
+ if(name==='familyCancelBaby'){if(!f.pending)return;f.pending=null;familyResultV3('Le projet est mis de côté. Myriam reste libre de ses décisions.');return;}
+ if(name==='familyPet'){if(f.pets.length>=2||s.money<120)return;familyDialogV3('Un nouveau compagnon','<p>Choisis ton animal de compagnie.</p>'+button('familyPetChoose','🐶 Chien','🐶 Adopter un chien · 120 DH','choice')+button('familyPetChoose','🐱 Chat','🐱 Adopter un chat · 120 DH','choice'));return;}
+ if(name==='familyPetChoose'){if(f.pets.length>=2||s.money<120||!['🐶 Chien','🐱 Chat'].includes(id))return;closeModal();s.money-=120;f.pets.push(id);familyResultV3(id+' rejoint ta maison !');return;}
+ if(name==='familyDecor'){const d=decorListV3.find(d=>d.id===id);if(!d||f.decor.includes(id)||s.money<d.cost)return;s.money-=d.cost;f.decor.push(d.id);gainXP(10);familyResultV3(d.emoji+' '+d.name+' : une nouvelle décoration pour ton foyer.');return;}
+ if(name==='bankDeposit'){const n=Number(id);if(![100,500].includes(n)||s.money<n)return;s.money-=n;e.savings+=n;save();render();notify('🏦 '+format(n)+' placés sur ton épargne.');return;}
+ if(name==='bankWithdraw'){const n=id==='all'?e.savings:Number(id);if(!Number.isFinite(n)||n<1||n>e.savings||(id!=='all'&&n!==100))return;e.savings-=n;s.money+=n;save();render();notify('🏦 '+format(n)+' retirés de ton épargne.');return;}
+ if(name==='fundBuy'){if(id!=='500'||s.money<500)return;s.money-=500;e.fund+=500;save();render();notify('📈 500 DH investis dans le fonds fictif.');return;}
+ if(name==='fundSell'){if(id!=='all'||e.fund<1)return;const n=e.fund;e.fund=0;s.money+=n;save();render();notify('📈 Fonds revendu : '+format(n)+' récupérés.');return;}
+ if(name==='hireManager'){if(!businesses.some(b=>b.id===id&&s.businesses[id])||e.managers.includes(id)||s.money<750)return;s.money-=750;e.managers.push(id);gainXP(15);log('👥 Un responsable prend en charge la gestion de '+businesses.find(b=>b.id===id).name+'.');save();render();notify('👥 Responsable recruté, bénéfices +20 %.');return;}
+ oldTakeActionV3(name,id);
+};
+const navV3=document.getElementById('nav');
+if(!navV3.querySelector('[data-tab="family"]'))navV3.querySelector('[data-tab="me"]').insertAdjacentHTML('beforebegin','<button type="button" data-tab="family"><span>💞</span>Famille</button>');
 
 render();if(!s.firstSeen)setTimeout(intro,250);
 })();
