@@ -1,6 +1,6 @@
 # Myriam Life Simulator 💜
 
-Mini-jeu original en français : **Ma vie, mes règles**, version 1 (29 octobre 2026).
+Mini-jeu original en français : **Ma vie, mes règles**, version 3 (29 octobre 2026).
 
 ## Jouer
 - Page d'accueil : [index.html](./index.html)
@@ -45,3 +45,5 @@ Test de syntaxe JavaScript et simulation des actions : dépôt/retrait, rencontr
 
 ## Versionnement
 - **V1** : première version jouable publiée.
+- **V2** : défis, missions rémunérées, messages et histoires.
+- **V3** : famille autonome, foyer, enfants, épargne et équipes d'entreprise.
