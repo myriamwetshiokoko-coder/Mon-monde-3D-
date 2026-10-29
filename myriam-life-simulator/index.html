@@ -468,6 +468,153 @@ function showMatches4(all){
 const oldAction4=takeAction;
 takeAction=function(name,id){if(name==='familyMeet'){showMatches4(false);return;}if(name==='allMatches4'){showMatches4(true);return;}oldAction4(name,id);};
 
+
+/* V4 ECONOMIE ET DIPLOMES : progression sur plusieurs jours avec vrais jalons */
+const v4CareerPrograms=[
+ {name:'Formation professionnelle',fee:90,lessons:2,stages:[
+  ['Bases de la gestion','Quel outil permet de suivre les recettes et dépenses ?',['Un budget','Une liste de films','Un calendrier de fêtes'],0],
+  ['Communication professionnelle','Quel comportement favorise une relation client durable ?',['Ignorer les avis','Écouter et répondre clairement','Promettre tout sans vérifier'],1]
+ ]},
+ {name:'Licence en gestion',fee:850,lessons:3,stages:[
+  ['Comptabilité','Que représente le chiffre d’affaires ?',['Le total des ventes','Le bénéfice net','Le salaire du dirigeant'],0],
+  ['Marketing','Pour identifier un marché cible, on commence par…',['Augmenter les prix','Étudier les besoins des clients','Acheter une voiture'],1],
+  ['Finance','Une trésorerie saine permet de…',['Payer ses dépenses à échéance','Dépenser plus que ses revenus','Supprimer la comptabilité'],0]
+ ]},
+ {name:'Master en management',fee:3400,lessons:3,stages:[
+  ['Gestion de projet','Quelle action aide à respecter un délai ?',['Éviter le planning','Définir des étapes et responsabilités','Changer de but chaque jour'],1],
+  ['Management','Le rôle d’un responsable est notamment de…',['Motiver et coordonner son équipe','Tout faire seul','Interdire les échanges'],0],
+  ['Stratégie','Un avantage concurrentiel durable repose sur…',['Une proposition de valeur différenciante','Une publicité sans produit','Des promesses vides'],0]
+ ]},
+ {name:'MBA & direction',fee:14000,lessons:4,stages:[
+  ['Leadership','Quel réflexe améliore les décisions ?',['Écouter des données et avis variés','Décider sans informations','Changer sans communiquer'],0],
+  ['Investissement','Pourquoi diversifier un investissement ?',['Pour supprimer tous les risques','Pour répartir les risques','Pour garantir le profit'],1],
+  ['Négociation','Une négociation durable recherche…',['Une solution viable pour les parties','Un gain uniquement immédiat','Une promesse impossible'],0]
+ ]}
+];
+function initCareer4(){
+ if(!s.career4||typeof s.career4!=='object')s.career4={};
+ const c=s.career4;
+ if(!Number.isInteger(c.diploma)||c.diploma<0)c.diploma=0;
+ if(!Number.isInteger(c.enrolled))c.enrolled=-1;
+ if(!Number.isInteger(c.lessonDay))c.lessonDay=0;
+ if(!Number.isInteger(c.workDay))c.workDay=0;
+ if(!Number.isInteger(c.skillDay))c.skillDay=0;
+ if(!Number.isInteger(c.gigDay))c.gigDay=0;
+ if(!Number.isInteger(c.examDay))c.examDay=0;
+ if(!c.progress||typeof c.progress!=='object')c.progress={};
+ if(!Array.isArray(c.passed))c.passed=[];
+}
+initCareer4();
+const job4=[65,130,245,490,950];
+jobs.forEach((j,i)=>j.pay=job4[i]);
+const business4=[[3000,35],[12000,105],[60000,310],[240000,1000],[1000000,4000]];
+businesses.forEach((b,i)=>{b.cost=business4[i][0];b.profit=business4[i][1]});
+[0,15000,95000,430000,1700000].forEach((n,i)=>homes[i].price=n);
+[0,2900,38000,165000,850000].forEach((n,i)=>cars[i].price=n);
+[42,36,44,55,48,40].forEach((n,i)=>sideGigs[i].pay=n);
+const oldLevelUp4=levelUp;
+levelUp=function(){
+ let needed=100+s.level*55;
+ while(s.xp>=needed){s.xp-=needed;s.level++;const reward=Math.min(35,10+s.level*2);s.money+=reward;log('⭐ Niveau '+s.level+' ! Récompense '+format(reward)+'.');needed=100+s.level*55;}
+};
+function lessonPanel4(){
+ initCareer4();const c=s.career4,program=v4CareerPrograms[c.diploma];
+ const title='<h2 class="section-title">🎓 Études, diplômes & vraie progression</h2>';
+ if(!program)return title+'<div class="card"><h3>🏆 Diplômes terminés !</h3><p>Myriam a terminé le MBA. Les postes de direction sont désormais accessibles selon ses compétences.</p></div>';
+ const progress=program.stages.filter((stage,i)=>c.passed.includes(c.diploma+':'+i)).length;
+ let p='<div class="card study-modules"><span class="pill gold">PARCOURS '+(c.diploma+1)+' / '+v4CareerPrograms.length+'</span><h3 style="margin-top:10px">'+program.name+'</h3><p>'+progress+' module(s) validé(s) sur '+program.stages.length+'. Les diplômes demandent du temps, de la pratique et de réussir un examen.</p>';
+ if(c.enrolled!==c.diploma){
+  p+='<p>Inscription : <b>'+format(program.fee)+'</b>. Une fois inscrit(e), tu pourras suivre les cours à ton rythme.</p>'+button('enroll4',null,'S’inscrire · '+format(program.fee),'btn full',s.money<program.fee);
+ }else{
+  p+='<div class="progress"><span style="width:'+Math.floor(100*progress/program.stages.length)+'%"></span></div>';
+  p+=program.stages.map((lesson,i)=>{
+   const id=c.diploma+':'+i;
+   const done=c.passed.includes(id),otherPassed=i===0||c.passed.includes(c.diploma+':'+(i-1));
+   const step=Math.min(program.lessons,c.progress[id]||0);
+   return '<div class="course4"><h3>'+(['📒','📈','💼'][i%3])+' '+lesson[0]+'</h3>'+
+     '<p>'+(done?'✅ Examen réussi':step+'/'+program.lessons+' cours suivis')+' · '+(i===0?'Premier module':'Après validation du précédent')+'</p>'+
+     (done?'<span class="pill green">Validé</span>':!otherPassed?'<span class="pill">Module verrouillé</span>':
+     step<program.lessons?button('studyLesson4',id,'Suivre le cours · 20 DH','btn small',s.money<20||c.lessonDay===s.day):
+     button('exam4',id,'📝 Passer l’examen','btn small',c.examDay===s.day))+'</div>';
+  }).join('');
+ }
+ return title+p+'</div><div class="v4-pacing">💡 Une journée = une séance de cours au maximum. Les métiers mieux rémunérés demandent de vrais diplômes, mais tu peux toujours travailler, entreprendre et profiter de ta vie.</div>';
+}
+const formerCareer4=career;
+career=function(){return lessonPanel4()+formerCareer4().replace('h2 class="section-title">💼 Ta carrière','h2 class="section-title">💼 Ma carrière');};
+const formerEmpire4=empire;
+empire=function(){return '<div class="v4-pacing">💎 Économie rééquilibrée : les entreprises, voitures et logements de prestige coûtent davantage. Tes employés travaillent en autonomie ; les bénéfices restent versés chaque jour de jeu.</div>'+formerEmpire4();};
+const formerMe4=me;
+me=function(){
+ initCareer4();
+ let result=formerMe4();
+ result=result.replace('<h2 class="section-title">📊 Mon bilan</h2>', '<div class="card"><h3>🎓 Mes diplômes</h3><p>Dernier diplôme obtenu : <b>'+(s.career4.diploma===0?'Études générales':v4CareerPrograms[s.career4.diploma-1]?.name||'MBA')+'</b></p>'+button('tab','career','Continuer mes études','btn full secondary')+'</div><h2 class="section-title">📊 Mon bilan</h2>');
+ return result;
+};
+const oldTakeActionCareer4=takeAction;
+takeAction=function(name,id){
+ initCareer4();const c=s.career4,d=s.day;
+ if(name==='enroll4'){
+  const course=v4CareerPrograms[c.diploma];if(!course||c.enrolled===c.diploma||s.money<course.fee)return;
+  s.money-=course.fee;c.enrolled=c.diploma;log('🎓 Myriam s’inscrit en '+course.name+'.');save();render();notify('📚 Inscription confirmée !');return;
+ }
+ if(name==='studyLesson4'){
+  const course=v4CareerPrograms[c.diploma];if(!course||c.enrolled!==c.diploma||c.lessonDay===d||s.money<20)return;
+  const i=Number(String(id).split(':')[1]),key=c.diploma+':'+i;
+  if(!Number.isInteger(i)||i<0||i>=course.stages.length||key!==id||c.passed.includes(key)||i>0&&!c.passed.includes(c.diploma+':'+(i-1)))return;
+  const amount=Math.min(course.lessons,c.progress[key]||0);if(amount>=course.lessons)return;
+  const done=act({cost:20,energy:-9,hunger:-4,hours:2,xp:10,quest:'learn',msg:'📚 Cours terminé : '+course.stages[i][0]+'.'});
+  if(done){c.progress[key]=amount+1;c.lessonDay=d;save();render();}return;
+ }
+ if(name==='exam4'){
+  const course=v4CareerPrograms[c.diploma];if(!course||c.enrolled!==c.diploma||c.examDay===d)return;
+  const i=Number(String(id).split(':')[1]),key=c.diploma+':'+i;
+  if(!Number.isInteger(i)||i<0||i>=course.stages.length||key!==id||(c.progress[key]||0)<course.lessons||c.passed.includes(key))return;
+  const lesson=course.stages[i];
+  document.getElementById('modal-body').innerHTML='<div class="big">📝</div><h2 id="modal-title">Examen : '+lesson[0]+'</h2><p>'+lesson[1]+'</p>'+
+  lesson[2].map((answer,n)=>button('examAnswer4',key+':'+n,answer,'choice')).join('')+button('cancel',null,'Réviser encore','choice alt');
+  document.getElementById('modal').classList.add('on');return;
+ }
+ if(name==='examAnswer4'){
+  const parts=String(id).split(':'),i=Number(parts[1]),answer=Number(parts[2]);const course=v4CareerPrograms[c.diploma],key=c.diploma+':'+i;
+  if(!course||c.enrolled!==c.diploma||parts.length!==3||parts[0]!==String(c.diploma)||!Number.isInteger(i)||i<0||i>=course.stages.length||c.examDay===d||(c.progress[key]||0)<course.lessons||c.passed.includes(key))return;
+  closeModal();
+  if(answer!==course.stages[i][3]){c.examDay=d;log('📖 Examen à revoir : '+course.stages[i][0]+'.');save();render();notify('📚 Pas encore, révise puis réessaie demain.');return;}
+  c.passed.push(key);gainXP(40);log('🎓 Examen validé : '+course.stages[i][0]+'.');
+  if(course.stages.every((_,index)=>c.passed.includes(c.diploma+':'+index))){
+   c.diploma++;c.enrolled=-1;gainXP(90);log('🎓 Diplôme obtenu : '+course.name+' !');notify('🏆 Félicitations ! '+course.name+' obtenu.');}
+  else notify('✅ Examen réussi ! Module suivant débloqué.');
+  save();render();return;
+ }
+ if(name==='work'&&c.workDay===d){notify('💼 Tu as déjà travaillé aujourd’hui. Profite aussi de ta vie !');return;}
+ if(name==='gig'&&c.gigDay===d){notify('🪙 Une mission rémunérée par journée suffit.');return;}
+ if(name==='study'&&id==='edu'){changeTab('career');notify('🎓 Les études passent désormais par des cours et des examens.');return;}
+ if(name==='study'&&c.skillDay===d){notify('📚 Tu as déjà suivi une formation aujourd’hui.');return;}
+ if(name==='chooseJob'){
+  const j=jobs.find(x=>x.id===id),req={extra:0,assistant:1,commercial:2,manager:3,director:4}[id]||0;
+  if(!j||c.diploma<req){notify('🎓 Ce métier exige un diplôme : '+(req?v4CareerPrograms[req-1]?.name:'aucun')+'.');return;}
+ }
+ if(name==='claim'){
+  if(s.questDone.length!==s.quests.length||s.questClaimed)return;
+  s.questClaimed=true;act({gain:35,xp:18,msg:'🎁 Bonus quotidien de 35 DH reçu !'});return;
+ }
+ if(name==='claimWeek'){
+  syncWeekly();const w=s.weekly;if(w.claimed||w.work<3||w.study<2||w.social<2)return;
+  w.claimed=true;act({gain:120,xp:22,msg:'🌟 Défi de semaine réussi : 120 DH et 22 XP.'});return;
+ }
+ const beforeMoney=s.money,beforeEnergy=s.energy,beforeDay=s.day,beforeHour=s.hour;
+ oldTakeActionCareer4(name,id);
+ const changed=s.money!==beforeMoney||s.energy!==beforeEnergy||s.day!==beforeDay||s.hour!==beforeHour;
+ if(changed){
+  if(name==='work')c.workDay=d;
+  if(name==='gig')c.gigDay=d;
+  if(name==='study')c.skillDay=d;
+  save();
+ }
+};
+const originalRollDayCareer4=rollDay;
+rollDay=function(){originalRollDayCareer4();initCareer4();};
+
 render();if(!s.firstSeen)setTimeout(intro,250);
 })();
 </script>
