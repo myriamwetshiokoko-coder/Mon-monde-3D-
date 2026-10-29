@@ -615,6 +615,25 @@ takeAction=function(name,id){
 const originalRollDayCareer4=rollDay;
 rollDay=function(){originalRollDayCareer4();initCareer4();};
 
+
+/* V4: finitions et reprise de sauvegardes anciennes */
+const originalSvgAvatar4=svgAvatar;
+svgAvatar=function(){return myriam4();};
+const previousRenderCare4=render;
+render=function(){initCareer4();previousRenderCare4();};
+const previousTakeGraduation4=takeAction;
+takeAction=function(name,id){
+ const before=initCareer4()||s.career4.diploma;
+ previousTakeGraduation4(name,id);
+ initCareer4();
+ if(s.career4.diploma>before){
+  const minEdu=[0,2,3,5,8][Math.min(4,s.career4.diploma)]||0;
+  s.edu=Math.max(s.edu,minEdu);
+  log('🎓 Nouveau niveau d’études : '+s.edu+'/10, grâce au diplôme.');
+  save();render();
+ }
+};
+
 render();if(!s.firstSeen)setTimeout(intro,250);
 })();
 </script>
