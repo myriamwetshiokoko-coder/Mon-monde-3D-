@@ -58,6 +58,15 @@
  <div class="panel"><h2 id="first-title">🍽️ Au quotidien</h2><p id="first-desc">Prendre un bon repas et récupérer de l'énergie.</p><button type="button" class="go" id="first-action">Manger · 20 DH</button></div>
  <div class="panel"><h2 id="second-title">🛌 Se reposer</h2><p id="second-desc">Un nouveau jour commence après une bonne nuit.</p><button type="button" class="go secondary" id="second-action">Dormir</button></div>
 </div>
+<script>
+(function(){
+const loader=document.getElementById('loader'),warning=document.getElementById('loadfail');
+setTimeout(function(){if(loader&&loader.style.display!=='none'&&loader.style.opacity!=='0')warning.style.display='block'},10000);
+fetch('assets/myriam-portrait.b64').then(function(r){if(!r.ok)throw Error('portrait');return r.text()})
+.then(function(b64){document.querySelector('.portrait').src='data:image/jpeg;base64,'+b64.trim()})
+.catch(function(){});
+})();
+</script>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const id=(x)=>document.getElementById(x);
