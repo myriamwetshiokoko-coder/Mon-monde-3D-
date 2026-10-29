@@ -42,7 +42,7 @@
 <div id="loader"><div style="font-size:55px">✨🏠</div><h1>Le monde de Myriam</h1><p>Chargement de l'appartement et de la ville en 3D…</p><p id="loadfail" style="display:none">La scène 3D nécessite Internet et WebGL.<br><a href="index.html">Continuer avec le jeu classique</a></p></div>
 <div class="mast">
  <a class="back" href="index.html" aria-label="Retour au jeu">←</a>
- <div class="identity"><img class="portrait" src="assets/myriam-portrait.jpg" alt="Portrait illustré de Myriam" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="portrait-fallback">👩🏾</span><div style="min-width:0"><strong>Myriam</strong><small id="level">Ton aventure · Jour 1</small></div></div>
+ <div class="identity"><img class="portrait" src="assets/myriam-portrait.jpg" alt="Portrait illustré de Myriam" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="portrait-fallback">👩🏾</span><div style="min-width:0"><strong>Myriam</strong><small id="level">Ton aventure · Jour 1</small></div></div>
  <div class="money" id="balance">250 DH</div>
 </div>
 <div class="location"><strong id="place-name">Mon appartement</strong><span id="place-subtitle">Un nouveau chapitre commence…</span></div>
