@@ -31,6 +31,21 @@
 .money-box small{font-size:10px;color:#82788e;display:block;line-height:1.5}
 @media(max-width:360px){.nav{padding-left:2px;padding-right:2px}.nav button{font-size:8px}.family-people{gap:6px}}
 
+
+/* V4 portrait-based family view */
+.nav{grid-template-columns:repeat(6,1fr)}.nav button{font-size:9px}.nav button span{font-size:21px}
+.hero4{min-height:300px;background:linear-gradient(152deg,#3c3c64,#987a9e 58%,#f2beab);border-radius:23px;position:relative;overflow:hidden;margin:12px 0 18px;box-shadow:0 13px 26px #3f325a33}
+.hero4::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 65% 10%,#f9cbb7a6,transparent 57%)}
+.hero4 .city4{position:absolute;bottom:0;left:0;right:0;height:38%;background:#3d324f77;clip-path:polygon(0 20%,12% 20%,12% 45%,24% 45%,24% 7%,37% 7%,37% 50%,49% 50%,49% 14%,59% 14%,59% 44%,73% 44%,73% 8%,83% 8%,83% 35%,100% 35%,100% 100%,0 100%)}
+.hero4 .person4{position:absolute;bottom:-20px;left:8%;width:68%;height:88%}.hero4 .person4 svg{height:100%;width:100%}
+.hero4 .other4{position:absolute;bottom:10px;right:3%;width:37%;max-width:145px;background:#fdf1f5ec;border:2px solid #fff9;border-radius:20px;display:grid;justify-items:center;box-shadow:0 8px 17px #34253f55}
+.hero4 .other4 svg{height:118px;width:120px}.hero4 .other4 b{font-size:12px;color:#47344d;padding:2px 5px 7px}
+.hero4 .pet4{position:absolute;bottom:8px;left:4%;font-size:58px;filter:drop-shadow(0 4px 4px #1a192a88)}.hero4 .pet4 small{display:block;font-size:9px;background:#302d48bb;color:white;padding:3px 5px;border-radius:8px}
+.hero4 .title4{position:absolute;top:13px;left:12px;color:white;font-size:11px;background:#201e36b7;padding:9px 12px;border-radius:13px;z-index:2}
+.hero4 .tip4{position:absolute;top:13px;right:12px;color:#4d3a63;background:#fff4f9e8;padding:8px;border-radius:10px;text-align:center;font-size:10px;z-index:2}
+.match-grid4{display:grid;grid-template-columns:1fr 1fr;gap:8px}.match4{background:#faf5fe;border:1px solid #eadff1;border-radius:16px;padding:9px;min-width:0}.match4 .avatar4{background:linear-gradient(#dfcbe1,#fff0e9);border-radius:12px;height:114px;overflow:hidden;display:grid;place-items:end center}.match4 .avatar4 svg{width:110px;height:110px}.match4 h3{margin:6px 0;font-size:13px}.match4 p{font-size:10px;margin:4px 0}.match4 small{font-size:10px}
+.course4{border-bottom:1px solid #f0e7ee;padding:10px 2px}.course4:last-child{border:0}.course4 h3{font-size:12px;margin:0 0 6px}.course4 p{font-size:11px;margin:0 0 8px}
+
 </style>
 </head>
 <body>
@@ -389,6 +404,69 @@ takeAction=function(name,id){
 };
 const navV3=document.getElementById('nav');
 if(!navV3.querySelector('[data-tab="family"]'))navV3.querySelector('[data-tab="me"]').insertAdjacentHTML('beforebegin','<button type="button" data-tab="family"><span>💞</span>Famille</button>');
+
+
+/* V4 PORTRAITS ET PROGRESSION */
+const n4=[
+ ['yanis','Yanis','Étudiant',1800,'#bc8166','#9686b4','Attentionné et créatif'],
+ ['amina','Amina','Étudiante',3100,'#684638','#c29da8','Douce et déterminée'],
+ ['lucas','Lucas','Photographe',4200,'#d8ab87','#7296a0','Passionné de voyages'],
+ ['lina','Lina','Ingénieure',40000,'#a87454','#b189ae','Indépendante et drôle'],
+ ['thomas','Thomas','Comptable',53000,'#d6a485','#536785','Organisé et romantique'],
+ ['issa','Issa','Enseignant',65000,'#5f3e33','#739b9c','Bienveillant et curieux'],
+ ['adrien','Adrien','Entrepreneur',640000,'#c39271','#434f6b','Ambitieux et généreux'],
+ ['samir','Samir','Investisseur',980000,'#9d694c','#54526a','Discret et voyageur'],
+ ['chloe','Chloé','Dirigeante',770000,'#d4aa8c','#9f6d89','Sociable et passionnée']
+];
+for(const n of n4)romanceNPCsV3.push({id:n[0],name:n[1],career:n[2],pay:Math.round(n[3]/220),fortune:n[3],skin4:n[4],shirt4:n[5],hair4:'#221c28',trait:n[6],emoji:n[0]==='amina'||n[0]==='lina'||n[0]==='chloe'?'👩🏾':'👨🏾'});
+for(const n of romanceNPCsV3){if(!Number.isFinite(n.fortune))n.fortune=n.id==='noah'?3000:n.id==='jade'?67000:42000;if(!n.skin4)n.skin4='#b58163';if(!n.shirt4)n.shirt4='#857f9b';if(!n.hair4)n.hair4='#29202c'}
+function esc4(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function person4(obj){
+ const skin=obj.skin4||'#ac7353',dress=obj.shirt4||'#aa87b0',hair=obj.hair4||'#241d28';
+ const female=(obj.emoji||'').includes('👩')||obj.id==='chloe'||obj.id==='lina'||obj.id==='myriam';
+ const id='c'+String(obj.id||'a').replace(/[^a-zA-Z0-9]/g,'');
+ return '<svg viewBox="0 0 150 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+esc4(obj.name)+'"><defs>'+
+ '<linearGradient id="'+id+'face" x2="1" y2="1"><stop stop-color="#ffffff" stop-opacity=".32"/><stop offset=".45" stop-color="'+skin+'"/><stop offset="1" stop-color="#3a1b22" stop-opacity=".63"/></linearGradient>'+
+ '<linearGradient id="'+id+'shirt" x2="1" y2="1"><stop stop-color="'+dress+'"/><stop offset="1" stop-color="#392c4f"/></linearGradient></defs>'+
+ '<path d="M7 190 Q8 131 51 122 L96 122 Q143 135 144 190" fill="url(#'+id+'shirt)"/>'+
+ '<path d="M60 118 L92 117 L92 147 Q75 158 59 145Z" fill="url(#'+id+'face)"/>'+
+ '<ellipse cx="76" cy="82" rx="42" ry="63" fill="'+hair+'"/>'+
+ (female?'<path d="M39 52 Q16 98 28 164 L48 173 Q36 111 52 65 M108 51 Q136 105 124 170 L103 171 Q117 100 99 62" fill="'+hair+'"/>':'')+
+ '<ellipse cx="76" cy="83" rx="34" ry="44" fill="url(#'+id+'face)"/>'+
+ '<path d="M42 79 Q37 27 70 22 Q113 15 114 79 Q99 52 91 50 Q66 72 42 79" fill="'+hair+'"/>'+
+ '<path d="M54 85 Q63 81 70 85 M83 85 Q91 81 100 85" fill="none" stroke="#30212b" stroke-width="2"/>'+
+ '<circle cx="63" cy="89" r="2.6" fill="#211a22"/><circle cx="92" cy="89" r="2.6" fill="#211a22"/>'+
+ '<path d="M78 89 L75 100 Q78 102 82 99" fill="none" stroke="#895b50" stroke-width="1.2"/>'+
+ '<path d="M63 111 Q77 121 90 111 Q75 126 63 111" fill="'+(female?'#a95365':'#7b514a')+'"/>'+
+ (female?'<circle cx="42" cy="108" r="3.7" fill="#e7bc65"/><circle cx="109" cy="108" r="3.7" fill="#e7bc65"/>':'')+
+ '</svg>';
+}
+function myriam4(){return person4({id:'myriam',name:'Myriam',skin4:{brown:'#955a44',deep:'#69402e',caramel:'#bd8060',light:'#daa784'}[s.skin]||'#955a44',shirt4:{lavender:'#ab83c7',pink:'#d991ae',white:'#e9e1d9',green:'#8aa89d',black:'#3e3647'}[s.outfit]||'#ab83c7',hair4:'#241c26',emoji:'👩🏾'});}
+const prevScene4=scene;
+scene=function(){
+ initV3();const p=partnerV3(),pets=s.family3.pets||[];
+ return '<div class="hero4"><div class="city4"></div><div class="title4">✨ MYRIAM · '+esc4(activeHome().name)+'</div><div class="tip4">Niveau '+s.level+'<br>'+esc4(jobs.find(j=>j.id===s.job)?.name||'')+'</div>'+
+ '<div class="person4">'+myriam4()+'</div>'+
+ (p?'<div class="other4">'+person4(p)+'<b>'+esc4(p.name)+' 💗</b></div>':'')+
+ (pets.length?'<div class="pet4">'+(/chat/i.test(pets[0])?'🐈':'🐕')+'<small>'+esc4(pets[0])+'</small></div>':'')+'</div>';
+};
+const oldFamilyPanel4=familyPanelV3;
+familyPanelV3=function(){return oldFamilyPanel4().replace('<h2 class="section-title">🏠 Mon foyer</h2>',scene()+'<h2 class="section-title">🏠 Mon foyer</h2>')};
+const oldMe4=me;
+me=function(){return oldMe4().replace('<div style="height:188px;width:139px;position:absolute;top:7px">', '<div style="height:188px;width:139px;position:absolute;top:7px">')};
+function wealth4(){initV3();return Math.max(0,s.money)+(s.economy3.savings||0)+(s.economy3.fund||0)+(homes.find(h=>h.id===s.home)?.price||0)+(cars.find(c=>c.id===s.car)?.price||0)+businesses.reduce((a,b)=>a+(s.businesses[b.id]?b.cost*.6:0),0)}
+function tier4(x){return x<6000?0:x<85000?1:2}
+function showMatches4(all){
+ const wealth=wealth4(),tier=tier4(wealth);
+ const choices=all?romanceNPCsV3:romanceNPCsV3.filter(p=>tier4(p.fortune)===tier).sort((a,b)=>Math.abs(a.fortune-wealth)-Math.abs(b.fortune-wealth)).slice(0,5);
+ const label=['modeste','intermédiaire','aisé'][tier];
+ const cards=choices.map(p=>'<div class="match4"><div class="avatar4">'+person4(p)+'</div><h3>'+esc4(p.name)+'</h3><small>'+esc4(p.career)+'</small><p>💰 '+format(p.fortune)+'</p><p>'+esc4(p.trait)+'</p>'+button('familyPickPerson',p.id,'Rencontrer 💗','btn small full')+'</div>').join('');
+ document.getElementById('modal-body').innerHTML='<div class="big">💕</div><h2 id="modal-title">Rencontrer quelqu’un</h2><p>Ton niveau de vie : '+label+'. Les profils suggérés ont un niveau de vie comparable, mais tu peux choisir librement.</p><div class="match-grid4">'+cards+'</div>'+
+ (all?'':button('allMatches4',null,'Voir aussi les autres milieux','btn full secondary'))+button('cancel',null,'Pas maintenant','btn full secondary');
+ document.getElementById('modal').classList.add('on');
+}
+const oldAction4=takeAction;
+takeAction=function(name,id){if(name==='familyMeet'){showMatches4(false);return;}if(name==='allMatches4'){showMatches4(true);return;}oldAction4(name,id);};
 
 render();if(!s.firstSeen)setTimeout(intro,250);
 })();
